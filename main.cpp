@@ -5,7 +5,7 @@ int main ()
 {
 	polytope p;
 	p.readPolytope();
-	p.preprocess();
+	// p.preprocess();
 	cout << p.estimateVol() << '\n';
 	return 0;
 }

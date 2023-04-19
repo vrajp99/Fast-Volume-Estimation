@@ -2,6 +2,7 @@
 #define POLYTOPE_H 1
 
 #include <armadillo>
+#include <vector>
 
 // Note : mat and vec are typedefs of the corresponding
 // data structures template-instantiated for doubles
@@ -16,13 +17,19 @@ class polytope
 	mat A;
 	vec b;
 
-	double beta_r;
+	// Paramters required for volume computation
+	double beta;
+	double determinant;
+	
+	// Define and use if needed for walk
+	// vector < vec > B;
+	// vector < mat > Ai;
 
 public:
 
 	polytope () {};
 
-	void preprocess () const;
+	void preprocess ();
 	const double estimateVol (int coeff = 1600) const;
 
 	void readPolytope ();
