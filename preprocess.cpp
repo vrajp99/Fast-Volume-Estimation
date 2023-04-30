@@ -12,6 +12,10 @@ const double initEllipse (vec& ori)
 
 void polytope::preprocess ()
 {
+	// Assuming r = 2n
+	// beta = 1 / 2n
+	beta = 0.5 / n;
+
 	// Ellipse parameters
 	vec ori;
 	double r_s = initEllipse(ori);

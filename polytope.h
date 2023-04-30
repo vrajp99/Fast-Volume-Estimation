@@ -30,7 +30,7 @@ public:
 	polytope () {};
 
 	void preprocess ();
-	const double estimateVol (int coeff = 1600) const;
+	const double estimateVol () const;
 
 	void readPolytope ();
 };
