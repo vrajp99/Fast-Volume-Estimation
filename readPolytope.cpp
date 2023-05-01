@@ -6,18 +6,18 @@
 
 void polytope::readPolytope (const char * const filename)
 {
-	ifstream fin(filename);
+    ifstream fin(filename);
 
-	fin >> m >> n;
+    fin >> m >> n;
 
-	A.set_size(m, n);
-	b.set_size(m);
+    A.set_size(m, n);
+    b.set_size(m);
 
-	// Accessed with bound checks. Remove bounds checking for faster performance
-	for(size_t i = 0; i < m; ++i)
-	{
-		for(size_t j = 0; j < n; ++j)
-			fin >> A(i, j);
-		fin >> b(i);
-	}
+    // Accessed with bound checks. Remove bounds checking for faster performance
+    for(size_t i = 0; i < m; ++i)
+    {
+        for(size_t j = 0; j < n; ++j)
+            fin >> A(i, j);
+        fin >> b(i);
+    }
 }

@@ -12,27 +12,28 @@ using namespace arma;
 
 class polytope
 {
-	// The convex polytope in Ax <= b format
-	size_t m, n;
-	mat A;
-	vec b;
+    // The convex polytope in Ax <= b format
+    size_t m, n;
+    mat A;
+    vec b;
 
-	// Paramters required for volume computation
-	double beta;
-	double determinant;
-	
-	// Define and use if needed for walk
-	// vector < vec > B;
-	// vector < mat > Ai;
+    // Paramters required for volume computation
+    double beta;
+    double determinant;
+    
+    // Define and use if needed for walk
+    // vector < vec > B;
+    // vector < mat > Ai;
 
 public:
 
-	polytope () {};
+    polytope () {};
 
-	void preprocess ();
-	const double estimateVol () const;
+    const double initEllipsoid (vec &ori); 
+    void preprocess ();
+    const double estimateVol () const;
 
-	void readPolytope (const char * const filename);
+    void readPolytope (const char * const filename);
 };
 
 #endif
