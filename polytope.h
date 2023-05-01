@@ -32,7 +32,7 @@ public:
 	void preprocess ();
 	const double estimateVol () const;
 
-	void readPolytope ();
+	void readPolytope (const char * const filename);
 };
 
 #endif
