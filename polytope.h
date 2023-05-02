@@ -20,6 +20,8 @@ class polytope
     // Paramters required for volume computation
     double beta;
     double determinant;
+
+    int randi(int n) { return rand()%n;}
     
     // Define and use if needed for walk
     // vector < vec > B;
@@ -31,7 +33,9 @@ public:
 
     const double initEllipsoid (vec &ori); 
     void preprocess ();
-    const double estimateVol () const;
+    double estimateVol ();
+    const void walk(vec &x, int k);
+    bool checkInBall(vec &x, int k);
 
     void readPolytope (const char * const filename);
 };

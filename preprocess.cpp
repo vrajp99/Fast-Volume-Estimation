@@ -9,9 +9,10 @@
 const double polytope::initEllipsoid (vec& ori)
 {
     double r_0s = 0;
-    ori.zeros();
+    ori.zeros(n);
     // Initialize LP (with glp)
     glp_prob *lp;
+    lp = glp_create_prob();
     glp_set_obj_dir(lp, GLP_MAX);
     glp_add_rows(lp, m);
     glp_add_cols(lp, n);
@@ -143,7 +144,8 @@ void polytope::preprocess ()
     mat L = chol(T); // Check for runtime errors
     b = (b - A * ori) / beta;
     A = A * L.t();
-    determinant = det(L) * pow(beta, n);
+    determinant = det(L) * pow(beta, n); 
+    // Gamma in the paper is determinant that is supposed to be returned
     
     // Initialize parameters for efficient walk if needed
 }
