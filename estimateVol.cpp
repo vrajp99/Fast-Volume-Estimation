@@ -52,7 +52,6 @@ const void polytope::walk(vec &x, int k){
 	}
 
 	double t = x(dir) + (((double)rand()*(max - min))/RAND_MAX) + min;
-    // cout<<t<<" "<<(((double)rand()*(max - min))/RAND_MAX)<<"\n";
 	x(dir) = t;
 }
 
@@ -80,7 +79,7 @@ double polytope::estimateVol ()
             } 
         }
         count = 0;
-        for(int i=0;i<k;i++){
+        for(int i=0;i<=k;i++){
             count += t[i];
         }
 

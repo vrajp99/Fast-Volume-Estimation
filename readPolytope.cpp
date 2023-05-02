@@ -16,8 +16,8 @@ void polytope::readPolytope (const char * const filename)
     // Accessed with bound checks. Remove bounds checking for faster performance
     for(size_t i = 0; i < m; ++i)
     {
+        fin >> b(i);
         for(size_t j = 0; j < n; ++j)
             fin >> A(i, j);
-        fin >> b(i);
     }
 }
