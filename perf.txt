@@ -1,0 +1,1 @@
+perf stat -e fp_arith_inst_retired.128b_packed_double,fp_arith_inst_retired.256b_packed_double,fp_arith_inst_retired.scalar_double,cycles -r 5 ./polyvol tests/cube_10
