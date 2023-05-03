@@ -59,7 +59,6 @@ const void polytope::walk(vec &x, int k){
 
 double polytope::estimateVol ()
 {
-    preprocess();
     double gamma = determinant;
     long l = ceill(n*log2(2*n));
     long step_sz = 1600 * l;
