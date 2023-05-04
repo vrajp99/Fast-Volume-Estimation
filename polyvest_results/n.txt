@@ -1,0 +1,12 @@
+# started on Thu May  4 11:29:03 2023
+
+
+ Performance counter stats for './PolyVest cubes_small/cube_2 1600 test' (5 runs):
+
+                56      fp_arith_inst_retired.128b_packed_double                                   
+            61’125      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.00% )
+           431’089      fp_arith_inst_retired.scalar_double                                     ( +-  0.00% )
+       100’999’847      cycles                                                        ( +-  0.60% )
+
+           0.01988 +- 0.00355 seconds time elapsed  ( +- 17.84% )
+

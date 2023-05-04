@@ -1,0 +1,12 @@
+# started on Thu May  4 11:59:37 2023
+
+
+ Performance counter stats for './polyvol examples/cube_35' (5 runs):
+
+    12’580’881’972      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.03% )
+    94’461’599’330      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.03% )
+    82’275’404’157      fp_arith_inst_retired.scalar_double                                     ( +-  0.03% )
+   492’841’611’395      cycles                                                        ( +-  0.27% )
+
+            162.76 +- 8.54 seconds time elapsed  ( +-  5.25% )
+
