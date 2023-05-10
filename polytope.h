@@ -32,8 +32,8 @@ public:
   const double initEllipsoid(vec &ori);
   void preprocess();
   double estimateVol();
-  const void walk(vec &x, int k);
-  bool checkInBall(vec &x, int k);
+  const void walk(vec &x, size_t k);
+  bool checkInBall(vec &x, size_t k);
 
   void readPolytope(const char *const filename);
 };

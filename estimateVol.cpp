@@ -3,18 +3,18 @@
 
 double norm_2(vec &x) {
   double norm = 0;
-  for (int i = 0; i < x.n_elem; i++) {
+  for (size_t i = 0; i < x.n_elem; i++) {
     norm = norm + x(i) * x(i);
   }
   return norm;
 }
 
-bool polytope::checkInBall(vec &x, int k) {
-  long l = ceill(n * log2(2 * n));
+bool polytope::checkInBall(vec &x, size_t k) {
+  // long l = ceill(n * log2(2 * n));
   return (norm_2(x) <= pow(2, 2.0 * ((double)k) / n));
 }
 
-double unitBallVol(int n) {
+double unitBallVol(size_t n) {
   if (n >= 2) {
     return ((2 * M_PI) / n) * unitBallVol(n - 2);
   } else if (n == 1) {
@@ -24,9 +24,9 @@ double unitBallVol(int n) {
   }
 }
 
-const void polytope::walk(vec &x, int k) {
+const void polytope::walk(vec &x, size_t k) {
   // Choose coordinate direction
-  long l = ceill(n * log2(2 * n));
+  // long l = ceill(n * log2(2 * n));
   int dir = polytope::randi(n);
 
   double r, max, min, C = 0;
@@ -43,7 +43,7 @@ const void polytope::walk(vec &x, int k) {
   Ai = A / (A.col(dir) * exp);
   B = b / A.col(dir);
   vec bound = B - Ai * x;
-  for (int i = 0; i < m; i++) {
+  for (size_t i = 0; i < m; i++) {
     if (A(i, dir) > 0 && bound(i) < max)
       max = bound(i);
     else if (A(i, dir) < 0 && bound(i) > min)
@@ -58,7 +58,7 @@ const void polytope::walk(vec &x, int k) {
 double polytope::estimateVol() {
   double gamma = determinant;
   long l = ceill(n * log2(2 * n));
-  long ll = (int)(n * log((double)2 * n) / log((double)2)) + 2;
+  // long ll = (long)(n * log((double)2 * n) / log((double)2)) + 2;
   // cout<<"l:"<<l<<", ll: "<<ll<<", n:"<<n<<endl;
   long step_sz = 1600 * l;
   // cout << "step size : " << step_sz << endl;
@@ -84,7 +84,7 @@ double polytope::estimateVol() {
       }
     }
     count = 0;
-    for (int i = 0; i <= k; i++) {
+    for (size_t i = 0; i <= k; i++) {
       count += t[i];
     }
 
@@ -96,12 +96,12 @@ double polytope::estimateVol() {
     alpha[k] = ((double)step_sz) / count;
     // cout<<pow(2,2.0*((double)k)/n)<<"\t"<<alpha[k]<<"\t"<<count<<"\n";
     double factor = pow(2.0, -1.0 / n);
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
       x(i) = x(i) * factor;
     }
   }
   double res = gamma;
-  for (int i = 0; i < l; i++) {
+  for (size_t i = 0; i < l; i++) {
     res *= alpha[i];
   }
   res *= unitBallVol(n);

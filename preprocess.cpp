@@ -23,8 +23,8 @@ const double polytope::initEllipsoid(vec &ori) {
   // GLP row setting need data from index 1 not 0
   int ind[n + 1];
   double val[n + 1];
-  for (int i = 1; i < m + 1; i++) {
-    for (int j = 1; j < n + 1; j++) {
+  for (size_t i = 1; i < m + 1; i++) {
+    for (size_t j = 1; j < n + 1; j++) {
       ind[j] = j;
       val[j] = A(i - 1, j - 1);
     }
@@ -33,16 +33,16 @@ const double polytope::initEllipsoid(vec &ori) {
   }
 
   // Freeing the column
-  for (int j = 1; j < n + 1; j++) {
+  for (size_t j = 1; j < n + 1; j++) {
     glp_set_col_bnds(lp, j, GLP_FR, 0, 0);
   }
 
   // Getting the bounds
-  for (int i = 1; i < n + 1; i++) {
+  for (size_t i = 1; i < n + 1; i++) {
     double ub, lb;
 
     // Objective +x_i
-    for (int j = 0; j < n + 1; j++) {
+    for (size_t j = 0; j < n + 1; j++) {
       if (j != i) {
         glp_set_obj_coef(lp, j, 0);
       } else {
@@ -54,12 +54,12 @@ const double polytope::initEllipsoid(vec &ori) {
     ub = glp_get_obj_val(lp);
 
     // Origin Update
-    for (int j = 1; j < n + 1; j++) {
+    for (size_t j = 1; j < n + 1; j++) {
       ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
     // Objective -x_i
-    for (int j = 0; j < n + 1; j++) {
+    for (size_t j = 0; j < n + 1; j++) {
       if (j != i) {
         glp_set_obj_coef(lp, j, 0);
       } else {
@@ -71,7 +71,7 @@ const double polytope::initEllipsoid(vec &ori) {
     lb = -glp_get_obj_val(lp);
 
     // Origin Update
-    for (int j = 1; j < n + 1; j++) {
+    for (size_t j = 1; j < n + 1; j++) {
       ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
