@@ -9,11 +9,6 @@ double norm_2(vec &x) {
   return norm;
 }
 
-bool polytope::checkInBall(vec &x, size_t k) {
-  // long l = ceill(n * log2(2 * n));
-  return (norm_2(x) <= pow(2, 2.0 * ((double)k) / n));
-}
-
 double unitBallVol(size_t n) {
   if (n >= 2) {
     return ((2 * M_PI) / n) * unitBallVol(n - 2);
@@ -24,61 +19,67 @@ double unitBallVol(size_t n) {
   }
 }
 
-const void polytope::walk(vec &x, size_t k) {
+const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
+                            const double rk) {
   // Choose coordinate direction
-  // long l = ceill(n * log2(2 * n));
-  int dir = polytope::randi(n);
+  int dir = (rand() % n);
 
   double r, max, min, C = 0;
 
   C = norm_2(x);
   C -= x(dir) * x(dir);
 
-  r = sqrt(pow(2, (2.0 * (k + 1)) / n) - C);
+  r = sqrt(rk - C);
   max = r - x(dir), min = -r - x(dir);
-  vec B;
-  mat Ai;
-  rowvec exp(n);
-  exp.ones();
-  Ai = A / (A.col(dir) * exp);
-  B = b / A.col(dir);
-  vec bound = B - Ai * x;
+
+  vec bound = B[dir] - Ai[dir] * x;
   for (size_t i = 0; i < m; i++) {
     if (A(i, dir) > 0 && bound(i) < max)
       max = bound(i);
     else if (A(i, dir) < 0 && bound(i) > min)
       min = bound(i);
   }
+
   double randval = (((double)rand() * (max - min)) / RAND_MAX) + min;
   double t = x(dir) + randval;
   x(dir) = t;
   assert(min <= randval && randval <= max);
+
+  return (C + t * t);
 }
 
 double polytope::estimateVol() {
-  double gamma = determinant;
+  double gamma = preprocess();
   long l = ceill(n * log2(2 * n));
-  // long ll = (long)(n * log((double)2 * n) / log((double)2)) + 2;
-  // cout<<"l:"<<l<<", ll: "<<ll<<", n:"<<n<<endl;
   long step_sz = 1600 * l;
-  // cout << "step size : " << step_sz << endl;
   long count = 0;
   vec x;
   x.zeros(n);
   vector<long> t(l + 1, 0);
   vector<double> alpha(l, 0);
+
+  // Precomputing Ai and B
+  vector<vec> B(n);
+  vector<mat> Ai(n);
+  rowvec exp(n);
+  exp.ones();
+  for (size_t i = 0; i < n; ++i) {
+    Ai[i] = A / (A.col(i) * exp);
+    B[i] = b / A.col(i);
+  }
+
+  // Precomputing radii
+  vector<double> r2(l + 1);
+  for (size_t i = 0; i <= l; ++i)
+    r2[i] = pow((double)2.0, (double)(2.0 * i) / n);
+
   for (int k = l - 1; k >= 0; k--) {
-    // cout<<"x: ";
-    // for(int i=0;i<n;i++){
-    //     cout<<x(i)<<" ";
-    // }
-    // cout << endl;
     for (long i = count; i < step_sz; i++) {
-      walk(x, k);
-      if (checkInBall(x, 0)) {
+      double x_norm = walk(x, Ai, B, r2[k + 1]);
+      if (x_norm <= r2[0]) {
         t[0]++;
-      } else if (checkInBall(x, k)) {
-        long m = ceill(((double)n) / 2 * log2(norm_2(x)));
+      } else if (x_norm <= r2[k]) {
+        long m = ceill(((double)n) / 2 * log2(x_norm));
         t[m]++;
         assert(m <= k);
       }
@@ -94,18 +95,16 @@ double polytope::estimateVol() {
       cout << "WTF" << endl;
     }
     alpha[k] = ((double)step_sz) / count;
-    // cout<<pow(2,2.0*((double)k)/n)<<"\t"<<alpha[k]<<"\t"<<count<<"\n";
     double factor = pow(2.0, -1.0 / n);
     for (size_t i = 0; i < n; i++) {
       x(i) = x(i) * factor;
     }
   }
+
   double res = gamma;
   for (size_t i = 0; i < l; i++) {
     res *= alpha[i];
   }
   res *= unitBallVol(n);
-  // cout<<unitBallVol(n)<<"\n";
-  // cout<<determinant<<endl;
   return res;
 }

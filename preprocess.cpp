@@ -82,10 +82,10 @@ const double polytope::initEllipsoid(vec &ori) {
   return r_0s;
 }
 
-void polytope::preprocess() {
+double polytope::preprocess() {
   // Assuming r = 2n
   // beta = 1 / 2n
-  beta = 0.5 / n;
+  double beta = 0.5 / n;
 
   // Ellipse parameters
   vec ori;
@@ -93,28 +93,6 @@ void polytope::preprocess() {
   mat T;
   T.eye(n, n);
   T = T * r_s;
-
-  /*
-     cout<<"Origin:"<<endl;
-     for(int i=0;i<n;i++){
-     cout<<ori(i)<<" ";
-     }
-     cout<<endl;
-
-     cout<<"b:"<<endl;
-     for(int i=0;i<m;i++){
-     cout<<b(i)<<" ";
-     }
-     cout<<endl;
-
-     cout<<"A:"<<endl;
-     for(int i=0;i<m;i++){
-     for(int j = 0; j < n; ++j)
-     cout << A(i, j) << ' ';
-     cout << '\n';
-     }
-     cout << endl;
-     */
 
   // Some constants required for the upcoming computation
   double beta_sqr = beta * beta;
@@ -165,31 +143,7 @@ void polytope::preprocess() {
   mat L = chol(T); // Check for runtime errors
   b = (b - A * ori) / beta;
   A = A * L.t();
-  determinant = det(L) * pow(beta, n);
+  double gamma = det(L) * pow(beta, n);
 
-  /*
-     cout<<"Origin:"<<endl;
-     for(int i=0;i<n;i++){
-     cout<<ori(i)<<" ";
-     }
-     cout<<endl;
-
-     cout<<"b:"<<endl;
-     for(int i=0;i<m;i++){
-     cout<<b(i)<<" ";
-     }
-     cout<<endl;
-
-     cout<<"A:"<<endl;
-     for(int i=0;i<m;i++){
-     for(int j = 0; j < n; ++j)
-     cout << A(i, j) << ' ';
-     cout << '\n';
-     }
-     cout << endl;
-     */
-
-  // Gamma in the paper is determinant that is supposed to be returned
-
-  // Initialize parameters for efficient walk if needed
+  return gamma;
 }
