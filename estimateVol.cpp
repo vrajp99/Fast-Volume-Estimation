@@ -1,21 +1,53 @@
 #include "polytope.h"
 #include <cassert>
 
+
+
 double norm_2(vec &x) {
+  // Loop Unrolling for ILP
+
   double norm = 0;
-  for (size_t i = 0; i < x.n_elem; i++) {
-    norm = norm + x(i) * x(i);
+  double t1 = 0;
+  double t2 = 0;
+  double t3 = 0;
+  double t4 = 0;
+  int i;
+  int n = x.n_elem;
+
+  for (i = 0; i < n; i = i + 4) {
+    t1 = t1 + x(i) * x(i);
+    t2 = t2 + x(i+1) * x(i+1);
+    t3 = t3 + x(i+2) * x(i+2);
+    t4 = t4 + x(i+3) * x(i+3);
+  }
+
+  norm += t1+t2+t3+t4;
+
+  for (; i<n; i++){
+    norm += x(i)*x(i);
   }
   return norm;
 }
 
 double unitBallVol(size_t n) {
-  if (n >= 2) {
-    return ((2 * M_PI) / n) * unitBallVol(n - 2);
-  } else if (n == 1) {
-    return 2;
-  } else {
+  // Added a DP-Like structure, avoid function calls.
+  double vol[n+1];
+
+  vol[0] = 1;
+  vol[1] = 2;
+  double scale = (2 * M_PI);
+
+  if (n == 0){
     return 1;
+  }
+  else if (n == 1){
+    return 2;
+  }
+  else{
+    for(int i = 2; i<n+1; i++){
+      vol[i] = (scale / i) * vol[i-2];
+    }
+    return vol[n];
   }
 }
 
