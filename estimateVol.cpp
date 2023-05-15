@@ -115,9 +115,11 @@ double polytope::estimateVol()
 
   // Precomputing radii
   vector<double> r2(l + 1);
-  double div_precomputed = 2.0 / n;
-  for (size_t i = 0; i <= l; ++i)
-    r2[i] = pow((double)2.0, (double)(div_precomputed * i));
+  double pow_precomputed = pow ((double) 2.0, (double) 2.0 / n);
+  
+  r2[0] = 1;
+  for (size_t i = 1; i <= l; ++i)
+    r2[i] = pow_precomputed*r2[i - 1];
 
   for (int k = l - 1; k >= 0; k--)
   {
