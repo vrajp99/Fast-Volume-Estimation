@@ -93,7 +93,7 @@ double polytope::estimateVol()
   double gamma = preprocess();
   // Re Declaring it Here -- Also no need to initialize Alpha Array
   double res = gamma;
-
+  // Moved this from the bottom, got rid of the alpha array - avoid memory accesses full
 
   long l = ceill(n * log2(2 * n));
   long step_sz = 1600 * l;
@@ -101,7 +101,6 @@ double polytope::estimateVol()
   vec x;
   x.zeros(n);
   vector<long> t(l + 1, 0);
-  // vector<double> alpha(l, 0);
   // Move factor computation outside.
   double factor = pow(2.0, -1.0 / n);
 
@@ -155,16 +154,18 @@ double polytope::estimateVol()
     }
     res *= ((double)step_sz) / count;
 
-    for (size_t i = 0; i < n; i++)
-    {
+    size_t i;
+    for (i = 0; i < n; i = i + 4){
       x(i) = x(i) * factor;
+      x(i+1) = x(i+1) * factor;
+      x(i+2) = x(i+2) * factor;
+      x(i+3) = x(i+3) * factor;
+    }
+    for (; i<n; i++){
+      x(i) = x(i)*factor;
     }
   }
 
-  // for (size_t i = 0; i < l; i++)
-  // {
-  //   res *= alpha[i];
-  // }
   res *= unitBallVol(n);
   return res;
 }
