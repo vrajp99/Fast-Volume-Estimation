@@ -1,9 +1,8 @@
 #include "polytope.h"
 #include <cassert>
 
-
-
-double norm_2(vec &x) {
+double norm_2(vec &x)
+{
   // Loop Unrolling for ILP
 
   double norm = 0;
@@ -14,45 +13,53 @@ double norm_2(vec &x) {
   int i;
   int n = x.n_elem;
 
-  for (i = 0; i < n; i = i + 4) {
+  for (i = 0; i < n; i = i + 4)
+  {
     t1 = t1 + x(i) * x(i);
-    t2 = t2 + x(i+1) * x(i+1);
-    t3 = t3 + x(i+2) * x(i+2);
-    t4 = t4 + x(i+3) * x(i+3);
+    t2 = t2 + x(i + 1) * x(i + 1);
+    t3 = t3 + x(i + 2) * x(i + 2);
+    t4 = t4 + x(i + 3) * x(i + 3);
   }
 
-  norm += t1+t2+t3+t4;
+  norm += t1 + t2 + t3 + t4;
 
-  for (; i<n; i++){
-    norm += x(i)*x(i);
+  for (; i < n; i++)
+  {
+    norm += x(i) * x(i);
   }
   return norm;
 }
 
-double unitBallVol(size_t n) {
+double unitBallVol(size_t n)
+{
   // Added a DP-Like structure, avoid function calls.
-  double vol[n+1];
+  double vol[n + 1];
 
   vol[0] = 1;
   vol[1] = 2;
   double scale = (2 * M_PI);
 
-  if (n == 0){
+  if (n == 0)
+  {
     return 1;
   }
-  else if (n == 1){
+  else if (n == 1)
+  {
     return 2;
   }
-  else{
-    for(int i = 2; i<n+1; i++){
-      vol[i] = (scale / i) * vol[i-2];
+  else
+  {
+    for (int i = 2; i < n + 1; i++)
+    {
+      vol[i] = (scale / i) * vol[i - 2];
     }
     return vol[n];
   }
 }
 
 const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
-                            const double rk) {
+                            const double rk)
+{
   // Choose coordinate direction
   int dir = (rand() % n);
 
@@ -65,7 +72,8 @@ const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   max = r - x(dir), min = -r - x(dir);
 
   vec bound = B[dir] - Ai[dir] * x;
-  for (size_t i = 0; i < m; i++) {
+  for (size_t i = 0; i < m; i++)
+  {
     if (A(i, dir) > 0 && bound(i) < max)
       max = bound(i);
     else if (A(i, dir) < 0 && bound(i) > min)
@@ -80,7 +88,8 @@ const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   return (C + t * t);
 }
 
-double polytope::estimateVol() {
+double polytope::estimateVol()
+{
   double gamma = preprocess();
   long l = ceill(n * log2(2 * n));
   long step_sz = 1600 * l;
@@ -89,52 +98,67 @@ double polytope::estimateVol() {
   x.zeros(n);
   vector<long> t(l + 1, 0);
   vector<double> alpha(l, 0);
+  // Move factor computation outside.
+  double factor = pow(2.0, -1.0 / n);
+
 
   // Precomputing Ai and B
   vector<vec> B(n);
   vector<mat> Ai(n);
   rowvec exp(n);
   exp.ones();
-  for (size_t i = 0; i < n; ++i) {
+  for (size_t i = 0; i < n; ++i)
+  {
     Ai[i] = A / (A.col(i) * exp);
     B[i] = b / A.col(i);
   }
 
   // Precomputing radii
   vector<double> r2(l + 1);
+  double div_precomputed = 2.0 / n;
   for (size_t i = 0; i <= l; ++i)
-    r2[i] = pow((double)2.0, (double)(2.0 * i) / n);
+    r2[i] = pow((double)2.0, (double)(div_precomputed * i));
 
-  for (int k = l - 1; k >= 0; k--) {
-    for (long i = count; i < step_sz; i++) {
+  for (int k = l - 1; k >= 0; k--)
+  {
+    for (long i = count; i < step_sz; i++)
+    {
       double x_norm = walk(x, Ai, B, r2[k + 1]);
-      if (x_norm <= r2[0]) {
+      if (x_norm <= r2[0])
+      {
         t[0]++;
-      } else if (x_norm <= r2[k]) {
-        long m = ceill(((double)n) / 2 * log2(x_norm));
+      }
+      else if (x_norm <= r2[k])
+      {
+        // Change divide by 2 to multiply by 0.5
+        long m = ceill(((double)n) * 0.5 * log2(x_norm));
         t[m]++;
         assert(m <= k);
       }
     }
     count = 0;
-    for (size_t i = 0; i <= k; i++) {
+    for (size_t i = 0; i <= k; i++)
+    {
       count += t[i];
     }
 
     // Alpha has to be >= 1
-    if (count > step_sz) {
+    if (count > step_sz)
+    {
       count = step_sz;
       cout << "WTF" << endl;
     }
     alpha[k] = ((double)step_sz) / count;
-    double factor = pow(2.0, -1.0 / n);
-    for (size_t i = 0; i < n; i++) {
+
+    for (size_t i = 0; i < n; i++)
+    {
       x(i) = x(i) * factor;
     }
   }
 
   double res = gamma;
-  for (size_t i = 0; i < l; i++) {
+  for (size_t i = 0; i < l; i++)
+  {
     res *= alpha[i];
   }
   res *= unitBallVol(n);
