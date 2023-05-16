@@ -3,6 +3,7 @@
 
 #include <armadillo>
 #include <vector>
+#include "XoshiroCpp.hpp"
 
 // Note : mat and vec are typedefs of the corresponding
 // data structures template-instantiated for doubles
@@ -19,7 +20,7 @@ class polytope {
   const double initEllipsoid(vec &ori);
   double preprocess();
   const double walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
-                    const double rk);
+                    const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng);
 
 public:
   polytope(){};

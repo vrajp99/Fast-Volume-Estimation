@@ -1,4 +1,5 @@
 #include "polytope.h"
+#include "XoshiroCpp.hpp"
 #include <cassert>
 
 double norm_2(vec &x)
@@ -46,10 +47,10 @@ double unitBallVol(size_t n)
 }
 
 const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
-                            const double rk)
+                            const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
-  int dir = (rand() % n);
+  int dir = (rng() % n);
 
   double r, max, min, C = 0;
 
@@ -111,11 +112,14 @@ double polytope::estimateVol()
   for (size_t i = 1; i <= l; ++i)
     r2[i] = pow_precomputed*r2[i - 1];
 
+  // Random Generator
+  XoshiroCpp::Xoshiro128PlusPlus rng(time(0));
+
   for (int k = l - 1; k >= 0; k--)
   {
     for (long i = count; i < step_sz; i++)
     {
-      double x_norm = walk(x, Ai, B, r2[k + 1]);
+      double x_norm = walk(x, Ai, B, r2[k + 1], rng);
       if (x_norm <= r2[0])
       {
         t[0]++;
