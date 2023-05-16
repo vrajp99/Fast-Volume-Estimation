@@ -135,11 +135,7 @@ double polytope::estimateVol()
     }
 
     // Alpha has to be >= 1
-    if (count > step_sz)
-    {
-      count = step_sz;
-      cout << "WTF" << endl;
-    }
+    count = count > step_sz ? step_sz : count;
     res *= ((double)step_sz) / count;
 
     size_t i;
