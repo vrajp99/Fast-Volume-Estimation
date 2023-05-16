@@ -38,23 +38,11 @@ double unitBallVol(size_t n)
   vol[0] = 1;
   vol[1] = 2;
   double scale = (2 * M_PI);
-
-  if (n == 0)
+  for (int i = 2; i < n + 1; i++)
   {
-    return 1;
+    vol[i] = (scale / i) * vol[i - 2];
   }
-  else if (n == 1)
-  {
-    return 2;
-  }
-  else
-  {
-    for (int i = 2; i < n + 1; i++)
-    {
-      vol[i] = (scale / i) * vol[i - 2];
-    }
-    return vol[n];
-  }
+  return vol[n];
 }
 
 const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
