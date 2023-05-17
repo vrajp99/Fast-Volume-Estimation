@@ -68,11 +68,11 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
     else if (A(i, dir) < 0 && bound(i) > min)
       min = bound(i);
   }
-
-  double randval = (((double)rand() * (max - min)) / RAND_MAX) + min;
+  
+  double randval = (XoshiroCpp::FloatFromBits(rng()))*(max - min) + min;
   double t = x(dir) + randval;
   x(dir) = t;
-  assert(min <= randval && randval <= max);
+  assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
 
   return (C + t * t);
 }

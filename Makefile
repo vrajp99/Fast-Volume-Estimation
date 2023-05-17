@@ -4,8 +4,8 @@ CLANG=clang++
 BOOST_INCLUDE_FLAG = -I /usr/include
 
 LIB_FLAGS = -larmadillo -llapack -lblas -lglpk -lgfortran
-OPT = -O2
-NODEBUG = -DARMA_NO_DEBUG
+OPT = -O3 -march=native
+NODEBUG = -DARMA_NO_DEBUG -DNDEBUG
 DEBUG = -g -Wall
 
 CXXFLAGS = $(BOOST_INCLUDE_FLAG) $(NODEBUG) $(OPT)
