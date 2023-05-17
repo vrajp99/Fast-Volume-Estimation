@@ -1,19 +1,34 @@
-#Cubes
-for n in range(1, 11):
-    with open('tests/cube_' + str(n), 'w') as f:
-        f.write("{} {}\n".format(2 * n, n))
-        for i in range(n):
-            f.write("1" + " 0" * i + " 1" + " 0" * (n - i - 1) + "\n")
-            f.write("1" + " 0" * i + " -1" + " 0" * (n - i - 1) + "\n")
+import numpy as np
 
-print('Cubes done.')
+def gen_poly(A, b, fname):
+    m, n = A.shape
+    assert m == b.shape[0]
+    Ab = np.concatenate((A, b[:, np.newaxis]), axis=1)
+    with open("tests/{}_{}".format(fname, n), 'w') as f:
+        f.write("{} {}\n".format(m, n))
+        for each in Ab:
+            f.write(" ".join(str(x) for x in each) + '\n')
+
+dims = list(range(1, 11)) + [15, 20]
+
+#Cubes
+for n in dims:
+    A = np.identity(n)
+    A = np.concatenate((A, -A), axis=1)
+    b = np.ones(2 * n)
+    gen_poly(A.T, b, "cube")
+    
+    b[np.random.randint(2 * n)] = 99
+    gen_poly(A.T, b, "cuboid")
+
+print('Cubes and cuboids done.')
 
 #Simplices
-for n in range(1, 11):
-    with open('tests/simplex_' + str(n), 'w') as f:
-        f.write("{} {}\n".format(n + 1, n))
-        for i in range(n):
-            f.write("0" + " 0" * i + " -1" + " 0" * (n - i - 1) + "\n")
-        f.write("1" + " 1" * n + "\n")
+for n in dims:
+    A = np.identity(n)
+    A = np.concatenate((-A, np.ones(n)[:, np.newaxis]), axis=1)
+    b = np.zeros(n + 1)
+    b[-1] = 1
+    gen_poly(A.T, b, "simplex")
 
 print('Simplices done.')
