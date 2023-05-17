@@ -13,9 +13,14 @@ class colors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-print(f"{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Building{colors.ENDC}")
+if len(sys.argv)<2:
+    BUILD_TARGET = "main"
+else:
+    BUILD_TARGET = sys.argv[1]
+
+print(f"{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Building target {BUILD_TARGET}{colors.ENDC}")
 try:
-    subprocess.run(["make"], check=True)
+    subprocess.run(["make", BUILD_TARGET], check=True)
 except Exception as e:
     print(f"{colors.FAIL}Build Failure.{colors.ENDC}")
     sys.exit(0)
