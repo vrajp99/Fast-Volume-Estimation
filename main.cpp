@@ -7,8 +7,6 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  srand(time(NULL));
-
   polytope p;
   p.readPolytope(argv[1]);
   cout << p.estimateVol() << '\n';
