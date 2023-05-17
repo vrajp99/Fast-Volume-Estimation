@@ -2,7 +2,7 @@
 #include "XoshiroCpp.hpp"
 #include <cassert>
 
-double norm_2(vec &x)
+double norm_2(vec &x, int n)
 {
   // Loop Unrolling for ILP
 
@@ -12,21 +12,20 @@ double norm_2(vec &x)
   double t3 = 0;
   double t4 = 0;
   int i;
-  int n = x.n_elem;
 
   for (i = 0; i < n; i = i + 4)
   {
-    t1 = t1 + x(i) * x(i);
-    t2 = t2 + x(i + 1) * x(i + 1);
-    t3 = t3 + x(i + 2) * x(i + 2);
-    t4 = t4 + x(i + 3) * x(i + 3);
+    t1 += x[i] * x[i];
+    t2 += x[i + 1] * x[i + 1];
+    t3 += x[i + 2] * x[i + 2];
+    t4 += x[i + 3] * x[i + 3];
   }
 
   norm += t1 + t2 + t3 + t4;
 
   for (; i < n; i++)
   {
-    norm += x(i) * x(i);
+    norm += x[i] * x[i];
   }
   return norm;
 }
@@ -54,24 +53,24 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
 
   double r, max, min, C = 0;
 
-  C = norm_2(x);
-  C -= x(dir) * x(dir);
+  C = norm_2(x, n);
+  C -= x[dir] * x[dir];
 
   r = sqrt(rk - C);
-  max = r - x(dir), min = -r - x(dir);
+  max = r - x[dir], min = -r - x[dir];
 
   vec bound = B[dir] - Ai[dir] * x;
   for (size_t i = 0; i < m; i++)
   {
-    if (A(i, dir) > 0 && bound(i) < max)
-      max = bound(i);
-    else if (A(i, dir) < 0 && bound(i) > min)
-      min = bound(i);
+    if (A(i, dir) > 0 && bound[i] < max)
+      max = bound[i];
+    else if (A(i, dir) < 0 && bound[i] > min)
+      min = bound[i];
   }
   
   double randval = (XoshiroCpp::FloatFromBits(rng()))*(max - min) + min;
-  double t = x(dir) + randval;
-  x(dir) = t;
+  double t = x[dir] + randval;
+  x[dir] = t;
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
 
   return (C + t * t);
@@ -144,13 +143,13 @@ double polytope::estimateVol()
 
     size_t i;
     for (i = 0; i < n; i = i + 4){
-      x(i) = x(i) * factor;
-      x(i+1) = x(i+1) * factor;
-      x(i+2) = x(i+2) * factor;
-      x(i+3) = x(i+3) * factor;
+      x[i] *= factor;
+      x[i+1] *= factor;
+      x[i+2] *= factor;
+      x[i+3] *= factor;
     }
     for (; i<n; i++){
-      x(i) = x(i)*factor;
+      x[i] *= factor;
     }
   }
 

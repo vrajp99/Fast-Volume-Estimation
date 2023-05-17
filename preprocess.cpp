@@ -55,7 +55,7 @@ double polytope::initEllipsoid(vec &ori) {
 
     // Origin Update
     for (size_t j = 1; j < n + 1; j++) {
-      ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
+      ori[j - 1] += (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
     // Objective -x_i
@@ -72,7 +72,7 @@ double polytope::initEllipsoid(vec &ori) {
 
     // Origin Update
     for (size_t j = 1; j < n + 1; j++) {
-      ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
+      ori[j - 1] += (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
     r_0s += pow(ub - lb, 2);
@@ -122,7 +122,7 @@ double polytope::preprocess() {
       for (size_t j = 0; j < m; ++j) {
         ta = T * A.row(j).t();
         if (beta_sqr * as_scalar(A.row(j) * ta) -
-                signed_dis(j) * signed_dis(j) >
+                signed_dis[j] * signed_dis[j] >
             0) {
           found_i = true;
           i = j;
