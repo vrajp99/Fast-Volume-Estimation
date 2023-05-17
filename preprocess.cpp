@@ -5,7 +5,7 @@
 // Normal array access has bound checks
 
 // Must set ori_0 and return square of r_0
-const double polytope::initEllipsoid(vec &ori) {
+double polytope::initEllipsoid(vec &ori) {
   double r_0s = 0;
   ori.zeros(n);
   // Initialize LP (with glp)

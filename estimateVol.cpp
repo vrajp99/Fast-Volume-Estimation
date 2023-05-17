@@ -39,14 +39,14 @@ double unitBallVol(size_t n)
   vol[0] = 1;
   vol[1] = 2;
   double scale = (2 * M_PI);
-  for (int i = 2; i < n + 1; i++)
+  for (size_t i = 2; i < n + 1; i++)
   {
     vol[i] = (scale / i) * vol[i - 2];
   }
   return vol[n];
 }
 
-const double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
+double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
@@ -109,7 +109,7 @@ double polytope::estimateVol()
   double pow_precomputed = pow ((double) 2.0, (double) 2.0 / n);
   // Replace Power with Just Multiplication at Each Loop
   r2[0] = 1;
-  for (size_t i = 1; i <= l; ++i)
+  for (long i = 1; i <= l; ++i)
     r2[i] = pow_precomputed*r2[i - 1];
 
   // Random Generator
@@ -133,7 +133,7 @@ double polytope::estimateVol()
       }
     }
     count = 0;
-    for (size_t i = 0; i <= k; i++)
+    for (int i = 0; i <= k; i++)
     {
       count += t[i];
     }

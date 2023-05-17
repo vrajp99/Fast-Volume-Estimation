@@ -17,9 +17,9 @@ class polytope {
   mat A;
   vec b;
 
-  const double initEllipsoid(vec &ori);
+  double initEllipsoid(vec &ori);
   double preprocess();
-  const double walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
+  double walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
                     const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng);
 
 public:
