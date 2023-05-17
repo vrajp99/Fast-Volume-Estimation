@@ -31,6 +31,7 @@ def run_test(fname, ans):
     except Exception as e:
         print(f"{colors.FAIL}Failed with exception ({type(e)}){colors.ENDC}")
         print(f"{colors.WARNING}Error: {colors.ENDC}{e}")
+        return
     print(f"{colors.OKGREEN}Passed{colors.ENDC}")
 
 sizes = list(range(1, 11)) + [15, 20]
