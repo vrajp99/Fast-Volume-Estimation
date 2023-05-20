@@ -4,7 +4,7 @@ import os
 import utils
 
 # Change these variables
-branches = ["xoshiro-rng", "baseline"]
+branches = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
 test_dir = "reduced_examples"
 results_dir = "results"
 
