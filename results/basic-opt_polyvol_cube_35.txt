@@ -1,0 +1,12 @@
+# started on Sun May 21 12:44:36 2023
+
+
+ Performance counter stats for './executables/basic-opt_polyvol reduced_examples/cube_35' (5 runs):
+
+     2’490’704’440      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+    47’945’760’351      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+    11’722’975’606      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+    92’311’890’734      cycles                                                        ( +-  0.92% )
+
+            49.897 +- 0.483 seconds time elapsed  ( +-  0.97% )
+

@@ -1,0 +1,12 @@
+# started on Sun May 21 12:09:07 2023
+
+
+ Performance counter stats for './executables/bound-remove_polyvol reduced_examples/cube_5' (5 runs):
+
+         2’277’747      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.28% )
+         5’466’589      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.28% )
+        12’556’018      fp_arith_inst_retired.scalar_double                                     ( +-  0.20% )
+     1’665’547’757      cycles                                                        ( +-  0.24% )
+
+          0.129230 +- 0.000689 seconds time elapsed  ( +-  0.53% )
+
