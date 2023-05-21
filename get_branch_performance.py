@@ -4,9 +4,9 @@ import os
 import utils
 
 # Change these variables
-branches = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
-test_dir = "reduced_examples"
-results_dir = "results"
+BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
+TEST_DIR = "reduced_examples"
+RESULTS_DIR = "results"
 
 
 def call_executable(executable ,n, file_name):
@@ -34,6 +34,17 @@ def call_executable(executable ,n, file_name):
 
 
 def measure_performance(executable, file_paths):
+    """
+    Measures the performance of an executable on a set of input files
+    
+    Args:
+    - executable(str): The path to the executable whose performance is being measured.
+    - file_paths(List[str]): A list of paths to the input files for which the performance 
+        is being measured.
+    Returns:
+    - measurements(List[Tuple[str, float]]): A list of tuples containing the filename and 
+        the time taken to execute the executable for each file.
+    """
     measurements = []
     for path in file_paths:
         # Call C program and retrieve number of cycles
@@ -52,20 +63,19 @@ def measure_performance(executable, file_paths):
         json.dump(measurements, fp)
     return measurements
     
+    
 def main():
     print("Disabling Turbo Boost")
     utils.toggle_turbo_boost("disable")
-    print("Creating executables from the following branches: ", branches)
-    utils.create_executables(branches)
+    print("Creating executables from the following branches: ", BRANCHES)
+    utils.create_executables(BRANCHES)
     print("Parsing test files")
-    _, test_paths = utils.list_files_sorted(test_dir)
+    _, test_paths = utils.list_files_sorted(TEST_DIR)
     print("Creating results dir")
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir)
+    if not os.path.exists(RESULTS_DIR):
+        os.makedirs(RESULTS_DIR)
     print("Measuring performance")
     for root, _, files in os.walk("executables"):
-        print(root)
-        print(files)
         for executable in files:
             executable_path = os.path.join(root, executable)
             print("Measuring performance of ", executable_path)
