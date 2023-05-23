@@ -1,6 +1,8 @@
 #include "polytope.h"
 #include "XoshiroCpp.hpp"
 #include <cassert>
+#include <immintrin.h>
+#include <algorithm>
 
 double norm_2(vec &x, int n)
 {
@@ -45,6 +47,25 @@ double unitBallVol(size_t n)
   return vol[n];
 }
 
+inline
+double hmax(const __m256d& v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
+    vlow  = _mm_max_pd(vlow, vhigh); 
+
+    vhigh = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_max_pd(vlow, vhigh)); 
+}
+inline
+double hmin(const __m256d& v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
+    vlow  = _mm_min_pd(vlow, vhigh); 
+
+    vhigh = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_min_pd(vlow, vhigh)); 
+}
+
 double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
@@ -60,14 +81,36 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   max = r - x[dir], min = -r - x[dir];
 
   vec bound = B[dir] - Ai[dir] * x;
-  for (size_t i = 0; i < m; i++)
-  {
-    if (A(i, dir) > 0 && bound[i] < max)
-      max = bound[i];
-    else if (A(i, dir) < 0 && bound[i] > min)
-      min = bound[i];
-  }
+  vec Adir = A.col(dir);
+  double *bound_ptr = (double *)&bound[0], *A_ptr = (double *)&Adir[0]; 
   
+  const __m256d zeros = _mm256_setzero_pd();
+  __m256d max_all = _mm256_set1_pd(max), min_all = _mm256_set1_pd(min);
+  __m256d maxd = max_all, mind = min_all;
+  for (size_t i = 0; i < m / 4; i++)
+  {
+    __m256d aa = _mm256_loadu_pd(A_ptr + 4 * i);
+    __m256d bb = _mm256_loadu_pd(bound_ptr + 4 * i);
+    
+    __m256d maskgt = _mm256_cmp_pd(aa, zeros, _CMP_GT_OQ);
+    __m256d bbgt = _mm256_blendv_pd(max_all, bb, maskgt);
+    maxd = _mm256_min_pd(maxd, bbgt);
+
+    __m256d masklt = _mm256_cmp_pd(aa, zeros, _CMP_LT_OQ);
+    __m256d bblt = _mm256_blendv_pd(min_all, bb, masklt);
+    mind = _mm256_max_pd(mind, bblt);
+    
+  }
+  min = hmax(mind), max = hmin(maxd);
+  for (size_t i = (m / 4) * 4; i < m; i++)
+  {
+    double aa = Adir[i], bb = bound[i];
+    if (aa > 0 && bb < max)
+      max = bb;
+    else if (aa < 0 && bb > min)
+      min = bb;
+  }
+
   double randval = (XoshiroCpp::FloatFromBits(rng()))*(max - min) + min;
   double t = x[dir] + randval;
   x[dir] = t;
