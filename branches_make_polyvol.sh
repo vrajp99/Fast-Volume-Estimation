@@ -1,3 +1,11 @@
+#!/usr/bin/env bash
+
+# <description>
+#
+# Usage:
+#  $ ./branches_make_polyvol.sh param1 
+# * param1: branch to pull the executable from
+
 # Read branches
 IFS=' ' read -r -a desired_branches <<< "$1"
 # Make sure to fetch updates, but don't merge yet

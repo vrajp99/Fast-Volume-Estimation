@@ -70,24 +70,24 @@ def roofline(name, project, scale, precision):
             return '"{}"'.format(value)
         return str(value)
     # Iterate over the entries in the bottomup table and print a joined version.
+    """
     for idx, entry in enumerate(data.bottomup):
         # Process the header.
         if idx == 0:
             print(",".join([quotes(key) for key in entry]))
         # Process the entires.
         print(",".join([quotes(entry[key]) for key in entry]))
+    """
     # Access the entries and roof data from the survey data.
     rows = [{col: row[col] for col in row} for row in data.bottomup]
     roofs = data.get_roofs()
 
     # Get the entries into a data frame.
     df = pd.DataFrame(rows).replace("", np.nan)
-    #print(df[["self_ai", "self_gflops"]].dropna())
-    #print(df.head(5))
+    df.to_csv("roofline_plots/"+name+".csv", sep='\t')
+
     df.self_ai = df.self_ai.astype(float)
     df.self_gflops = df.self_gflops.astype(float)
-    # print(df.function)
-    #print(df.function_call_sites_and_loops)
 
     # Provision plot and determine maxes.
     df.self_ai = df.self_ai.astype(float)
@@ -148,17 +148,20 @@ def roofline(name, project, scale, precision):
     # Draw points using the same axis.
     ax.set_xscale('log', base=2)
     ax.set_yscale('log', base=2)
-    ax.set_xlabel('Arithmetic intensity (FLOP/Byte)')
+    ax.set_xlabel('Operational intensity (FLOP/Byte)')
     ax.set_ylabel('Performance (GFLOPS)')
 
     colors = cm.viridis(np.linspace(0, 1, len(df.self_ai)))
-    markers = ["d", "v", "s", "*", "^", "d", "v", "s", "*", "^"]
+    markers = [".",",","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_",0,1,2,3,4,5,6,7,8,9,10,11]
     for i in range(len(df.self_ai)):
-        ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
-                color=colors[i], label=df.function_call_sites_and_loops[i])
+        # TODO why are main and estimateVol nan?
+        if not math.isnan(df.self_ai[i]) and not math.isnan(df.self_gflops[i]):
+            ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
+                    color=colors[i], label=df.function_call_sites_and_loops[i])
     # Set the legend of the plot.
     legend = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
                             prop={'size': 10}, title='Rooflines/Loops')
+    plt.title("Roofline for "+" ".join([n.capitalize() for n in name.split("_")]))
     # Save the plot in PNG format.
     plt.savefig('roofline_plots/%s.png' %
                 name, bbox_extra_artists=(legend,), bbox_inches='tight')
