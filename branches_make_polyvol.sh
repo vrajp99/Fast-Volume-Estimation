@@ -23,11 +23,10 @@ done
 # Copy all PolyVol executables to branch
 git checkout benchmarking
 DIRECTORY=executables
-if [ -d "$DIRECTORY" ]; then
+if ! [ -d "$DIRECTORY" ]; then
   echo "Creating $DIRECTORY"
-  rm -r $DIRECTORY
+  mkdir $DIRECTORY
 fi
-mkdir $DIRECTORY
 for branch in $(git branch -r | grep -v HEAD); do
   for desired_branch in "${desired_branches[@]}"; do
     if [[ "$desired_branch" == ${branch#origin/} ]]; then
