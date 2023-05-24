@@ -45,7 +45,7 @@ double unitBallVol(size_t n)
   return vol[n];
 }
 
-double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
+double polytope::walk(vec &x, vector<vec> &Ax, const vector<vec> &B,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
@@ -59,7 +59,10 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
 
-  vec bound = B[dir] - Ai[dir] * x;
+  // vec bound = B[dir] - Ai[dir] * x;
+  // Use the updated version of this operation, which can benefit from asymptotically better complexity 
+  vec bound = B[dir] - (Ax / A.col(dir));
+
   for (size_t i = 0; i < m; i++)
   {
     if (A(i, dir) > 0 && bound[i] < max)
@@ -71,6 +74,10 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   double randval = (XoshiroCpp::FloatFromBits(rng()))*(max - min) + min;
   double t = x[dir] + randval;
   x[dir] = t;
+
+  // Modifying Ax
+  // Update Ax, as x has now changed -- need to update only one coordinate so it's good
+  Ax = Ax + A.col(dir) * randval;
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
 
   return (C + t * t);
@@ -94,12 +101,18 @@ double polytope::estimateVol()
 
   // Precomputing Ai and B
   vector<vec> B(n);
-  vector<mat> Ai(n);
+  // vector<mat> Ai(n);
+  // Create vector Ax, and initialize it to zero -- recall -- x is 0 initailly 
+  vector<vec> Ax(n);
+  Ax.zeros();
+
   rowvec exp(n);
   exp.ones();
+
+  // Need to instead precompute Ax now.
   for (size_t i = 0; i < n; ++i)
   {
-    Ai[i] = A / (A.col(i) * exp);
+    // Ai[i] = A / (A.col(i) * exp); No longer needed as we have Ax now ...
     B[i] = b / A.col(i);
   }
 
@@ -118,7 +131,7 @@ double polytope::estimateVol()
   {
     for (long i = count; i < step_sz; i++)
     {
-      double x_norm = walk(x, Ai, B, r2[k + 1], rng);
+      double x_norm = walk(x, Ax, B, r2[k + 1], rng);
       if (x_norm <= r2[0])
       {
         t[0]++;
