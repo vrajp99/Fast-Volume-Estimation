@@ -4,33 +4,59 @@
 #include <immintrin.h>
 #include <algorithm>
 
-double norm_2(vec &x, int n)
+// double norm_2(vec &x, int n)
+// {
+//   // Loop Unrolling for ILP
+
+//   double norm = 0;
+//   double t1 = 0;
+//   double t2 = 0;
+//   double t3 = 0;
+//   double t4 = 0;
+//   int i;
+
+//   for (i = 0; i < n; i = i + 4)
+//   {
+//     t1 += x[i] * x[i];
+//     t2 += x[i + 1] * x[i + 1];
+//     t3 += x[i + 2] * x[i + 2];
+//     t4 += x[i + 3] * x[i + 3];
+//   }
+
+//   norm += t1 + t2 + t3 + t4;
+
+//   for (; i < n; i++)
+//   {
+//     norm += x[i] * x[i];
+//   }
+//   return norm;
+// }
+
+double norm_2(vec x, int n)
 {
   // Loop Unrolling for ILP
 
   double norm = 0;
-  double t1 = 0;
-  double t2 = 0;
-  double t3 = 0;
-  double t4 = 0;
   int i;
 
-  for (i = 0; i < n; i = i + 4)
-  {
-    t1 += x[i] * x[i];
-    t2 += x[i + 1] * x[i + 1];
-    t3 += x[i + 2] * x[i + 2];
-    t4 += x[i + 3] * x[i + 3];
+  double *x_ptr = (double *)(&x(0));
+
+  __m256d result = _mm256_set1_pd(0); 
+  __m256d temp;
+  for (i = 0; i < n / 4; i++){
+    __m256d x_vec = _mm256_loadu_pd(x_ptr + 4*i);
+    result = _mm256_fmadd_pd(x_vec, x_vec, result);
   }
+  norm = result[0] + result[1] + result[2] + result[3];
 
-  norm += t1 + t2 + t3 + t4;
-
-  for (; i < n; i++)
+  // Cleanup code
+  for (i = (n / 4) * 4; i < n; i++)
   {
     norm += x[i] * x[i];
   }
   return norm;
 }
+
 
 double unitBallVol(size_t n)
 {
