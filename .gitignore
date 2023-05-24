@@ -6,3 +6,12 @@ examples/
 reduced_examples/
 config/
 __pycache__/
+python.log
+
+# advisor
+annotations.advidb2
+e000/
+team29.advixeproj
+*.dflgadvixe
+*.infoadvixe
+advisor_scripts/

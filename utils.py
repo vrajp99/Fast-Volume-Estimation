@@ -115,7 +115,31 @@ def create_executables(branches):
     except Exception:
         print("Warning! Could not create executables")
         traceback.print_exc()
-       
+
+
+def init_adivor_vars():
+    """
+    Initializes the variables for the Intel Advisor by calling the advisor-vars.sh script.
+
+    This function calls the specified command through the subprocess module.
+    
+    Args:
+        None
+    
+    Example Usage:
+        init_adivor_vars() # initializes the advisor vars
+        
+    Raises:
+        OSError : An error occurred while executing the command.
+    """
+    try:
+        #subprocess.Popen("/bin/sh", "/opt/intel/oneapi/advisor/latest/advisor-vars.sh")
+        #subprocess.Popen("/bin/sh", "/opt/intel/oneapi/advisor/latest/advixe-vars.sh")
+        subprocess.call(["bash", "source_advisor.sh"])
+    except Exception:
+        print("Warning! Could not init advisor variables")
+        traceback.print_exc()
+
 
 def load_data(path):
     """

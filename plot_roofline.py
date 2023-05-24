@@ -1,6 +1,11 @@
 # Adapted from intel advisor api examples https://www.intel.com/content/www/us/en/developer/articles/training/how-to-use-the-intel-advisor-python-api.html
 # Copyright (C) 2017 Intel Corporation
 
+import matplotlib.cm as cm
+import click
+import seaborn as sns
+from matplotlib.ticker import ScalarFormatter
+import matplotlib.pyplot as plt
 import math
 import sys
 
@@ -9,14 +14,17 @@ import numpy as np
 import pandas as pd
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import seaborn as sns
-import click
+
+
 # This style requires $DISPLAY available.
 # Use it instead of matplotlib.use('Agg') if you have GUI environment
 # matplotlib.style.use('ggplot')
 
 pd.options.display.max_rows = 20
+plt.style.use('seaborn-darkgrid')
+plt.figure(dpi=200)
+# Set the default font size
+plt.rcParams.update({'font.size': 14})
 
 try:
 
@@ -35,9 +43,11 @@ except ImportError:
 if len(sys.argv) < 2:
     print('Usage: "python {} path_to_project_dir"'.format(__file__))
     sys.exit(2)
-    
+
 
 @click.command()
+@click.option('--name', '-n', required=True, help='The name of the generated'
+              'roofline png.')
 @click.option('--project', '-o', required=True,
               help='The directory of the Intel Advisor project containing '
                    'a roofline analysis.')
@@ -48,20 +58,9 @@ if len(sys.argv) < 2:
                    'socket).')
 @click.option('--precision', type=click.Choice(['SP', 'DP', 'all']),
               help='Arithmetic precision.', default='SP')
-@click.option('--mode', '-m', type=click.Choice(['overview', 'top-loops', 'all']),
-              default='overview', required=True,
-              help='overview: Display a single point with the total GFLOPS and '
-                   'arithmetic intensity of the program.\n top-loops: Display all the '
-                   'top time consuming loops within one order of magnitude (x10) from '
-                   'the most time consuming loop.')
-@click.option('--th', default=0, help='Percentage threshold (e.g. 95) such that loops '
-                                      'under this value in execution time consumed will '
-                                      'not be displayed/collected.'
-                                      'Only valid for --top-loops.')
 # Open the Advisor Project and load the data.
-def roofline(project, scale, precision, mode, th):
+def roofline(name, project, scale, precision):
     project = advisor.open_project(project)
-
     # Open the Advisor Project and load the data.
     data = project.load(advisor.ALL)
     def quotes(value):
@@ -75,7 +74,6 @@ def roofline(project, scale, precision, mode, th):
         # Process the header.
         if idx == 0:
             print(",".join([quotes(key) for key in entry]))
-
         # Process the entires.
         print(",".join([quotes(entry[key]) for key in entry]))
     # Access the entries and roof data from the survey data.
@@ -84,12 +82,12 @@ def roofline(project, scale, precision, mode, th):
 
     # Get the entries into a data frame.
     df = pd.DataFrame(rows).replace("", np.nan)
-    print(df[["self_ai", "self_gflops"]].dropna())
-    print(df.head(5))
+    #print(df[["self_ai", "self_gflops"]].dropna())
+    #print(df.head(5))
     df.self_ai = df.self_ai.astype(float)
     df.self_gflops = df.self_gflops.astype(float)
-    #print(df.function)
-    print(df.function_call_sites_and_loops)
+    # print(df.function)
+    #print(df.function_call_sites_and_loops)
 
     # Provision plot and determine maxes.
     df.self_ai = df.self_ai.astype(float)
@@ -100,15 +98,17 @@ def roofline(project, scale, precision, mode, th):
     loop_total_time = df.self_time.sum()
     df['percent_weight'] = df.self_time / loop_total_time * 100
 
-    fig, ax = plt.subplots()
-    key = lambda roof: roof.bandwidth if 'bandwidth' not in roof.name.lower() else 0
+    _, ax = plt.subplots()
+    def key(roof): return roof.bandwidth if 'bandwidth' not in roof.name.lower() else 0
     max_compute_roof = max(roofs, key=key)
-    max_compute_bandwidth = max_compute_roof.bandwidth / math.pow(10, 9)  # as GByte/s
+    max_compute_bandwidth = max_compute_roof.bandwidth / \
+        math.pow(10, 9)  # as GByte/s
     max_compute_bandwidth /= scale  # scale down as requested by the user
 
-    key = lambda roof: roof.bandwidth if 'bandwidth' in roof.name.lower() else 0
-    max_memory_roof = max(roofs, key=key)
-    max_memory_bandwidth = max_memory_roof.bandwidth / math.pow(10, 9)  # as GByte/s
+    def key2(roof): return roof.bandwidth if 'bandwidth' in roof.name.lower() else 0
+    max_memory_roof = max(roofs, key=key2)
+    max_memory_bandwidth = max_memory_roof.bandwidth / \
+        math.pow(10, 9)  # as GByte/s
     max_memory_bandwidth /= scale  # scale down as requested by the user
 
     # Parameters to center the chart
@@ -116,9 +116,6 @@ def roofline(project, scale, precision, mode, th):
     ai_max = 2**5
     gflops_min = 2**0
     width = ai_max
-
-    # Declare the dictionary that will hold the JSON information
-    roofline_data = {}
 
     # Declare the two types of rooflines dictionaries
     memory_roofs = []
@@ -146,20 +143,26 @@ def roofline(project, scale, precision, mode, th):
                 y1, y2 = bandwidth, bandwidth
                 label = '{} {:.0f} GFLOPS'.format(roof.name, bandwidth)
                 ax.plot([x1, x2], [y1, y2], '-', label=label)
+                plt.axvline(x=x1, color='darkgrey', ymax=y2, linestyle=(0, (2, 2)))
                 compute_roofs.append(((x1, x2), (y1, y2)))
-    palette = sns.color_palette("Paired")
     # Draw points using the same axis.
-    ax.set_xscale("log")
-    ax.set_yscale("log")
-    # color=palette[df.index.astype(int)]
-    ax.plot(df.self_ai, df.self_gflops, "o", label=df.function_call_sites_and_loops)
+    ax.set_xscale('log', base=2)
+    ax.set_yscale('log', base=2)
+    ax.set_xlabel('Arithmetic intensity (FLOP/Byte)')
+    ax.set_ylabel('Performance (GFLOPS)')
+
+    colors = cm.viridis(np.linspace(0, 1, len(df.self_ai)))
+    markers = ["d", "v", "s", "*", "^", "d", "v", "s", "*", "^"]
+    for i in range(len(df.self_ai)):
+        ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
+                color=colors[i], label=df.function_call_sites_and_loops[i])
     # Set the legend of the plot.
     legend = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
-                            prop={'size': 7}, title='Rooflines')
+                            prop={'size': 10}, title='Rooflines/Loops')
     # Save the plot in PNG format.
-    plt.savefig("roofline_plots/roofline.png", bbox_inches='tight')
+    plt.savefig('roofline_plots/%s.png' %
+                name, bbox_extra_artists=(legend,), bbox_inches='tight')
 
-    print("Roofline chart has been generated and saved into roofline.png and roofline.svg files in the current directory.")
-    
+
 if __name__ == '__main__':
     roofline()
