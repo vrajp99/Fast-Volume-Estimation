@@ -1,6 +1,7 @@
 #include "polytope.h"
 #include "XoshiroCpp.hpp"
 #include <cassert>
+#include <cmath>
 
 double norm_2(vec &x, int n)
 {
@@ -50,7 +51,8 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
 {
   // Choose coordinate direction
   int dir = (rng() % n);
-
+  static int iter_num = 0;
+  iter_num++;
   double r, max, min, C = 0;
 
   C = norm_2(x, n);
@@ -58,11 +60,6 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
 
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
-  rowvec one_trans(n);
-  one_trans.ones();
-
-  // vec bound = B[dir] - Ai[dir] * x;
-  // Use the updated version of this operation, which can benefit from asymptotically better complexity 
   vec bound = B[dir] - (Ax / A.col(dir));
 
   for (size_t i = 0; i < m; i++)
@@ -80,6 +77,7 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
   // Modifying Ax
   // Update Ax, as x has now changed -- need to update only one coordinate so it's good
   Ax = Ax + (A.col(dir) * randval); 
+
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
 
   return (C + t * t);
@@ -103,8 +101,6 @@ double polytope::estimateVol()
 
   // Precomputing Ai and B
   vector<vec> B(n);
-  // vector<mat> Ai(n);
-  // Create vector Ax, and initialize it to zero -- recall -- x is 0 initailly 
   vec Ax;
   Ax.zeros(m);
 
@@ -114,7 +110,6 @@ double polytope::estimateVol()
   // Need to instead precompute Ax now.
   for (size_t i = 0; i < n; ++i)
   {
-    // Ai[i] = A / (A.col(i) * exp); No longer needed as we have Ax now ...
     B[i] = b / A.col(i);
   }
 
@@ -166,6 +161,7 @@ double polytope::estimateVol()
     for (; i<n; i++){
       x[i] *= factor;
     }
+    Ax = Ax*factor;
   }
 
   res *= unitBallVol(n);
