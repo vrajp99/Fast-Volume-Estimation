@@ -32,7 +32,7 @@
 //   return norm;
 // }
 
-double norm_2(vec x, int n)
+double norm_2(vec &x, int n)
 {
   // Loop Unrolling for ILP
 
@@ -210,16 +210,31 @@ double polytope::estimateVol()
     count = count > step_sz ? step_sz : count;
     res *= ((double)step_sz) / count;
 
-    size_t i;
-    for (i = 0; i < n; i = i + 4){
-      x[i] *= factor;
-      x[i+1] *= factor;
-      x[i+2] *= factor;
-      x[i+3] *= factor;
+
+    double *x_ptr = (double *)(&x(0));
+    size_t i; 
+
+    __m256d factor_vec = _mm256_set1_pd(factor);
+    __m256d x_vec, temp;
+
+    for (i = 0; i < n / 4; i++){
+      x_vec = _mm256_loadu_pd(x_ptr + 4 * i);
+      temp = _mm256_mul_pd(x_vec, factor_vec);
+      _mm256_store_pd(x_ptr + 4 * i, temp);
     }
-    for (; i<n; i++){
-      x[i] *= factor;
+    for (i = (n / 4) * 4; i < n; i++){
+      x[i]*=factor;
     }
+    // size_t i;
+    // for (i = 0; i < n; i = i + 4){
+    //   x[i] *= factor;
+    //   x[i+1] *= factor;
+    //   x[i+2] *= factor;
+    //   x[i+3] *= factor;
+    // }
+    // for (; i<n; i++){
+    //   x[i] *= factor;
+    // }
   }
 
   res *= unitBallVol(n);
