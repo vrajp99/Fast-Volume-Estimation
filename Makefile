@@ -20,7 +20,7 @@ debug: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 	$(CXX) $(CXXDEBUGFLAGS) -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
 
 clang: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
-	$(CLANG) $(CXXFLAGS) -std=c++20 -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
+	$(CLANG) $(CXXFLAGS) -DARMA_NO_DEBUG -std=c++20 -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
 
 clean:
 	rm -f polyvol

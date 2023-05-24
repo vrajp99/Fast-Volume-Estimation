@@ -45,7 +45,7 @@ double unitBallVol(size_t n)
   return vol[n];
 }
 
-double polytope::walk(vec &x, vector<vec> &Ax, const vector<vec> &B,
+double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
@@ -58,6 +58,8 @@ double polytope::walk(vec &x, vector<vec> &Ax, const vector<vec> &B,
 
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
+  rowvec one_trans(n);
+  one_trans.ones();
 
   // vec bound = B[dir] - Ai[dir] * x;
   // Use the updated version of this operation, which can benefit from asymptotically better complexity 
@@ -77,7 +79,7 @@ double polytope::walk(vec &x, vector<vec> &Ax, const vector<vec> &B,
 
   // Modifying Ax
   // Update Ax, as x has now changed -- need to update only one coordinate so it's good
-  Ax = Ax + A.col(dir) * randval;
+  Ax = Ax + (A.col(dir) * randval); 
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
 
   return (C + t * t);
@@ -103,8 +105,8 @@ double polytope::estimateVol()
   vector<vec> B(n);
   // vector<mat> Ai(n);
   // Create vector Ax, and initialize it to zero -- recall -- x is 0 initailly 
-  vector<vec> Ax(n);
-  Ax.zeros();
+  vec Ax;
+  Ax.zeros(m);
 
   rowvec exp(n);
   exp.ones();
