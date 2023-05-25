@@ -1,7 +1,6 @@
 #include "polytope.h"
 #include "XoshiroCpp.hpp"
 #include <cassert>
-#include <immintrin.h>
 #include <algorithm>
 
 double norm_2(vec &x, int n)
@@ -64,7 +63,7 @@ double hmin(const __m256d& v) {
     return  _mm_cvtsd_f64(_mm_min_pd(vlow, vhigh)); 
 }
 
-double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
+double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
@@ -79,30 +78,25 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
   max = r - x[dir], min = -r - x[dir];
 
   vec bound = B[dir] - (Ax/A.col(dir));
-  vec Adir = A.col(dir);
-  double *bound_ptr = (double *)&bound[0], *A_ptr = (double *)&Adir[0]; 
+  double *bound_ptr = (double *)&bound[0];
   
-  const __m256d zeros = _mm256_setzero_pd();
   __m256d max_all = _mm256_set1_pd(max), min_all = _mm256_set1_pd(min);
   __m256d maxd = max_all, mind = min_all;
   for (size_t i = 0; i < m / 4; i++)
   {
-    __m256d aa = _mm256_loadu_pd(A_ptr + 4 * i);
     __m256d bb = _mm256_loadu_pd(bound_ptr + 4 * i);
     
-    __m256d maskgt = _mm256_cmp_pd(aa, zeros, _CMP_GT_OQ);
-    __m256d bbgt = _mm256_blendv_pd(max_all, bb, maskgt);
+    __m256d bbgt = _mm256_blendv_pd(max_all, bb, Agt[dir][i]);
     maxd = _mm256_min_pd(maxd, bbgt);
 
-    __m256d masklt = _mm256_cmp_pd(aa, zeros, _CMP_LT_OQ);
-    __m256d bblt = _mm256_blendv_pd(min_all, bb, masklt);
+    __m256d bblt = _mm256_blendv_pd(min_all, bb, Alt[dir][i]);
     mind = _mm256_max_pd(mind, bblt);
     
   }
   min = hmax(mind), max = hmin(maxd);
   for (size_t i = (m / 4) * 4; i < m; i++)
   {
-    double aa = Adir[i], bb = bound[i];
+    double aa = A.col(dir)[i], bb = bound[i];
     if (aa > 0 && bb < max)
       max = bb;
     else if (aa < 0 && bb > min)
@@ -150,6 +144,23 @@ double polytope::estimateVol()
   for (long i = 1; i <= l; ++i)
     r2[i] = pow_precomputed*r2[i - 1];
 
+  // Precomputing vectorization mask
+  vector < vector < __m256d > >  Agt(n), Alt(n);
+  const __m256d zeros = _mm256_setzero_pd();
+  for (size_t i = 0; i < n; i++)
+  {
+    Agt[i].resize(m/4);
+    Alt[i].resize(m/4);
+    double *A_ptr = (double *)&(A.col(i))[0]; 
+
+    for (size_t j = 0; j < m / 4; j++)
+    {
+      __m256d aa = _mm256_loadu_pd(A_ptr + 4 * j);
+      Agt[i][j] = _mm256_cmp_pd(aa, zeros, _CMP_GT_OQ);
+      Alt[i][j] = _mm256_cmp_pd(aa, zeros, _CMP_LT_OQ);
+    }
+  }
+
   // Random Generator
   XoshiroCpp::Xoshiro128PlusPlus rng(time(0));
 
@@ -157,7 +168,7 @@ double polytope::estimateVol()
   {
     for (long i = count; i < step_sz; i++)
     {
-      double x_norm = walk(x, Ax, B, r2[k + 1], rng);
+      double x_norm = walk(x, Ax, B, Agt, Alt, r2[k + 1], rng);
       if (x_norm <= r2[0])
       {
         t[0]++;
@@ -190,7 +201,7 @@ double polytope::estimateVol()
     for (i = 0; i < n / 4; i++){
       x_vec = _mm256_loadu_pd(x_ptr + 4 * i);
       temp = _mm256_mul_pd(x_vec, factor_vec);
-      _mm256_store_pd(x_ptr + 4 * i, temp);
+      _mm256_storeu_pd(x_ptr + 4 * i, temp);
     }
     for (i = (n / 4) * 4; i < n; i++){
       x[i]*=factor;
