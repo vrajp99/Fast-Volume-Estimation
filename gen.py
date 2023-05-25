@@ -9,7 +9,7 @@ def gen_poly(A, b, fname):
         for each in Ab:
             f.write(" ".join(str(x) for x in each) + '\n')
 
-dims = list(range(1, 11)) + [15, 20]
+dims = list(range(1, 11)) + [15, 20, 30, 40, 50, 60, 70, 80]
 
 #Cubes
 for n in dims:
