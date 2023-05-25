@@ -33,6 +33,7 @@ def run_test(fname, ans):
         if not abs(out - ans) <= tol * max(out, ans):
             print(f"{colors.FAIL}Failed{colors.ENDC}")
             print(f"{colors.WARNING}Error : {fname}, expected : {ans}, output : {out}{colors.ENDC}")
+            return
     except Exception as e:
         print(f"{colors.FAIL}Failed with exception ({type(e)}){colors.ENDC}")
         print(f"{colors.WARNING}Error: {colors.ENDC}{e}")

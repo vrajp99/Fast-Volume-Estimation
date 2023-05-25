@@ -4,34 +4,6 @@
 #include <immintrin.h>
 #include <algorithm>
 
-// double norm_2(vec &x, int n)
-// {
-//   // Loop Unrolling for ILP
-
-//   double norm = 0;
-//   double t1 = 0;
-//   double t2 = 0;
-//   double t3 = 0;
-//   double t4 = 0;
-//   int i;
-
-//   for (i = 0; i < n; i = i + 4)
-//   {
-//     t1 += x[i] * x[i];
-//     t2 += x[i + 1] * x[i + 1];
-//     t3 += x[i + 2] * x[i + 2];
-//     t4 += x[i + 3] * x[i + 3];
-//   }
-
-//   norm += t1 + t2 + t3 + t4;
-
-//   for (; i < n; i++)
-//   {
-//     norm += x[i] * x[i];
-//   }
-//   return norm;
-// }
-
 double norm_2(vec &x, int n)
 {
   // Loop Unrolling for ILP
@@ -92,7 +64,7 @@ double hmin(const __m256d& v) {
     return  _mm_cvtsd_f64(_mm_min_pd(vlow, vhigh)); 
 }
 
-double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
+double polytope::walk(vec &x, vec &Ax, const vector<vec> &B,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
   // Choose coordinate direction
@@ -106,7 +78,7 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
 
-  vec bound = B[dir] - Ai[dir] * x;
+  vec bound = B[dir] - (Ax/A.col(dir));
   vec Adir = A.col(dir);
   double *bound_ptr = (double *)&bound[0], *A_ptr = (double *)&Adir[0]; 
   
@@ -141,7 +113,7 @@ double polytope::walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
   double t = x[dir] + randval;
   x[dir] = t;
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
-
+  Ax += (A.col(dir) * randval);
   return (C + t * t);
 }
 
@@ -163,12 +135,10 @@ double polytope::estimateVol()
 
   // Precomputing Ai and B
   vector<vec> B(n);
-  vector<mat> Ai(n);
-  rowvec exp(n);
-  exp.ones();
+  vec Ax(m);
+  Ax.zeros();
   for (size_t i = 0; i < n; ++i)
   {
-    Ai[i] = A / (A.col(i) * exp);
     B[i] = b / A.col(i);
   }
 
@@ -187,7 +157,7 @@ double polytope::estimateVol()
   {
     for (long i = count; i < step_sz; i++)
     {
-      double x_norm = walk(x, Ai, B, r2[k + 1], rng);
+      double x_norm = walk(x, Ax, B, r2[k + 1], rng);
       if (x_norm <= r2[0])
       {
         t[0]++;
@@ -225,16 +195,7 @@ double polytope::estimateVol()
     for (i = (n / 4) * 4; i < n; i++){
       x[i]*=factor;
     }
-    // size_t i;
-    // for (i = 0; i < n; i = i + 4){
-    //   x[i] *= factor;
-    //   x[i+1] *= factor;
-    //   x[i+2] *= factor;
-    //   x[i+3] *= factor;
-    // }
-    // for (; i<n; i++){
-    //   x[i] *= factor;
-    // }
+    Ax *= factor;
   }
 
   res *= unitBallVol(n);
