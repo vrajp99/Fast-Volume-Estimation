@@ -5,7 +5,7 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
-BRANCHES = ["vectorization"]
+BRANCHES = ["vecplusextraoptim", "preoptvec", "vecplusextraoptim", "fast-linalg"]
 TEST_DIR = "reduced_examples"
 RESULTS_DIR = "results"
 
@@ -68,8 +68,8 @@ def measure_performance(executable, file_paths):
 def main():
     print("Disabling Turbo Boost")
     utils.toggle_turbo_boost("disable")
-    #print("Creating executables from the following branches: ", BRANCHES)
-    #utils.create_executables(BRANCHES)
+    print("Creating executables from the following branches: ", BRANCHES)
+    utils.create_executables(BRANCHES)
     print("Parsing test files")
     _, test_paths = utils.list_files_sorted(TEST_DIR)
     print("Creating results dir")
