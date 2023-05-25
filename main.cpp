@@ -1,4 +1,6 @@
+#ifndef POLYTOPE_H
 #include "polytope.h"
+#endif
 #include <iostream>
 
 int main(int argc, char *argv[]) {

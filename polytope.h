@@ -1,5 +1,5 @@
 #ifndef POLYTOPE_H
-#define POLYTOPE_H 1
+#define POLYTOPE_H
 
 #include <armadillo>
 #include <vector>

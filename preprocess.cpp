@@ -1,5 +1,7 @@
 #include "glpk.h"
+#ifndef POLYTOPE_H
 #include "polytope.h"
+#endif
 
 // Ideas for optimization
 // Normal array access has bound checks

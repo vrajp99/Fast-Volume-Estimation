@@ -1,7 +1,37 @@
+#ifndef POLYTOPE_H
 #include "polytope.h"
+#endif
 #include "XoshiroCpp.hpp"
 #include <cassert>
 #include <algorithm>
+
+inline
+double vec_hadd(const __m256d& v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
+    vlow  = _mm_add_pd(vlow, vhigh); 
+
+    vhigh = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_add_pd(vlow, vhigh)); 
+}
+inline
+double vec_hmax(const __m256d& v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
+    vlow  = _mm_max_pd(vlow, vhigh); 
+
+    vhigh = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_max_pd(vlow, vhigh)); 
+}
+inline
+double vec_hmin(const __m256d& v) {
+    __m128d vlow  = _mm256_castpd256_pd128(v);
+    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
+    vlow  = _mm_min_pd(vlow, vhigh); 
+
+    vhigh = _mm_unpackhi_pd(vlow, vlow);
+    return  _mm_cvtsd_f64(_mm_min_pd(vlow, vhigh)); 
+}
 
 double norm_2(vec &x, int n)
 {
@@ -18,7 +48,7 @@ double norm_2(vec &x, int n)
     __m256d x_vec = _mm256_loadu_pd(x_ptr + 4*i);
     result = _mm256_fmadd_pd(x_vec, x_vec, result);
   }
-  norm = result[0] + result[1] + result[2] + result[3];
+  norm = vec_hadd(result);
 
   // Cleanup code
   for (i = (n / 4) * 4; i < n; i++)
@@ -44,25 +74,6 @@ double unitBallVol(size_t n)
   return vol[n];
 }
 
-inline
-double hmax(const __m256d& v) {
-    __m128d vlow  = _mm256_castpd256_pd128(v);
-    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
-    vlow  = _mm_max_pd(vlow, vhigh); 
-
-    vhigh = _mm_unpackhi_pd(vlow, vlow);
-    return  _mm_cvtsd_f64(_mm_max_pd(vlow, vhigh)); 
-}
-inline
-double hmin(const __m256d& v) {
-    __m128d vlow  = _mm256_castpd256_pd128(v);
-    __m128d vhigh = _mm256_extractf128_pd(v, 1); 
-    vlow  = _mm_min_pd(vlow, vhigh); 
-
-    vhigh = _mm_unpackhi_pd(vlow, vlow);
-    return  _mm_cvtsd_f64(_mm_min_pd(vlow, vhigh)); 
-}
-
 double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt,
                             const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng)
 {
@@ -77,8 +88,23 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vect
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
 
-  vec bound = B[dir] - (Ax/A.col(dir));
-  double *bound_ptr = (double *)&bound[0];
+  vec bound(m); // = B[dir] - (Ax/A.col(dir));
+  double *B_ptr = (double *)(&B[dir][0]), *bound_ptr = (double *)(&bound[0]), *Ax_ptr = (double *)(&Ax[0]), *Adir_ptr = (double *)(&A.col(dir)[0]);
+
+  for (size_t i = 0; i < m / 4; i++){
+    __m256d Adir_vec = _mm256_loadu_pd(Adir_ptr + 4*i);
+    __m256d Ax_vec = _mm256_loadu_pd(Ax_ptr + 4*i);
+    __m256d bound_vec = _mm256_loadu_pd(bound_ptr + 4*i);
+    __m256d B_vec = _mm256_loadu_pd(B_ptr + 4*i);
+    __m256d result = _mm256_div_pd(Ax_vec, Adir_vec);
+    result = _mm256_sub_pd(B_vec, result);
+    _mm256_storeu_pd(bound_ptr + 4 * i, result);
+  }
+  for (size_t i = (m / 4) * 4 ; i < m; i++)
+  {
+    bound[i] = B[dir][i] - (Ax[i] / A.col(dir)[i]);
+  }
+
   
   __m256d max_all = _mm256_set1_pd(max), min_all = _mm256_set1_pd(min);
   __m256d maxd = max_all, mind = min_all;
@@ -93,7 +119,7 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vect
     mind = _mm256_max_pd(mind, bblt);
     
   }
-  min = hmax(mind), max = hmin(maxd);
+  min = vec_hmax(mind), max = vec_hmin(maxd);
   for (size_t i = (m / 4) * 4; i < m; i++)
   {
     double aa = A.col(dir)[i], bb = bound[i];
@@ -107,7 +133,23 @@ double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vect
   double t = x[dir] + randval;
   x[dir] = t;
   assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
-  Ax += (A.col(dir) * randval);
+  
+  // Ax += (A.col(dir) * randval);
+
+  __m256d randval_vec = _mm256_set1_pd(randval); 
+  for (size_t i = 0; i < m / 4; i++){
+    __m256d Ax_vec = _mm256_loadu_pd(Ax_ptr + 4*i);
+    __m256d Adir_vec = _mm256_loadu_pd(Adir_ptr + 4*i);
+    __m256d result = _mm256_fmadd_pd(randval_vec, Adir_vec, Ax_vec);
+    _mm256_storeu_pd(Ax_ptr + 4 * i, result);
+  }
+
+  // Cleanup code
+  for (size_t i = (m / 4) * 4 ; i < m; i++)
+  {
+    Ax[i] += A.col(dir)[i] * randval;
+  }
+  
   return (C + t * t);
 }
 

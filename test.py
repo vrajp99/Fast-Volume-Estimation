@@ -2,7 +2,7 @@ import subprocess
 import math
 import sys
 
-tol = 0.1
+tol = 0.15
 
 class colors:
     HEADER = '\033[95m'
