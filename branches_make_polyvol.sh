@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# <description>
+# Checkout specified branches make the PolyVol executable and copy it to the benchmarking branch
 #
 # Usage:
 #  $ ./branches_make_polyvol.sh param1 

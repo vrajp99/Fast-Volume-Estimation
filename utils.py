@@ -117,6 +117,24 @@ def create_executables(branches):
         traceback.print_exc()
 
 
+def run_advisor(branch, testfile):
+    """
+    Create executable files for the specified branches.
+    
+    Args:
+        branches (list): A list of branch names for which to create executable files.
+    
+    Returns:
+        None
+    """
+    # Call the bash script and pass the string
+    try:
+        subprocess.call(["bash", "run_advisor_analysis.sh", branch, testfile])
+    except Exception:
+        print("Warning! Could not create executables")
+        traceback.print_exc()
+
+
 def init_adivor_vars():
     """
     Initializes the variables for the Intel Advisor by calling the advisor-vars.sh script.
