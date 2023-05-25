@@ -1,12 +1,12 @@
-# started on Sun May 21 01:27:31 2023
+# started on Wed May 24 23:57:54 2023
 
 
  Performance counter stats for './executables/baseline_polyvol reduced_examples/cube_2' (5 runs):
 
-           230’184      fp_arith_inst_retired.128b_packed_double                                   
-            71’945      fp_arith_inst_retired.256b_packed_double                                   
-         2’290’307      fp_arith_inst_retired.scalar_double                                   
-       165’238’559      cycles                                                        ( +- 17.02% )
+           226’552      fp_arith_inst_retired.128b_packed_double                                   
+            70’811      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.00% )
+         2’253’702      fp_arith_inst_retired.scalar_double                                     ( +-  0.00% )
+       269’849’028      cycles                                                        ( +- 11.44% )
 
-           0.03837 +- 0.00294 seconds time elapsed  ( +-  7.66% )
+           0.04372 +- 0.00460 seconds time elapsed  ( +- 10.53% )
 

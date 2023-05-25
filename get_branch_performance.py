@@ -4,7 +4,8 @@ import os
 import utils
 
 # Change these variables
-BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
+#BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
+BRANCHES = ["vectorization"]
 TEST_DIR = "reduced_examples"
 RESULTS_DIR = "results"
 
@@ -67,8 +68,8 @@ def measure_performance(executable, file_paths):
 def main():
     print("Disabling Turbo Boost")
     utils.toggle_turbo_boost("disable")
-    print("Creating executables from the following branches: ", BRANCHES)
-    utils.create_executables(BRANCHES)
+    #print("Creating executables from the following branches: ", BRANCHES)
+    #utils.create_executables(BRANCHES)
     print("Parsing test files")
     _, test_paths = utils.list_files_sorted(TEST_DIR)
     print("Creating results dir")
@@ -77,9 +78,10 @@ def main():
     print("Measuring performance")
     for root, _, files in os.walk("executables"):
         for executable in files:
-            executable_path = os.path.join(root, executable)
-            print("Measuring performance of ", executable_path)
-            measure_performance(executable_path, test_paths)
+            if executable.split("_")[0] in BRANCHES:
+                executable_path = os.path.join(root, executable)
+                print("Measuring performance of ", executable_path)
+                measure_performance(executable_path, test_paths)
     print("Enabling Turbo Boost")
     utils.toggle_turbo_boost("enable")
 

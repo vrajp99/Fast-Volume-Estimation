@@ -3,7 +3,7 @@ from matplotlib import cycler
 import utils
 import os
 
-BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove", "polyvest"]
+BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove", "polyvest", "vectorization"]
 TEST_DIR = "reduced_examples"
 RESULTS_DIR = "results"
 

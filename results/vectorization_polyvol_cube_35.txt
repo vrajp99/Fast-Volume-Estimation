@@ -1,0 +1,12 @@
+# started on Thu May 25 00:03:27 2023
+
+
+ Performance counter stats for './executables/vectorization_polyvol reduced_examples/cube_35' (5 runs):
+
+     2’709’257’479      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+    50’450’485’068      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+     6’412’700’621      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+    91’180’634’265      cycles                                                        ( +-  0.90% )
+
+            50.448 +- 0.460 seconds time elapsed  ( +-  0.91% )
+
