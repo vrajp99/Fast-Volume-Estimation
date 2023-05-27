@@ -40,7 +40,9 @@ def run_test(fname, ans):
         return
     print(f"{colors.OKGREEN}Passed{colors.ENDC}")
 
-sizes = list(range(1, 11)) + [15, 20]
+small_sizes = list(range(1, 11))
+big_sizes = [15, 20]
+sizes = small_sizes + big_sizes
 
 #Cubes
 print(f'{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Cubes{colors.ENDC}')
@@ -65,3 +67,11 @@ for n in sizes:
     run_test("simplex_" + str(n), ans) 
 
 print(f'{colors.OKGREEN}Simplices done.{colors.ENDC}')
+
+#Crosses
+print(f'{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Crosses{colors.ENDC}')
+for n in small_sizes:
+    ans = (2 ** n) / math.factorial(n)
+    run_test("cross_" + str(n), ans) 
+
+print(f'{colors.OKGREEN}Crosses done.{colors.ENDC}')
