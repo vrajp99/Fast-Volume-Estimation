@@ -23,7 +23,7 @@ for branch in $(git branch -r | grep -v HEAD); do
       git add tests &&
       git add gen.py &&
       git commit -m "Update tests and gen.py" &&
-      git push --set-upstream origin baseline
+      git push --set-upstream origin ${branch#origin/}
     fi
   done
 done
