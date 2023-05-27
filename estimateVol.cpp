@@ -171,10 +171,15 @@ const double polytope::estimateVol() const
   vector<vec> B(n);
   vec Ax(m);
   Ax.zeros();
-  for (size_t i = 0; i < n; ++i)
-  {
-    B[i] = b / A.col(i);
+
+
+  // Precomputing the reciprocal of elements in A
+  mat A_negrecp = -1.0 / A;
+
+  for (size_t i = 0; i < n; ++i){
+    B[i] = -b % A_negrecp.col(i);
   }
+
 
   // Precomputing radii
   vector <double> r2 (l+1);
@@ -184,8 +189,6 @@ const double polytope::estimateVol() const
   for (long i = 1; i <= l; ++i)
     r2[i] = pow_precomputed*r2[i - 1];
 
-  // Precomputing the reciprocal of elements in A
-  mat A_negrecp = -1.0 / A;
 
   // Precomputing vectorization mask
   vector < vector < __m256d > >  Agt(n), Alt(n);
