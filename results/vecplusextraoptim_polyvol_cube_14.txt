@@ -1,0 +1,12 @@
+# started on Thu May 25 14:05:08 2023
+
+
+ Performance counter stats for './executables/vecplusextraoptim_polyvol reduced_examples/cube_14' (5 runs):
+
+        13’071’642      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.11% )
+        89’345’430      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.11% )
+        70’928’485      fp_arith_inst_retired.scalar_double                                     ( +-  0.08% )
+     2’227’698’021      cycles                                                        ( +-  3.46% )
+
+            0.4340 +- 0.0159 seconds time elapsed  ( +-  3.67% )
+

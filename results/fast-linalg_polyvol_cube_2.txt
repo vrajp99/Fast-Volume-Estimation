@@ -1,0 +1,12 @@
+# started on Thu May 25 14:00:25 2023
+
+
+ Performance counter stats for './executables/fast-linalg_polyvol reduced_examples/cube_2' (5 runs):
+
+            14’103      fp_arith_inst_retired.128b_packed_double                                   
+            70’253      fp_arith_inst_retired.256b_packed_double                                   
+           372’298      fp_arith_inst_retired.scalar_double                                   
+        49’045’476      cycles                                                        ( +-  7.03% )
+
+           0.02086 +- 0.00393 seconds time elapsed  ( +- 18.82% )
+
