@@ -20,7 +20,10 @@ for branch in $(git branch -r | grep -v HEAD); do
       cp /tmp/gen.py . &&
       rm -r tests &&
       cp -r /tmp/tests . &&
-      git push
+      git add tests &&
+      git add gen.py &&
+      git commit -m "Update tests and gen.py" &&
+      git push --set-upstream origin baseline
     fi
   done
 done
