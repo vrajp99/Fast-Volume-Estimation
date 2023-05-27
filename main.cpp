@@ -1,6 +1,4 @@
-#ifndef POLYTOPE_H
 #include "polytope.h"
-#endif
 #include <iostream>
 
 int main(int argc, char *argv[]) {
@@ -11,6 +9,7 @@ int main(int argc, char *argv[]) {
 
   polytope p;
   p.readPolytope(argv[1]);
+  p.preprocess();
   cout << p.estimateVol() << '\n';
   return 0;
 }

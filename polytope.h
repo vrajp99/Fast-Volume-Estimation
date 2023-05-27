@@ -18,14 +18,15 @@ class polytope {
   mat A;
   vec b;
 
-  double initEllipsoid(vec &ori);
-  double preprocess();
-  double walk(vec &x, vec &Ax, const vector<vec> &B, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt,
-                    const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng);
+  double gamma;
+
+  const double initEllipsoid(vec &ori);
+  const double walk(vec &x, vec &Ax, const vector<vec> &B, const mat &A_negrecp, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const;
 
 public:
   polytope(){};
-  double estimateVol();
+  void preprocess();
+  const double estimateVol() const;
   void readPolytope(const char *const filename);
 };
 
