@@ -176,9 +176,39 @@ const double polytope::estimateVol() const
   // Precomputing the reciprocal of elements in A
   mat A_negrecp = -1.0 / A;
 
-  for (size_t i = 0; i < n; ++i){
-    B[i] = -b % A_negrecp.col(i);
+  // for (size_t i = 0; i < n; ++i){
+  //   B[i] = -b % A_negrecp.col(i);
+  // }
+
+  size_t cl;
+  size_t rw;
+
+  const double *b_ptr = b.memptr();
+  __m256d sign_flip = _mm256_set1_pd(-1);
+ 
+  for (cl = 0; cl < n; cl++){
+    cout<<"IN: Col: "<<cl;
+    //double *B_ptr = B[cl].memptr(); This causes segfault :P
+    double *B_ptr = (double *)(&B[cl]);
+    double *A_rcp_ptr = A_negrecp.colptr(cl);
+    __m256d A_rcp_val, b_val, B_vec, B_to_store;
+    
+    for (rw = 0; rw < (m / N_VEC) * N_VEC; rw += N_VEC){
+      b_val = _mm256_loadu_pd(b_ptr + rw);
+      b_val = _mm256_mul_pd(b_val, sign_flip);
+      A_rcp_val = _mm256_loadu_pd(A_rcp_ptr + rw);
+      B_to_store = _mm256_mul_pd(b_val, A_rcp_val);
+      B_vec = _mm256_loadu_pd(B_ptr + rw);
+      _mm256_storeu_pd(B_ptr + rw, B_to_store);
+    }
+    for (rw = (m / N_VEC) * N_VEC; rw < m; rw++){
+      B[cl][rw] = -b[rw]*A_negrecp.col(cl)[rw];
+    }
   }
+  cout<<"Did we exit?";
+  return 2;
+
+  cout<<"M: "<<m<<" "<<"N: "<<n<<" "<<b.n_elem<<" "<<A_negrecp.col(0).n_elem<<"\n";
 
 
   // Precomputing radii
