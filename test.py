@@ -29,7 +29,8 @@ print(f'{colors.OKGREEN}Build complete.{colors.ENDC}')
 def run_test(fname, ans):
     print(f"{fname}: ", end="")
     try:
-        out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True, check=True).stdout.decode('utf-8')) 
+        out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True, check=True).stdout.decode('utf-8'))
+        print(f"Output: {out} Answer:{ans}") 
         if not abs(out - ans) <= tol * max(out, ans):
             print(f"{colors.FAIL}Failed{colors.ENDC}")
             print(f"{colors.WARNING}Error : {fname}, expected : {ans}, output : {out}{colors.ENDC}")
