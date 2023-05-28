@@ -63,7 +63,7 @@ static const double norm_2(double* x, size_t n)
 static const double unitBallVol(size_t n)
 {
   // Added a DP-Like structure, avoid function calls.
-  vector <double> vol(n + 1);
+  double vol[n + 1];
 
   vol[0] = 1;
   vol[1] = 2;
@@ -75,7 +75,7 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const double polytope::walk(double* x, vec &Ax, const double* B, const mat& A_negrecp, const __m256d* Agt,  const __m256d* Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const double polytope::walk(double* x, double *Ax, const double* B, const mat& A_negrecp, const __m256d* Agt,  const __m256d* Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % n);
@@ -90,11 +90,11 @@ const double polytope::walk(double* x, vec &Ax, const double* B, const mat& A_ne
 
   vec A_dir = A.col(dir), A_negrecp_dir = A_negrecp.col(dir);
   const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp.colptr(dir), *A_dir_ptr = A.colptr(dir);
-  double *bound_ptr = bound, *Ax_ptr = Ax.memptr();
+  double *bound_ptr = bound, *Ax_ptr = Ax;
 
   for (size_t i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC){
     __m256d A_negrecp_dir_vec = _mm256_loadu_pd(A_negrecp_dir_ptr + i);
-    __m256d Ax_vec = _mm256_loadu_pd(Ax_ptr + i);
+    __m256d Ax_vec = _mm256_load_pd(Ax_ptr + i);
     __m256d B_vec = _mm256_loadu_pd(B_ptr + i);
     __m256d result = _mm256_fmadd_pd(Ax_vec, A_negrecp_dir_vec, B_vec);
     _mm256_store_pd(bound_ptr + i, result);
@@ -135,10 +135,10 @@ const double polytope::walk(double* x, vec &Ax, const double* B, const mat& A_ne
   
   __m256d randval_vec = _mm256_set1_pd(randval); 
   for (size_t i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC){
-    __m256d Ax_vec = _mm256_loadu_pd(Ax_ptr + i);
+    __m256d Ax_vec = _mm256_load_pd(Ax_ptr + i);
     __m256d A_dir_vec = _mm256_loadu_pd(A_dir_ptr + i);
     __m256d result = _mm256_fmadd_pd(randval_vec, A_dir_vec, Ax_vec);
-    _mm256_storeu_pd(Ax_ptr + i, result);
+    _mm256_store_pd(Ax_ptr + i, result);
   }
 
   // Cleanup code
@@ -168,10 +168,12 @@ const double polytope::estimateVol() const
   // Move factor computation outside.
   double factor = pow(2.0, -1.0 / n);
 
-  // Precomputing Ai and B
+  // Initialization of Ax and B
   double* B = (double *) aligned_alloc(32, n*m*sizeof(double));
-  vec Ax(m);
-  Ax.zeros();
+  double* Ax = (double *) aligned_alloc(32, ((m*sizeof(double))/32 + 1)*32);
+  memset((void *)Ax,0,((m*sizeof(double))/32 + 1)*32);
+
+  // Ax.zeros();
 
 
   // Precomputing the reciprocal of elements in A
@@ -213,7 +215,6 @@ const double polytope::estimateVol() const
 
 
   // Precomputing vectorization mask
-  // vector < vector < __m256d > >  Agt(n), Alt(n);
   __m256d* Agt = (__m256d*) aligned_alloc(sizeof(__m256d),(m / N_VEC)*n*sizeof(__m256d));
   __m256d* Alt = (__m256d*) aligned_alloc(sizeof(__m256d),(m / N_VEC)*n*sizeof(__m256d));
   const __m256d zeros = _mm256_setzero_pd();
@@ -276,10 +277,18 @@ const double polytope::estimateVol() const
       temp = _mm256_mul_pd(x_vec, factor_vec);
       _mm256_store_pd(x_ptr + i, temp);
     }
-    for (i = (n / N_VEC) * N_VEC; i < n; i++){
-      x[i]*=factor;
+    for (; i < n; i++){
+      x[i] *= factor;
     }
-    Ax *= factor;
+    __m256d Ax_vec, Ax_fact;
+    for (i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC) {
+      Ax_vec = _mm256_load_pd(Ax + i);
+      Ax_fact = _mm256_mul_pd(Ax_vec, factor_vec);
+      _mm256_store_pd(Ax + i, Ax_fact);
+    }
+    for (; i < m; i++){
+      Ax[i] *= factor;
+    }
   }
 
   res *= unitBallVol(n);
