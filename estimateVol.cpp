@@ -140,10 +140,8 @@ const double polytope::walk(double* x, double *Ax, const double* B, const mat& A
     __m256d result = _mm256_fmadd_pd(randval_vec, A_dir_vec, Ax_vec);
     _mm256_store_pd(Ax_ptr + i, result);
   }
-
   // Cleanup code
-  for (size_t i = (m / N_VEC) * N_VEC; i < m; i++)
-  {
+  for (size_t i = (m / N_VEC) * N_VEC; i < m; i++){
     Ax[i] += A_dir[i] * randval;
   }
   
@@ -185,12 +183,12 @@ const double polytope::estimateVol() const
   const double *b_ptr = b.memptr();
   __m256d sign_flip = _mm256_set1_pd(-1);
  
-  for (cl = 0; cl < n; cl++){
+  for (cl = 0; cl < n; cl++) {
     double *B_ptr = B + m * cl;
     double *A_rcp_ptr = A_negrecp.colptr(cl);
     __m256d A_rcp_val, b_val, B_to_store;
     
-    for (rw = 0; rw < (m / N_VEC) * N_VEC; rw += N_VEC){
+    for (rw = 0; rw < (m / N_VEC) * N_VEC; rw += N_VEC) {
       b_val = _mm256_loadu_pd(b_ptr + rw);
       // Arma -- Change b to aligned.
       b_val = _mm256_mul_pd(b_val, sign_flip);
@@ -199,8 +197,8 @@ const double polytope::estimateVol() const
       B_to_store = _mm256_mul_pd(b_val, A_rcp_val);
       _mm256_storeu_pd(B_ptr + rw, B_to_store);
     }
-    for (rw = (m / N_VEC) * N_VEC; rw < m; rw++){
-      B[m *cl + rw] = -b[rw]*A_negrecp.col(cl)[rw];
+    for (rw = (m / N_VEC) * N_VEC; rw < m; rw++) {
+      B[m * cl + rw] = -b[rw] * A_negrecp.col(cl)[rw];
     }
   }
 
@@ -271,8 +269,7 @@ const double polytope::estimateVol() const
     __m256d factor_vec = _mm256_set1_pd(factor);
     __m256d x_vec, temp;
 
-    for (i = 0; i < (n / N_VEC) * N_VEC; i += N_VEC){
-      // Modify to have aligned loads
+    for (i = 0; i < (n / N_VEC) * N_VEC; i += N_VEC) {
       x_vec = _mm256_load_pd(x_ptr + i);
       temp = _mm256_mul_pd(x_vec, factor_vec);
       _mm256_store_pd(x_ptr + i, temp);
