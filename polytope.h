@@ -21,7 +21,7 @@ class polytope {
   double gamma;
 
   const double initEllipsoid(vec &ori);
-  const double walk(vec &x, vec &Ax, const vector<vec> &B, const mat &A_negrecp, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const;
+  const double walk(vec &x, vec &Ax, const double* B, const mat &A_negrecp, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const;
 
 public:
   polytope(){};

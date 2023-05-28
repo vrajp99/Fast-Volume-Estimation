@@ -73,7 +73,7 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const mat& A_negrecp, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const double polytope::walk(vec &x, vec &Ax, const double* B, const mat& A_negrecp, const vector < vector < __m256d > >& Agt,  const vector < vector < __m256d > >& Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % n);
@@ -88,7 +88,7 @@ const double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const mat& A_
 
   vec A_dir = A.col(dir), A_negrecp_dir = A_negrecp.col(dir);
   vec bound(m);
-  const double *B_ptr = B[dir].memptr(), *A_negrecp_dir_ptr = A_negrecp.colptr(dir), *A_dir_ptr = A.colptr(dir);
+  const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp.colptr(dir), *A_dir_ptr = A.colptr(dir);
   double *bound_ptr = bound.memptr(), *Ax_ptr = Ax.memptr();
 
   for (size_t i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC){
@@ -101,7 +101,7 @@ const double polytope::walk(vec &x, vec &Ax, const vector<vec> &B, const mat& A_
   }
   for (size_t i = (m / N_VEC) * N_VEC ; i < m; i++)
   {
-    bound[i] = B[dir][i] + (Ax[i] * A_negrecp_dir[i]);
+    bound[i] = B[m * dir + i] + (Ax[i] * A_negrecp_dir[i]);
   }
 
   
@@ -168,7 +168,7 @@ const double polytope::estimateVol() const
   double factor = pow(2.0, -1.0 / n);
 
   // Precomputing Ai and B
-  vector<vec> B(n);
+  double* B = (double *) aligned_alloc(32, n*m*sizeof(double));
   vec Ax(m);
   Ax.zeros();
 
@@ -178,7 +178,7 @@ const double polytope::estimateVol() const
 
   // for (size_t i = 0; i < n; ++i){
   //   B[i] = -b % A_negrecp.col(i);
-  // }
+  // }vector<vec> B(n);
 
   size_t cl;
   size_t rw;
@@ -187,9 +187,7 @@ const double polytope::estimateVol() const
   __m256d sign_flip = _mm256_set1_pd(-1);
  
   for (cl = 0; cl < n; cl++){
-    cout<<"IN: Col: "<<cl;
-    //double *B_ptr = B[cl].memptr(); This causes segfault :P
-    double *B_ptr = (double *)(&B[cl]);
+    double *B_ptr = B + m * cl;
     double *A_rcp_ptr = A_negrecp.colptr(cl);
     __m256d A_rcp_val, b_val, B_vec, B_to_store;
     
@@ -198,17 +196,12 @@ const double polytope::estimateVol() const
       b_val = _mm256_mul_pd(b_val, sign_flip);
       A_rcp_val = _mm256_loadu_pd(A_rcp_ptr + rw);
       B_to_store = _mm256_mul_pd(b_val, A_rcp_val);
-      B_vec = _mm256_loadu_pd(B_ptr + rw);
       _mm256_storeu_pd(B_ptr + rw, B_to_store);
     }
     for (rw = (m / N_VEC) * N_VEC; rw < m; rw++){
-      B[cl][rw] = -b[rw]*A_negrecp.col(cl)[rw];
+      B[m *cl + rw] = -b[rw]*A_negrecp.col(cl)[rw];
     }
   }
-  cout<<"Did we exit?";
-  return 2;
-
-  cout<<"M: "<<m<<" "<<"N: "<<n<<" "<<b.n_elem<<" "<<A_negrecp.col(0).n_elem<<"\n";
 
 
   // Precomputing radii
