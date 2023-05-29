@@ -209,7 +209,7 @@ const double polytope::estimateVol() const
   // Replace Power with Just Multiplication at Each Loop
   r2[0] = 1;
   for (long i = 1; i <= l; ++i)
-    r2[i] = pow_precomputed*r2[i - 1];
+    r2[i] = pow_precomputed * r2[i - 1];
 
 
   // Precomputing vectorization mask
@@ -257,7 +257,7 @@ const double polytope::estimateVol() const
     count = vec_hadd(count_vec);
     // Clean Up Loop
     for(; i <= (size_t)k; i++){
-      count+=t[i];
+      count += t[i];
     }
     // Alpha has to be >= 1
     count = count > step_sz ? step_sz : count;
