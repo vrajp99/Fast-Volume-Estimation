@@ -22,5 +22,9 @@ debug: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 clang: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 	$(CLANG) $(CXXFLAGS) -std=c++20 -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
 
+onefile: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp onefiler.py
+	python3 onefiler.py
+	$(CXX) $(CXXFLAGS) -o polyvol_onefile polyvol_single_file.cpp $(LIB_FLAGS)
+
 clean:
 	rm -f polyvol
