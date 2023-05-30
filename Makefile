@@ -32,6 +32,8 @@ pgo_measure: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 	$(CXX) $(CXXFLAGS) $(PGO_MEASURE) -o polyvol_pgo main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
 
 pgo_measure_run: pgo_measure
+	./polyvol_pgo ./tests/cube_1
+	./polyvol_pgo ./tests/cube_3
 	./polyvol_pgo ./tests/cube_20
 	./polyvol_pgo ./tests/cube_30
 	./polyvol_pgo ./tests/cube_40
@@ -50,6 +52,10 @@ pgo_measure_run: pgo_measure
 	./polyvol_pgo ./tests/cuboid_8
 	./polyvol_pgo ./tests/cuboid_9
 	./polyvol_pgo ./tests/cuboid_10
+	./polyvol_pgo ./tests/cuboid_30
+	./polyvol_pgo ./tests/cuboid_50
+	./polyvol_pgo ./tests/cuboid_70
+	./polyvol_pgo ./tests/cuboid_80
 
 
 
