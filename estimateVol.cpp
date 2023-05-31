@@ -6,6 +6,7 @@
 // Specifies how many data types (float or double) fit into one vector register
 const size_t N_VEC = 4;
 double* bound;
+#define align_pad(sz) (((sz)*sizeof(double))/32 + 1)*32
 
 static inline
 // Takes a vector, and computes the sum of the individual elements of the vector.
@@ -75,7 +76,7 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const double polytope::walk(double* x, double *Ax, const double* B, const mat& A_negrecp, const __m256d* Agt,  const __m256d* Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const double polytope::walk(double* x, double *Ax, const double* B, const double* A_negrecp, const __m256d* Agt,  const __m256d* Alt, const double rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % n);
@@ -88,8 +89,10 @@ const double polytope::walk(double* x, double *Ax, const double* B, const mat& A
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
 
-  vec A_dir = A.col(dir), A_negrecp_dir = A_negrecp.col(dir);
-  const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp.colptr(dir), *A_dir_ptr = A.colptr(dir);
+  vec A_dir = A.col(dir);
+  // const double *A_negrecp_dir = A_negrecp + m * dir;
+  // A_negrecp.col(dir);
+  const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp + m*dir, *A_dir_ptr = A.colptr(dir);
   double *bound_ptr = bound, *Ax_ptr = Ax;
 
   for (size_t i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC){
@@ -101,7 +104,7 @@ const double polytope::walk(double* x, double *Ax, const double* B, const mat& A
   }
   for (size_t i = (m / N_VEC) * N_VEC ; i < m; i++)
   {
-    bound[i] = B[m * dir + i] + (Ax[i] * A_negrecp_dir[i]);
+    bound[i] = B[m * dir + i] + (Ax[i] * A_negrecp_dir_ptr[i]);
   }
 
   
@@ -153,43 +156,65 @@ const double polytope::estimateVol() const
   // Re Declaring it Here -- Also no need to initialize Alpha Array
   double res = gamma;
   // Moved this from the bottom, got rid of the alpha array - avoid memory accesses full
-
+  
   long l = ceill(n * log2(2 * n));
   long step_sz = 1600 * l;
   long count = 0;
-  double* x = (double *) aligned_alloc(32, ((n*sizeof(double))/32 + 1)*32);
-  memset((void *)x,0,((n*sizeof(double))/32 + 1)*32);
+  double* x = (double *) aligned_alloc(32, align_pad(n));
+  memset((void *)x,0,align_pad(n));
   // long t[l + 1];
-  double* t = (double *) aligned_alloc(32, (((l+1)*sizeof(double))/32 + 1)*32);
-  memset((void *)t,0,(((l+1)*sizeof(double))/32 + 1)*32);
-  bound = (double *) aligned_alloc(32, (((m)*sizeof(double))/32 + 1)*32);
+  double* t = (double *) aligned_alloc(32, align_pad(l+1));
+  memset((void *)t,0,align_pad(l+1));
+  bound = (double *) aligned_alloc(32, align_pad(m));
   // Move factor computation outside.
   double factor = pow(2.0, -1.0 / n);
 
   // Initialization of Ax and B
-  double* B = (double *) aligned_alloc(32, n*m*sizeof(double));
-  double* Ax = (double *) aligned_alloc(32, ((m*sizeof(double))/32 + 1)*32);
-  memset((void *)Ax,0,((m*sizeof(double))/32 + 1)*32);
+  double* B = (double *) aligned_alloc(32, align_pad(n*m));
+  double* Ax = (double *) aligned_alloc(32, align_pad(m));
+  memset((void *)Ax,0,align_pad(m));
 
   // Ax.zeros();
+  // Initialize b and A here
+  double *b_arr = (double *) aligned_alloc(32, align_pad(m));
+  double *A_arr = (double *) aligned_alloc(32, align_pad(m*n));
+  double *A_negrecp = (double *) aligned_alloc(32, align_pad(m*n));
 
+  
+  memcpy(b_arr, b.memptr(), m*sizeof(double));
+  memcpy(A_arr, A.memptr(), m*n*sizeof(double));
+  
+  
 
   // Precomputing the reciprocal of elements in A
-  mat A_negrecp = -1.0 / A;
+  // mat A_negrecp = -1.0 / A;
+
+  size_t i;
+  __m256d sign_flip = _mm256_set1_pd(-1);
+  for (i = 0; i < (m * n) / N_VEC; i+=N_VEC){
+    __m256d A_vec = _mm256_load_pd(A_arr + i);
+    __m256d temp = _mm256_div_pd(sign_flip, A_vec);
+    _mm256_store_pd(A_negrecp + i, temp);
+  }
+
+  // Cleanup Loop
+  for (; i < (m*n); i++){
+    A_negrecp[i] = -1 / A_arr[i];
+  }
+  
 
   size_t cl;
   size_t rw;
 
-  const double *b_ptr = b.memptr();
-  __m256d sign_flip = _mm256_set1_pd(-1);
- 
+  const double *b_ptr = b_arr;
+  double *A_rcp_ptr = A_negrecp;
+  double *B_ptr = B;
+
   for (cl = 0; cl < n; cl++) {
-    double *B_ptr = B + m * cl;
-    double *A_rcp_ptr = A_negrecp.colptr(cl);
+    // .colptr(cl);
     __m256d A_rcp_val, b_val, B_to_store;
-    
     for (rw = 0; rw < (m / N_VEC) * N_VEC; rw += N_VEC) {
-      b_val = _mm256_loadu_pd(b_ptr + rw);
+      b_val = _mm256_load_pd(b_ptr + rw);
       // Arma -- Change b to aligned.
       b_val = _mm256_mul_pd(b_val, sign_flip);
       A_rcp_val = _mm256_loadu_pd(A_rcp_ptr + rw);
@@ -197,19 +222,23 @@ const double polytope::estimateVol() const
       B_to_store = _mm256_mul_pd(b_val, A_rcp_val);
       _mm256_storeu_pd(B_ptr + rw, B_to_store);
     }
+
     for (rw = (m / N_VEC) * N_VEC; rw < m; rw++) {
-      B[m * cl + rw] = -b[rw] * A_negrecp.col(cl)[rw];
+      *(B_ptr + rw) = -b[rw] * A_rcp_ptr[rw];
     }
+    B_ptr += m;
+    A_rcp_ptr += m;
+
   }
 
 
   // Precomputing radii
-  double* r2  = (double *) aligned_alloc(32, (((l+1)*sizeof(double))/32 + 1)*32);
+  double* r2  = (double *) aligned_alloc(32, align_pad(l+1));
   double pow_precomputed = pow ((double) 2.0, (double) 2.0 / n);
   // Replace Power with Just Multiplication at Each Loop
   r2[0] = 1;
   for (long i = 1; i <= l; ++i)
-    r2[i] = pow_precomputed*r2[i - 1];
+    r2[i] = pow_precomputed * r2[i - 1];
 
 
   // Precomputing vectorization mask
@@ -257,7 +286,7 @@ const double polytope::estimateVol() const
     count = vec_hadd(count_vec);
     // Clean Up Loop
     for(; i <= (size_t)k; i++){
-      count+=t[i];
+      count += t[i];
     }
     // Alpha has to be >= 1
     count = count > step_sz ? step_sz : count;
