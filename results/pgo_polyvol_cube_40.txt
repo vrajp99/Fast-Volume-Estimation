@@ -1,0 +1,12 @@
+# started on Wed May 31 11:01:08 2023
+
+
+ Performance counter stats for './executables/pgo_polyvol reduced_examples/cube_40' (5 runs):
+
+       304’567’996      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+     7’106’653’565      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+     1’502’146’069      fp_arith_inst_retired.scalar_double                                     ( +-  0.00% )
+    32’984’639’867      cycles                                                        ( +-  0.68% )
+
+            17.145 +- 0.141 seconds time elapsed  ( +-  0.82% )
+

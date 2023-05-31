@@ -1,0 +1,12 @@
+# started on Wed May 31 11:30:39 2023
+
+
+ Performance counter stats for './executables/aligned-vec_polyvol reduced_examples/cube_2' (5 runs):
+
+           111’800      fp_arith_inst_retired.128b_packed_double                                   
+            83’838      fp_arith_inst_retired.256b_packed_double                                   
+           374’875      fp_arith_inst_retired.scalar_double                                   
+        40’925’316      cycles                                                        ( +-  9.94% )
+
+          0.019218 +- 0.000887 seconds time elapsed  ( +-  4.61% )
+

@@ -1,0 +1,12 @@
+# started on Wed May 31 11:02:39 2023
+
+
+ Performance counter stats for './executables/onefile_polyvol reduced_examples/cube_15' (5 runs):
+
+        51’654’667      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.02% )
+       206’615’675      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.02% )
+       140’275’330      fp_arith_inst_retired.scalar_double                                     ( +-  0.02% )
+     3’164’396’913      cycles                                                        ( +-  0.88% )
+
+           1.06578 +- 0.00827 seconds time elapsed  ( +-  0.78% )
+

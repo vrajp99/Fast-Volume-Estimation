@@ -4,9 +4,9 @@ import numpy as np
 import seaborn as sns
 
 # global variables
-BASELINE = "polyvest"
-EXECUTABLES = ["vectorization", "xoshiro-rng", "basic-opt", "fast-linalg", "vecplusextraoptim"]
-TEST_CASES =["cube_20", "cube_40"]
+BASELINE = "baseline"
+EXECUTABLES = ["basic-opt", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision",]
+TEST_CASES =["cube_10", "cube_20", "cube_40"]
 COMPARE = "time"  # or "cycles"
 
 def get_statistic(filename, statistic_type):
@@ -59,7 +59,7 @@ def create_plot(data):
     plt.rcParams.update({'font.size': 14})
 
     # Save the figure in higher resolution
-    plt.savefig(f'speedup_plots/speedup_over_{BASELINE}_{COMPARE}.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'plots/speedup_plots/speedup_over_{BASELINE}_{COMPARE}.png', bbox_inches='tight', dpi=300)
 
 def main():
     data = {exe: [] for exe in EXECUTABLES}
