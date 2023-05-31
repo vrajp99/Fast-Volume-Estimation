@@ -5,7 +5,7 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
-BRANCHES = ["vecplusextraoptim", "preoptvec", "vecplusextraoptim", "fast-linalg"]
+BRANCHES = ["vecplusoptim", "preoptvec", "onefile", "pgo", "reduce_precision", "aligned_vec"]
 TEST_DIR = "reduced_examples"
 RESULTS_DIR = "results"
 
