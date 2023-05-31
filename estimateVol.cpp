@@ -7,6 +7,7 @@
 const size_t N_VEC = 4;
 double* bound;
 #define align_pad(sz) (((sz)*sizeof(double))/32 + 1)*32
+double* A_arr;
 
 static inline
 // Takes a vector, and computes the sum of the individual elements of the vector.
@@ -89,10 +90,10 @@ const double polytope::walk(double* x, double *Ax, const double* B, const double
   r = sqrt(rk - C);
   max = r - x[dir], min = -r - x[dir];
 
-  vec A_dir = A.col(dir);
+  double* A_dir = A_arr + m*dir;
   // const double *A_negrecp_dir = A_negrecp + m * dir;
   // A_negrecp.col(dir);
-  const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp + m*dir, *A_dir_ptr = A.colptr(dir);
+  const double *B_ptr = B + m * dir, *A_negrecp_dir_ptr = A_negrecp + m*dir, *A_dir_ptr = A_dir;
   double *bound_ptr = bound, *Ax_ptr = Ax;
 
   for (size_t i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC){
@@ -177,7 +178,7 @@ const double polytope::estimateVol() const
   // Ax.zeros();
   // Initialize b and A here
   double *b_arr = (double *) aligned_alloc(32, align_pad(m));
-  double *A_arr = (double *) aligned_alloc(32, align_pad(m*n));
+  A_arr = (double *) aligned_alloc(32, align_pad(m*n));
   double *A_negrecp = (double *) aligned_alloc(32, align_pad(m*n));
 
   
@@ -245,9 +246,9 @@ const double polytope::estimateVol() const
   __m256d* Agt = (__m256d*) aligned_alloc(sizeof(__m256d),(m / N_VEC)*n*sizeof(__m256d));
   __m256d* Alt = (__m256d*) aligned_alloc(sizeof(__m256d),(m / N_VEC)*n*sizeof(__m256d));
   const __m256d zeros = _mm256_setzero_pd();
+  double* A_ptr = A_arr;
   for (size_t i = 0, ii = 0; i < n; i++, ii+=(m / N_VEC))
   {
-    const double *A_ptr = A.colptr(i);
     // Column Pointer -- Need aligned allocate for A? 
     for (size_t j = 0, jj = 0; j < m / N_VEC; j++, jj+=N_VEC)
     {
@@ -256,6 +257,7 @@ const double polytope::estimateVol() const
       Agt[ii + j] = _mm256_cmp_pd(aa, zeros, _CMP_GT_OQ);
       Alt[ii + j] = _mm256_cmp_pd(aa, zeros, _CMP_LT_OQ);
     }
+    A_ptr += m;
   }
 
   // Random Generator
