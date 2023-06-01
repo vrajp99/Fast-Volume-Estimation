@@ -15,3 +15,6 @@ team29.advixeproj
 *.dflgadvixe
 *.infoadvixe
 advisor_scripts/
+
+# other scripts
+sudo_stay_validated.sh
