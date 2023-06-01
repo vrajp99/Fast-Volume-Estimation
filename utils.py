@@ -172,3 +172,13 @@ def load_data(path):
     with open(path, 'r') as fp:
         data = json.load(fp)
     return data
+
+
+def format_number(n, threshold=100000):
+    """Format number as float or in scientific notation, based on a threshold."""
+    return '{:.2e}'.format(n) if abs(n) >= threshold else '{:.2f}'.format(n)
+
+
+def extract_number_table(filename):
+    match = re.search(r'\d+', filename)
+    return int(match.group()) if match else float('inf')
