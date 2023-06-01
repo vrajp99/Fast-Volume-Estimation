@@ -84,14 +84,14 @@ static const float norm_2(float* x, size_t n)
   return norm;
 }
 
-static const double unitBallVol(size_t n)
+static const float unitBallVol(size_t n)
 {
   // Added a DP-Like structure, avoid function calls.
-  double vol[n + 1];
+  float vol[n + 1];
 
   vol[0] = 1;
   vol[1] = 2;
-  double scale = (2 * M_PI);
+  float scale = (2 * M_PI);
   for (size_t i = 2; i < n + 1; i++)
   {
     vol[i] = (scale / i) * vol[i - 2];
@@ -303,7 +303,7 @@ const double polytope::estimateVol() const
         t[0]++;
       } else if (x_norm <= r2[k]) {
         // Change divide by 2 to multiply by 0.5
-        long m = ceill(((double)n) * 0.5 * log2(x_norm));
+        long m = ceill(((float)n) * 0.5 * log2(x_norm));
         t[m]++;
         assert(m <= k);
       }
