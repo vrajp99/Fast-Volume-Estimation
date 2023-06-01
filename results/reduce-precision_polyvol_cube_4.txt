@@ -1,0 +1,12 @@
+# started on Thu Jun  1 22:28:59 2023
+
+
+ Performance counter stats for './executables/reduce-precision_polyvol cube_tests/cube_4' (5 runs):
+
+                 2      fp_arith_inst_retired.128b_packed_double                                   
+               169      fp_arith_inst_retired.256b_packed_double                                   
+           508’597      fp_arith_inst_retired.scalar_double                                   
+        18’381’514      cycles                                                        ( +-  3.96% )
+
+          0.009721 +- 0.000434 seconds time elapsed  ( +-  4.46% )
+

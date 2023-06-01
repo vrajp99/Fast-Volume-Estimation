@@ -1,0 +1,12 @@
+# started on Thu Jun  1 22:39:01 2023
+
+
+ Performance counter stats for './executables/onefile_polyvol cube_tests/cube_6' (5 runs):
+
+         1’832’724      fp_arith_inst_retired.128b_packed_double                                   
+         4’581’842      fp_arith_inst_retired.256b_packed_double                                   
+         7’347’759      fp_arith_inst_retired.scalar_double                                   
+        53’130’889      cycles                                                        ( +-  3.66% )
+
+           0.03284 +- 0.00103 seconds time elapsed  ( +-  3.12% )
+

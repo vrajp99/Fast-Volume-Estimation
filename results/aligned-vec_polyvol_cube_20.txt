@@ -1,0 +1,12 @@
+# started on Thu Jun  1 21:32:46 2023
+
+
+ Performance counter stats for './executables/aligned-vec_polyvol cube_tests/cube_20' (5 runs):
+
+        37’034’440      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.03% )
+       432’028’953      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.03% )
+       191’372’948      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+     1’440’361’834      cycles                                                        ( +-  3.44% )
+
+            0.8471 +- 0.0277 seconds time elapsed  ( +-  3.27% )
+

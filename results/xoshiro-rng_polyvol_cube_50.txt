@@ -1,0 +1,12 @@
+# started on Thu Jun  1 11:15:22 2023
+
+
+ Performance counter stats for './executables/xoshiro-rng_polyvol cube_tests/cube_50' (10 runs):
+
+        64’397’265      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+     3’284’271’202      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+   646’174’330’502      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+   534’111’384’536      cycles                                                        ( +-  0.72% )
+
+            288.89 +- 5.53 seconds time elapsed  ( +-  1.91% )
+

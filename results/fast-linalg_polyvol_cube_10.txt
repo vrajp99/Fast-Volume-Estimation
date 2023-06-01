@@ -1,0 +1,12 @@
+# started on Thu Jun  1 20:54:23 2023
+
+
+ Performance counter stats for './executables/fast-linalg_polyvol cube_tests/cube_10' (5 runs):
+
+           963’561      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.07% )
+        20’234’999      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.07% )
+        31’274’571      fp_arith_inst_retired.scalar_double                                     ( +-  0.10% )
+       469’162’208      cycles                                                        ( +-  7.27% )
+
+            0.2863 +- 0.0196 seconds time elapsed  ( +-  6.85% )
+
