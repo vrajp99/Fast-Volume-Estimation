@@ -4,9 +4,8 @@ import os
 import utils
 
 # Change these variables
-#BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove"]
-BRANCHES = ["reduce-precision", "aligned-vec"]
-TEST_DIR = "reduced_examples"
+BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "preoptvec", "onefile", "reduce_precision", "aligned_vec"]
+TEST_DIR = "cube_tests"
 RESULTS_DIR = "results"
 
 
