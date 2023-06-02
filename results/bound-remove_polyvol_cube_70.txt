@@ -1,0 +1,12 @@
+# started on Fri Jun  2 01:56:02 2023
+
+
+ Performance counter stats for './executables/bound-remove_polyvol cube_tests/cube_70' (5 runs):
+
+       148’962’288      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+    10’533’039’942      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+ 2’912’767’120’285      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+ 2’418’521’344’106      cycles                                                        ( +-  0.69% )
+
+           1331.56 +- 9.39 seconds time elapsed  ( +-  0.71% )
+

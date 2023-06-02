@@ -1,0 +1,12 @@
+# started on Fri Jun  2 07:36:58 2023
+
+
+ Performance counter stats for './executables/clang-added_polyvol cube_tests/cube_15' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+     2’879’125’053      fp_arith_inst_retired.scalar_double                                     ( +-  0.04% )
+     3’708’326’255      cycles                                                        ( +-  1.91% )
+
+            2.1129 +- 0.0402 seconds time elapsed  ( +-  1.90% )
+
