@@ -4,7 +4,7 @@ import os
 import utils
 
 # Change these variables
-BRANCHES = ["aligned-vec"]
+BRANCHES = ["polyvest"]
 TEST_DIR = "test_volume_cubes"
 RESULTS_DIR = "volumes"
 REPEATS = 10
@@ -25,7 +25,7 @@ def call_executable(executable ,n, file_name):
     # Define command to call C program with n as parameter
     perf = subprocess.Popen(("sudo", "perf", "stat", "-o", RESULTS_DIR+"/"+executable.split("/")[-1]+"_"+file_name+".txt", "-e",
                "fp_arith_inst_retired.128b_packed_double,fp_arith_inst_retired.256b_packed_double,fp_arith_inst_retired.scalar_double,cycles",
-               "-r", str(REPEATS), "./"+executable, str(n)), stdout=subprocess.PIPE)
+               "-r", str(REPEATS), "./"+executable, str(n), str(1600)), stdout=subprocess.PIPE)
     output = subprocess.check_output(("tee", "volumes/"+"volumes_"+executable.split("/")[-1]+"|"+file_name+".log"), stdin=perf.stdout)
     perf.wait()
     # Decode output from bytes to string

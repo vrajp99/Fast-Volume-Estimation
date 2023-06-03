@@ -1,0 +1,12 @@
+# started on Thu Jun  1 02:28:13 2023
+
+
+ Performance counter stats for './executables/baseline_polyvol cube_tests/cube_2' (10 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+         1’668’154      fp_arith_inst_retired.scalar_double                                   
+        15’728’667      cycles                                                        ( +-  7.78% )
+
+          0.012740 +- 0.000702 seconds time elapsed  ( +-  5.51% )
+

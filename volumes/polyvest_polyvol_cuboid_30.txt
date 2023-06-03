@@ -1,0 +1,12 @@
+# started on Sat Jun  3 00:26:48 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol test_volume_cubes/cuboid_30 1600' (10 runs):
+
+             1’440      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+    94’522’889’565      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+    89’202’173’597      cycles                                                        ( +-  0.61% )
+
+            49.780 +- 0.301 seconds time elapsed  ( +-  0.60% )
+

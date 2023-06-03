@@ -1,8 +1,8 @@
 polyvol
 .vscode/**
 sde-external-9.21.1-2023-04-24-lin*
-executables/
-libopenblas_executables
+#executables/
+#libopenblas_executables
 examples/
 reduced_examples/
 config/

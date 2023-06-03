@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\renewcommand\theadfont{\scriptsize}
+\begin{document}
+\title{CI for volumes\_aligned\-vec}
+\maketitle
+\begin{table}[ht]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{Xlllll}
+\toprule
+\thead[l]{Test} & \thead[l]{Avg. vol \\ $\hat{v}$} &\thead[l]{Std Dev \\ $\sigma$} & \thead[l]{95\% CI \\ $\mathcal{I}=[p,q]$} & \thead[l]{Freq on \\ $\mathcal{I}$} & \thead[l]{Error \\ $\epsilon = \frac{q-p}{\hat{v}}$} \\
+\midrule
+cube\_5 & 33.58 &             0.47 & [33.22, 33.93] &                 0.00 & 0.02 \\
+cuboid\_10 & 52272.63 &             875.91 & [51612.15, 52933.11] &                 0.90 & 0.03 \\
+cube\_10 & 1033.93 &             41.66 & [1002.51, 1065.34] &                 0.80 & 0.06 \\
+cube\_20 & 1.06e+06 &             31925.68 & [1.04e+06, 1.08e+06] &                 0.40 & 0.05 \\
+cuboid\_20 & 5.25e+07 &             1.02e+06 & [5.17e+07, 5.32e+07] &                 0.80 & 0.03 \\
+cuboid\_30 & 5.37e+10 &             2.22e+09 & [5.20e+10, 5.54e+10] &                 0.40 & 0.06 \\
+cube\_30 & 1.07e+09 &             3.54e+07 & [1.04e+09, 1.10e+09] &                 0.50 & 0.05 \\
+cube\_40 & 1.09e+12 &             3.15e+10 & [1.07e+12, 1.12e+12] &                 0.40 & 0.04 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\end{document}

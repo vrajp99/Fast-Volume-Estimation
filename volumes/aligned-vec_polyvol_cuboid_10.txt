@@ -1,0 +1,12 @@
+# started on Thu Jun  1 14:22:45 2023
+
+
+ Performance counter stats for './executables/aligned-vec_polyvol test_volume_cubes/cuboid_10' (10 runs):
+
+         3’480’880      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.04% )
+        14’387’424      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.04% )
+        16’808’895      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+        92’298’684      cycles                                                        ( +-  6.66% )
+
+           0.06343 +- 0.00425 seconds time elapsed  ( +-  6.71% )
+

@@ -4,7 +4,9 @@ import os
 import utils
 
 # Change these variables
-BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "preoptvec", "onefile", "reduce_precision", "aligned_vec"]
+#BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
+BRANCHES = ["polyvest"]
+#BRANCHES = ["aligned-vec", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision"]
 TEST_DIR = "cube_tests"
 RESULTS_DIR = "results"
 
@@ -21,15 +23,20 @@ def call_executable(executable ,n, file_name):
     Returns:
         result: The result of the program's execution.
     """
+    print("Measuring performance on ", file_name)
     # Define command to call C program with n as parameter
     command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt", "-e",
                "fp_arith_inst_retired.128b_packed_double,fp_arith_inst_retired.256b_packed_double,fp_arith_inst_retired.scalar_double,cycles",
-               "-r", "5", "./"+executable, str(n)]
+               "-r", "5", "./"+executable, str(n), str(1600)]
     # Execute command and capture output
-    output = subprocess.check_output(command)
+    try:
+        output = subprocess.check_output(command)
+    except subprocess.CalledProcessError as e:
+        print("Error: ", e.output)
+        return None
     # Decode output from bytes to string
     output_str = output.decode('utf-8').strip()
-    print(output_str.split())
+    #print(output_str.split())
     return float(output_str.split('\n')[-1])
 
 
