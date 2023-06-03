@@ -1,0 +1,12 @@
+# started on Sat Jun  3 02:21:15 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol cube_tests/cube_60 1600' (5 runs):
+
+           422’912      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+ 2’012’792’886’106      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+ 1’460’532’761’114      cycles                                                        ( +-  0.66% )
+
+            828.14 +- 5.46 seconds time elapsed  ( +-  0.66% )
+

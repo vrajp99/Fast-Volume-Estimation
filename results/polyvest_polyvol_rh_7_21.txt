@@ -1,0 +1,12 @@
+# started on Sat Jun  3 01:04:52 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol random_polytopes/rh_7_21 1600' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+       221’167’855      fp_arith_inst_retired.scalar_double                                     ( +-  0.10% )
+       536’726’487      cycles                                                        ( +-  4.38% )
+
+            0.3246 +- 0.0133 seconds time elapsed  ( +-  4.10% )
+

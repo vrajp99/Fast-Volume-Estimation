@@ -1,0 +1,12 @@
+# started on Sat Jun  3 01:00:39 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol tests/simplex_9 1600' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+            19’457      fp_arith_inst_retired.scalar_double                                   
+         7’080’904      cycles                                                        ( +-  8.09% )
+
+           0.00864 +- 0.00182 seconds time elapsed  ( +- 21.12% )
+
