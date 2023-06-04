@@ -1,11 +1,17 @@
 import os
 import numpy as np
 import scipy.stats as stats
-import re
 import utils
 
+# Script to create a LaTeX table with the precomputed data for confidence intervals
+
+
 # Set the directory containing your log files
-DIRECTORY = "volumes"
+DIRECTORY = "volumes/polyvest_polyvol"
+#DIRECTORY = "volumes/reduce-precision_polyvol"
+#EXECUTABLE = "reduced\\_precision"
+#EXECUTABLE = "\\_aligned\\-vec"
+EXECUTABLE = "polyvest"
 
 
 # Get a list of all log files in that directory
@@ -17,9 +23,15 @@ log_files.sort(key=utils.extract_number_table)
 
 def confidence_interval(data, confidence=0.95):
     a = 1.0 * np.array(data)
+    print("a ", a)
     n = len(a)
+    print("n ", n)
+    
     m, se = np.mean(a), stats.sem(a)
+    print("m, se ", m, se)
     h = se * stats.t.ppf((1 + confidence) / 2., n-1)
+    print(stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) )
+    print(m-h, m+h)
     return m-h, m+h
 
 
@@ -32,7 +44,7 @@ latex_doc += "\\renewcommand\\theadfont{\\scriptsize}\n"
 latex_doc += "\\begin{document}\n"
 
 # Title
-executable_name = "volumes\\_aligned\\-vec"
+executable_name = EXECUTABLE
 latex_doc += "\\title{CI for " + executable_name + "}\n"
 latex_doc += "\\maketitle\n"
 
