@@ -1,0 +1,12 @@
+# started on Sat Jun  3 18:08:19 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol cube_tests/cube_9 1600' (5 runs):
+
+         3’468’111      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
+         9’248’609      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
+       413’673’000      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
+       921’628’731      cycles                                                        ( +-  3.15% )
+
+            0.5325 +- 0.0167 seconds time elapsed  ( +-  3.13% )
+
