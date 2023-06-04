@@ -5,9 +5,9 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
-BRANCHES = ["polyvest"]
+BRANCHES = ["baseline"]
 #BRANCHES = ["aligned-vec", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision"]
-TEST_DIR = "cube_tests"
+TEST_DIR = "cubes_70_80"
 RESULTS_DIR = "results"
 
 
@@ -27,13 +27,13 @@ def call_executable(executable ,n, file_name):
     # Define command to call C program with n as parameter
     command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt", "-e",
                "fp_arith_inst_retired.128b_packed_double,fp_arith_inst_retired.256b_packed_double,fp_arith_inst_retired.scalar_double,cycles",
-               "-r", "5", "./"+executable, str(n), str(1600)]
+               "-r", "5", "./"+executable, str(n)]
     # Execute command and capture output
-    try:
-        output = subprocess.check_output(command)
-    except subprocess.CalledProcessError as e:
-        print("Error: ", e.output)
-        return None
+    output = subprocess.check_output(command)
+    #try:
+    #except subprocess.CalledProcessError as e:
+    #    print("Error: ", e.output)
+    #    return None
     # Decode output from bytes to string
     output_str = output.decode('utf-8').strip()
     #print(output_str.split())

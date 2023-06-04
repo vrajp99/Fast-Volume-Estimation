@@ -15,8 +15,9 @@ e000/
 team29.advixeproj
 *.dflgadvixe
 *.infoadvixe
+*.advixeproj*
 advisor_scripts/
-
+*.~lock.*
 # other scripts
 sudo_stay_validated.sh
 document.tex

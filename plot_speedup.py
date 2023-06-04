@@ -4,9 +4,9 @@ import numpy as np
 import seaborn as sns
 
 # global variables
-BASELINE = "baseline"
-EXECUTABLES = ["basic-opt", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision",]
-TEST_CASES =["cube_10", "cube_20", "cube_40"]
+BASELINE = "polyvest"
+EXECUTABLES = ["basic-opt", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision",]
+TEST_CASES =["cube_10", "cube_30", "cube_50", "cube_70"]
 COMPARE = "time"  # or "cycles"
 
 def get_statistic(filename, statistic_type):

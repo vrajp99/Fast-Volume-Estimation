@@ -3,8 +3,10 @@ from matplotlib import cycler
 import utils
 import os
 
-BRANCHES = ["xoshiro-rng", "baseline", "basic-opt", "clang-added", "bound-remove", "polyvest", "vectorization"]
-TEST_DIR = "reduced_examples"
+BRANCHES = ["baseline", "polyvest", "basic-opt","bound-remove", "xoshiro-rng", "clang-added"] # Before fast-linalg
+#BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduced-precision"] # After fast-linalg
+TEST_DIR = "advanced_tests/cube_tests"
+
 RESULTS_DIR = "results"
 
 colors = cycler('color',['#EE6666', '#3388BB', '#9988DD','#EECC55', '#88BB44', '#FFBBBB'])
@@ -32,6 +34,7 @@ def plot_data(data, file_names):
         A list of dimensions extracted from each file name.
     """
     dimensions = [file_name.split("_")[1] for file_name in file_names]
+    print(data)
     plt.plot(dimensions, list(zip(*data.values())), label=data.keys())
     plt.xlabel('Dimensions', fontsize=12)
     plt.xticks(fontsize=12)
@@ -42,19 +45,20 @@ def plot_data(data, file_names):
             fontsize=12, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
-    plt.savefig('branches_combined_cubes.png')
-    plt.show()
+    plt.savefig(f'plots/performance_plots/performance_before_fast-linalg.png', bbox_inches='tight', dpi=300)
 
 
 def main():
+    print("Branches: ", BRANCHES)
     file_names, _ = utils.list_files_sorted(TEST_DIR)
     data = {}
     for root, _, files in os.walk(RESULTS_DIR):
         for result in files:
             if result.endswith(".json"):
-                branch = result.split("_")[0]
+                branch = result.split("_")[0].strip()
                 print("branch ", branch)
                 if branch in BRANCHES:
+                    print("branch in ", branch)
                     data[branch] = utils.load_data(os.path.join(root, result))
     plot_data(data, file_names)
 

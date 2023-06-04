@@ -29,6 +29,7 @@ plt.rcParams.update({'font.size': 14})
 try:
 
     import advisor
+    print("worked")
 
 except ImportError:
 
@@ -84,7 +85,7 @@ def roofline(name, project, scale, precision):
 
     # Get the entries into a data frame.
     df = pd.DataFrame(rows).replace("", np.nan)
-    df.to_csv("roofline_plots/"+name+".csv", sep='\t')
+    df.to_csv("plots/roofline_plots/"+name+".csv", sep='\t')
 
     df.self_ai = df.self_ai.astype(float)
     df.self_gflops = df.self_gflops.astype(float)
@@ -153,17 +154,21 @@ def roofline(name, project, scale, precision):
 
     colors = cm.viridis(np.linspace(0, 1, len(df.self_ai)))
     markers = [".",",","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_",0,1,2,3,4,5,6,7,8,9,10,11]
+    print(df.function_call_sites_and_loops[i])
+    print()
+    print(df.self_gflops[i])
     for i in range(len(df.self_ai)):
         # TODO why are main and estimateVol nan?
         if not math.isnan(df.self_ai[i]) and not math.isnan(df.self_gflops[i]):
             ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
                     color=colors[i], label=df.function_call_sites_and_loops[i])
+            
     # Set the legend of the plot.
     legend = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
                             prop={'size': 10}, title='Rooflines/Loops')
     plt.title("Roofline for "+" ".join([n.capitalize() for n in name.split("_")]))
     # Save the plot in PNG format.
-    plt.savefig('roofline_plots/%s.png' %
+    plt.savefig('plots/roofline_plots/%s.png' %
                 name, bbox_extra_artists=(legend,), bbox_inches='tight')
 
 

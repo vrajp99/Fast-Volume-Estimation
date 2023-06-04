@@ -10,9 +10,9 @@
 
 ADVISOR_OUTPUT_PATH="advisor_output"
 
-EXECUTABLE=${1:-"executables/vectorization_polyvol"}
+EXECUTABLE=${1:-"executables/reduce-precision_polyvol"}
 EXECUTABLE_NAME=(${EXECUTABLE//// })
-TEST=${2:-"examples/cube_40"}
+TEST=${2:-"examples/cube_80"}
 TEST_NAME=(${TEST//// }) 
 PROJEC_DIR=${3:-"/home/samuki/git/team29/${ADVISOR_OUTPUT_PATH}/${EXECUTABLE_NAME[1]}_${TEST_NAME[1]}"}
 
