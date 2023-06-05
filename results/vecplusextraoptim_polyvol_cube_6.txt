@@ -1,12 +1,15 @@
-# started on Thu Jun  1 21:48:25 2023
+# started on Mon Jun  5 11:32:27 2023
 
 
- Performance counter stats for './executables/vecplusextraoptim_polyvol cube_tests/cube_6' (5 runs):
+ Performance counter stats for './executables/vecplusextraoptim_polyvol advanced_tests/cube_tests/cube_6' (5 runs):
 
-         1’830’796      fp_arith_inst_retired.128b_packed_double                                   
-         4’577’022      fp_arith_inst_retired.256b_packed_double                                   
-         7’344’791      fp_arith_inst_retired.scalar_double                                   
-        50’576’735      cycles                                                        ( +-  0.76% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.47 FLOPc                    (67.41%)
+         6’297’388      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.62% )  (73.84%)
+           204’618      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.34% )  (60.80%)
+         4’043’814      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.41% )  (60.81%)
+        54’390’788      CPU_CLK_UNHALTED.THREAD                                       ( +-  2.80% )  (73.86%)
+         1’722’033      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  1.82% )  (71.79%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (65.35%)
 
-          0.029413 +- 0.000228 seconds time elapsed  ( +-  0.77% )
+          0.032559 +- 0.000868 seconds time elapsed  ( +-  2.67% )
 

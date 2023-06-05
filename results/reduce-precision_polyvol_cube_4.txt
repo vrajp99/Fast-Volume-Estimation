@@ -1,12 +1,15 @@
-# started on Thu Jun  1 22:28:59 2023
+# started on Mon Jun  5 12:12:42 2023
 
 
- Performance counter stats for './executables/reduce-precision_polyvol cube_tests/cube_4' (5 runs):
+ Performance counter stats for './executables/reduce-precision_polyvol advanced_tests/cube_tests/cube_4' (5 runs):
 
-                 2      fp_arith_inst_retired.128b_packed_double                                   
-               169      fp_arith_inst_retired.256b_packed_double                                   
-           508’597      fp_arith_inst_retired.scalar_double                                   
-        18’381’514      cycles                                                        ( +-  3.96% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.41 FLOPc                    (5.05%)
+           539’719      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  2.40% )  (51.28%)
+         1’347’538      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.25% )  (98.75%)
+               169      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+        15’061’060      CPU_CLK_UNHALTED.THREAD                                       ( +-  1.43% )
+                 2      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 10.00% )  (96.20%)
+           586’321      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  2.65% )  (48.72%)
 
-          0.009721 +- 0.000434 seconds time elapsed  ( +-  4.46% )
+          0.009315 +- 0.000256 seconds time elapsed  ( +-  2.75% )
 

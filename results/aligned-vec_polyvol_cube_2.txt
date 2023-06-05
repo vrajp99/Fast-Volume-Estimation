@@ -1,12 +1,15 @@
-# started on Thu Jun  1 21:32:40 2023
+# started on Mon Jun  5 11:16:34 2023
 
 
- Performance counter stats for './executables/aligned-vec_polyvol cube_tests/cube_2' (5 runs):
+ Performance counter stats for './executables/aligned-vec_polyvol advanced_tests/cube_tests/cube_2' (5 runs):
 
-            65’764      fp_arith_inst_retired.128b_packed_double                                   
-            49’315      fp_arith_inst_retired.256b_packed_double                                   
-           251’060      fp_arith_inst_retired.scalar_double                                   
-         7’335’906      cycles                                                        ( +-  9.47% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.09 FLOPc                    (54.80%)
+           252’792      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.37% )
+             8’236      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
+            49’429      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+         7’277’650      CPU_CLK_UNHALTED.THREAD                                       ( +-  2.14% )
+           145’827      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.03% )  (45.20%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
 
-          0.005747 +- 0.000470 seconds time elapsed  ( +-  8.18% )
+          0.004935 +- 0.000204 seconds time elapsed  ( +-  4.14% )
 
