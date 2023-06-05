@@ -2,8 +2,10 @@ import matplotlib.pyplot as plt
 from matplotlib import cycler
 import utils
 import os
+import seaborn as sns
 
-BRANCHES = ["baseline", "polyvest", "basic-opt","bound-remove", "xoshiro-rng", "clang-added"] # Before fast-linalg
+
+BRANCHES = ["polyvest", "basic-opt","bound-remove"] # Before fast-linalg
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduced-precision"] # After fast-linalg
 TEST_DIR = "advanced_tests/cube_tests"
 
@@ -19,7 +21,7 @@ plt.rc('ytick', direction='out', color='gray')
 plt.rc('patch', edgecolor='#E6E6E6')
 plt.rc('lines', linewidth=2)
 plt.rcParams["figure.figsize"] = (12,6)
-
+plt.rcParams.update({'font.size': 14})
 
 def plot_data(data, file_names):  
     """
@@ -33,6 +35,7 @@ def plot_data(data, file_names):
     Returns:
         A list of dimensions extracted from each file name.
     """
+    sns.set_style("whitegrid")
     dimensions = [file_name.split("_")[1] for file_name in file_names]
     print(data)
     plt.plot(dimensions, list(zip(*data.values())), label=data.keys())
