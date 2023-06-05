@@ -1,10 +1,11 @@
 CXX=g++
+CLANG=clang++
 
 BOOST_INCLUDE_FLAG = -I /usr/include
 
 LIB_FLAGS = -larmadillo -llapack -lblas -lglpk -lgfortran
-OPT = -O2
-NODEBUG = -DARMA_NO_DEBUG
+OPT = -O3 -march=native -ffast-math
+NODEBUG = -DARMA_NO_DEBUG -DNDEBUG
 DEBUG = -g -Wall
 
 CXXFLAGS = $(BOOST_INCLUDE_FLAG) $(NODEBUG) $(OPT)
@@ -17,6 +18,9 @@ main: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 
 debug: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
 	$(CXX) $(CXXDEBUGFLAGS) -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
+
+clang: main.cpp polytope.h preprocess.cpp estimateVol.cpp readPolytope.cpp
+	$(CLANG) $(CXXFLAGS) -std=c++20 -o polyvol main.cpp preprocess.cpp estimateVol.cpp readPolytope.cpp $(LIB_FLAGS)
 
 clean:
 	rm -f polyvol

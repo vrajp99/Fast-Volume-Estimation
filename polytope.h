@@ -1,8 +1,10 @@
 #ifndef POLYTOPE_H
-#define POLYTOPE_H 1
+#define POLYTOPE_H
 
 #include <armadillo>
 #include <vector>
+#include "XoshiroCpp.hpp"
+#include <immintrin.h>
 
 // Note : mat and vec are typedefs of the corresponding
 // data structures template-instantiated for doubles
@@ -16,14 +18,15 @@ class polytope {
   mat A;
   vec b;
 
+  double gamma;
+
   const double initEllipsoid(vec &ori);
-  double preprocess();
-  const double walk(vec &x, const vector<mat> &Ai, const vector<vec> &B,
-                    const double rk);
+  const float walk(float* x, float* Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const;
 
 public:
   polytope(){};
-  double estimateVol();
+  void preprocess();
+  const double estimateVol() const;
   void readPolytope(const char *const filename);
 };
 

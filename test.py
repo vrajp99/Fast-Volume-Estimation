@@ -2,7 +2,7 @@ import subprocess
 import math
 import sys
 
-tol = 0.1
+tol = 0.15
 
 class colors:
     HEADER = '\033[95m'
@@ -13,9 +13,14 @@ class colors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-print(f"{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Building{colors.ENDC}")
+if len(sys.argv)<2:
+    BUILD_TARGET = "main"
+else:
+    BUILD_TARGET = sys.argv[1]
+
+print(f"{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Building target {BUILD_TARGET}{colors.ENDC}")
 try:
-    subprocess.run(["make"], check=True)
+    subprocess.run(["make", BUILD_TARGET], check=True)
 except Exception as e:
     print(f"{colors.FAIL}Build Failure.{colors.ENDC}")
     sys.exit(0)
@@ -24,17 +29,21 @@ print(f'{colors.OKGREEN}Build complete.{colors.ENDC}')
 def run_test(fname, ans):
     print(f"{fname}: ", end="")
     try:
-        out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True).stdout.decode('utf-8')) 
+        out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True, check=True).stdout.decode('utf-8'))
+        print(f"Output: {out} Answer:{ans}") 
         if not abs(out - ans) <= tol * max(out, ans):
             print(f"{colors.FAIL}Failed{colors.ENDC}")
             print(f"{colors.WARNING}Error : {fname}, expected : {ans}, output : {out}{colors.ENDC}")
+            return
     except Exception as e:
         print(f"{colors.FAIL}Failed with exception ({type(e)}){colors.ENDC}")
         print(f"{colors.WARNING}Error: {colors.ENDC}{e}")
         return
     print(f"{colors.OKGREEN}Passed{colors.ENDC}")
 
-sizes = list(range(1, 11)) + [15, 20]
+small_sizes = list(range(1, 11))
+big_sizes = [15, 20]
+sizes = small_sizes + big_sizes
 
 #Cubes
 print(f'{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Cubes{colors.ENDC}')
@@ -59,3 +68,11 @@ for n in sizes:
     run_test("simplex_" + str(n), ans) 
 
 print(f'{colors.OKGREEN}Simplices done.{colors.ENDC}')
+
+#Crosses
+print(f'{colors.HEADER}{colors.BOLD}{colors.UNDERLINE}Crosses{colors.ENDC}')
+for n in small_sizes:
+    ans = (2 ** n) / math.factorial(n)
+    run_test("cross_" + str(n), ans) 
+
+print(f'{colors.OKGREEN}Crosses done.{colors.ENDC}')

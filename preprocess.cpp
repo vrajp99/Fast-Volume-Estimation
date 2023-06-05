@@ -1,9 +1,6 @@
 #include "glpk.h"
 #include "polytope.h"
 
-// Ideas for optimization
-// Normal array access has bound checks
-
 // Must set ori_0 and return square of r_0
 const double polytope::initEllipsoid(vec &ori) {
   double r_0s = 0;
@@ -55,7 +52,7 @@ const double polytope::initEllipsoid(vec &ori) {
 
     // Origin Update
     for (size_t j = 1; j < n + 1; j++) {
-      ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
+      ori[j - 1] += (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
     // Objective -x_i
@@ -72,7 +69,7 @@ const double polytope::initEllipsoid(vec &ori) {
 
     // Origin Update
     for (size_t j = 1; j < n + 1; j++) {
-      ori(j - 1) = ori(j - 1) + (glp_get_col_prim(lp, j)) / (2 * n);
+      ori[j - 1] += (glp_get_col_prim(lp, j)) / (2 * n);
     }
 
     r_0s += pow(ub - lb, 2);
@@ -82,7 +79,7 @@ const double polytope::initEllipsoid(vec &ori) {
   return r_0s;
 }
 
-double polytope::preprocess() {
+void polytope::preprocess() {
   // Assuming r = 2n
   // beta = 1 / 2n
   double beta = 0.5 / n;
@@ -122,7 +119,7 @@ double polytope::preprocess() {
       for (size_t j = 0; j < m; ++j) {
         ta = T * A.row(j).t();
         if (beta_sqr * as_scalar(A.row(j) * ta) -
-                signed_dis(j) * signed_dis(j) >
+                signed_dis[j] * signed_dis[j] >
             0) {
           found_i = true;
           i = j;
@@ -143,7 +140,5 @@ double polytope::preprocess() {
   mat L = chol(T); // Check for runtime errors
   b = (b - A * ori) / beta;
   A = A * L.t();
-  double gamma = det(L) * pow(beta, n);
-
-  return gamma;
+  gamma = det(L) * pow(beta, n);
 }
