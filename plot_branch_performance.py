@@ -5,8 +5,8 @@ import os
 import seaborn as sns
 
 
-BRANCHES = ["polyvest", "basic-opt","bound-remove"] # Before fast-linalg
-#BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduced-precision"] # After fast-linalg
+#BRANCHES = ["polyvest", "basic-opt","bound-remove"] # Before fast-linalg
+BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 TEST_DIR = "advanced_tests/cube_tests"
 
 RESULTS_DIR = "results"

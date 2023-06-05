@@ -27,12 +27,8 @@ plt.figure(dpi=200)
 plt.rcParams.update({'font.size': 14})
 
 try:
-
     import advisor
-    print("worked")
-
 except ImportError:
-
     print(
         """Import error: Python could not resolve path to Advisor's pythonapi directory.
         To fix, either manually add path to the pythonapi directory into PYTHONPATH environment
@@ -44,8 +40,6 @@ except ImportError:
 if len(sys.argv) < 2:
     print('Usage: "python {} path_to_project_dir"'.format(__file__))
     sys.exit(2)
-
-
 @click.command()
 @click.option('--name', '-n', required=True, help='The name of the generated'
               'roofline png.')
@@ -153,15 +147,11 @@ def roofline(name, project, scale, precision):
     ax.set_ylabel('Performance (GFLOPS)')
 
     colors = cm.viridis(np.linspace(0, 1, len(df.self_ai)))
-    markers = [".",",","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d","|","_",0,1,2,3,4,5,6,7,8,9,10,11]
-    print(df.function_call_sites_and_loops[i])
-    print()
-    print(df.self_gflops[i])
+    markers = [".","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d",4,5,6,7,8,9,10,11]
     for i in range(len(df.self_ai)):
-        # TODO why are main and estimateVol nan?
         if not math.isnan(df.self_ai[i]) and not math.isnan(df.self_gflops[i]):
             ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
-                    color=colors[i], label=df.function_call_sites_and_loops[i])
+                    color=colors[i], label=format_label(df.function_call_sites_and_loops[i]))
             
     # Set the legend of the plot.
     legend = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
@@ -171,6 +161,12 @@ def roofline(name, project, scale, precision):
     plt.savefig('plots/roofline_plots/%s.png' %
                 name, bbox_extra_artists=(legend,), bbox_inches='tight')
 
+def format_label(label):
+    label = label.split("<")[0]
+    label = label.replace("apply", "")
+    label = label.replace("_ZNK8polytope4walkEPfS0_PKfS2_PKDv8_fS5_fRN10XoshiroCpp18Xoshiro128PlusPlusE", "polytope::walk")
+    label = label.strip("[]")
+    return label
 
 if __name__ == '__main__':
     roofline()
