@@ -1,6 +1,7 @@
 import subprocess 
 import math
 import sys
+import time
 
 tol = 0.15
 
@@ -28,17 +29,19 @@ print(f'{colors.OKGREEN}Build complete.{colors.ENDC}')
 
 def run_test(fname, ans):
     print(f"{fname}: ", end="")
-    try:
-        out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True, check=True).stdout.decode('utf-8'))
-        print(f"Output: {out} Answer:{ans}") 
-        if not abs(out - ans) <= tol * max(out, ans):
-            print(f"{colors.FAIL}Failed{colors.ENDC}")
-            print(f"{colors.WARNING}Error : {fname}, expected : {ans}, output : {out}{colors.ENDC}")
+    for _ in range(5):
+        time.sleep(0.05)
+        try:
+            out = float(subprocess.run(["./polyvol", "tests/" + fname], capture_output = True, check=True).stdout.decode('utf-8'))
+            #print(f"Output: {out} Answer:{ans}") 
+            if not abs(out - ans) <= tol * max(out, ans):
+                print(f"{colors.FAIL}Failed{colors.ENDC}")
+                print(f"{colors.WARNING}Error : {fname}, expected : {ans}, output : {out}{colors.ENDC}")
+                return
+        except Exception as e:
+            print(f"{colors.FAIL}Failed with exception ({type(e)}){colors.ENDC}")
+            print(f"{colors.WARNING}Error: {colors.ENDC}{e}")
             return
-    except Exception as e:
-        print(f"{colors.FAIL}Failed with exception ({type(e)}){colors.ENDC}")
-        print(f"{colors.WARNING}Error: {colors.ENDC}{e}")
-        return
     print(f"{colors.OKGREEN}Passed{colors.ENDC}")
 
 small_sizes = list(range(1, 11))
