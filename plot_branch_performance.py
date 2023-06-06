@@ -5,9 +5,12 @@ import os
 import seaborn as sns
 
 
-#BRANCHES = ["polyvest", "basic-opt","bound-remove"] # Before fast-linalg
-BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
+BRANCHES = ["baseline", "polyvest", "basic-opt","bound-remove"] # Before fast-linalg
+#BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
+
+#BRANCHES = ["aligned-vec", "reduce-precision"] # After fast-linalg
 TEST_DIR = "advanced_tests/cube_tests"
+#TEST_DIR = "tests/"
 
 RESULTS_DIR = "results"
 
@@ -38,9 +41,12 @@ def plot_data(data, file_names):
     sns.set_style("whitegrid")
     dimensions = [file_name.split("_")[1] for file_name in file_names]
     print(data)
+    print(list(zip(*data.values())))
+    for branch in data:
+        data[branch] = [float(x) for x in data[branch]]
     plt.plot(dimensions, list(zip(*data.values())), label=data.keys())
     plt.xlabel('Dimensions', fontsize=12)
-    plt.xticks(fontsize=12)
+    plt.xticks(fontsize=11)
     plt.title("Performance [flops/cycles] for Cubes With Varying Dimensions", fontsize=14)
     plt.yticks(fontsize=14)
     plt.legend(fontsize=12)
@@ -54,15 +60,18 @@ def plot_data(data, file_names):
 def main():
     print("Branches: ", BRANCHES)
     file_names, _ = utils.list_files_sorted(TEST_DIR)
+    print(file_names)
     data = {}
     for root, _, files in os.walk(RESULTS_DIR):
+        files.sort(key=utils.extract_number)
         for result in files:
-            if result.endswith(".json"):
+            if result.endswith(".txt"):
                 branch = result.split("_")[0].strip()
-                print("branch ", branch)
                 if branch in BRANCHES:
-                    print("branch in ", branch)
-                    data[branch] = utils.load_data(os.path.join(root, result))
+                    if branch not in data:
+                        data[branch] = []
+                    file_flopc = utils.parse_file(os.path.join(root, result))
+                    data[branch].append(file_flopc["FLOPc"])
     plot_data(data, file_names)
 
 if __name__ == '__main__':

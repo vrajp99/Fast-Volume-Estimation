@@ -64,15 +64,30 @@ def parse_file(file_name):
     Raises:
         FileNotFoundError: If the specified file is not found.
     """
+    measurement = {}
     result = {}
     with open(file_name, 'r') as file:
+        read_file = file.read()
+    with open(file_name, 'r') as file:
         lines = file.readlines()
+    match = re.search(r'FP_ARITH_INST_RETIRED\.128B_PACKED_SINGLE\s*#\s*([0-9.]+)', read_file)
+    if match:
+        result["FLOPc"] = match.group(1)
+    else:
         for line in lines:
+            print(line)
             if "fp_arith_inst_retired" in line or "cycles" in line:
                 parts = line.strip().split()
                 key = parts[1]
                 value = int(parts[0].replace("’", ""))
-                result[key] = value
+                measurement[key] = value
+        print(measurement)
+        print(file_name)
+        flops = measurement['fp_arith_inst_retired.128b_packed_double']*2 + \
+            measurement['fp_arith_inst_retired.256b_packed_double'] * \
+            4 + measurement['fp_arith_inst_retired.scalar_double']
+        performance = flops/measurement['cycles']
+        result["FLOPc"] = performance
     return result
 
 

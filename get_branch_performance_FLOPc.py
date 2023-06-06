@@ -6,8 +6,11 @@ import utils
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
 #BRANCHES = ["polyvest"]
-BRANCHES = ["aligned-vec", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision"]
-TEST_DIR = "advanced_tests/polyvest_cube_tests"
+BRANCHES = ["aligned-vec","reduce-precision"]
+#BRANCHES = ["baseline"]
+#TEST_DIR = "advanced_tests/cube_tests"
+#TEST_DIR = "cubes_70_80"
+TEST_DIR = "tests"
 RESULTS_DIR = "results"
 
 
@@ -25,18 +28,13 @@ def call_executable(executable ,n, file_name):
     """
     print("Measuring performance on ", file_name)
     # Define command to call C program with n as parameter
-    command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt", "-e",
-               "fp_arith_inst_retired.128b_packed_double,fp_arith_inst_retired.256b_packed_double,fp_arith_inst_retired.scalar_double,cycles",
-               "-r", "5", "./"+executable, str(n), "1600"]
+    command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
+               "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
+               "-r", "5", "./"+executable, str(n)]
     # Execute command and capture output
     output = subprocess.check_output(command)
-    #try:
-    #except subprocess.CalledProcessError as e:
-    #    print("Error: ", e.output)
-    #    return None
-    # Decode output from bytes to string
     output_str = output.decode('utf-8').strip()
-    #print(output_str.split())
+    print(output_str.split())
     return float(output_str.split('\n')[-1])
 
 
@@ -58,13 +56,10 @@ def measure_performance(executable, file_paths):
         file_name = path.split("/")[-1]
         executable_name = executable.split("/")[-1]
         call_executable(executable, path, file_name)
-        measurement = utils.parse_file("results/"+executable_name+"_"+file_name+".txt")
+        measurement = utils.parse_file("results/"+executable_name+"_"+file_name+".txt", mode="FLOPc")
+        print(measurement)
         # Calculate performance
-        flops = measurement['fp_arith_inst_retired.128b_packed_double']*2 + \
-            measurement['fp_arith_inst_retired.256b_packed_double'] * \
-            4 + measurement['fp_arith_inst_retired.scalar_double']
-        performance = flops/measurement['cycles']
-        measurements.append(performance)
+        measurements.append(measurement["FLOPc"])
     print("Saving measurements for ", executable_name)
     with open("results/"+executable_name+"_"+".json", 'w') as fp:
         json.dump(measurements, fp)
@@ -86,6 +81,7 @@ def main():
     for root, _, files in os.walk("executables"):
         for executable in files:
             if executable.split("_")[0] in BRANCHES:
+                utils.toggle_turbo_boost("disable")
                 executable_path = os.path.join(root, executable)
                 print("Measuring performance of ", executable_path)
                 measure_performance(executable_path, test_paths)

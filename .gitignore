@@ -21,3 +21,5 @@ advisor_scripts/
 # other scripts
 sudo_stay_validated.sh
 document.tex
+# volumes
+volumes_*
