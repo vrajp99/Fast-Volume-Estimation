@@ -15,7 +15,7 @@ e000/
 team29.advixeproj
 *.dflgadvixe
 *.infoadvixe
-*.advixeproj*
+*.advixeproj
 advisor_scripts/
 *.~lock.*
 # other scripts

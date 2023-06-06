@@ -1,0 +1,12 @@
+# started on Fri Jun  2 15:13:30 2023
+
+
+ Performance counter stats for './executables/basic-opt_polyvol cube_tests/cube_4' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+         8’179’989      fp_arith_inst_retired.scalar_double                                   
+        34’434’762      cycles                                                        ( +-  1.20% )
+
+          0.020087 +- 0.000234 seconds time elapsed  ( +-  1.16% )
+

@@ -11,7 +11,7 @@ def gen_poly(A, b, fname, is_m = False):
             f.write(" ".join(str(x) for x in each) + '\n')
 
 small_dims = list(range(1, 11)) + [13]
-big_dims = [15] + list(range(20, 90, 10))
+big_dims = [15] + list(range(20, 170, 10))
 dims = small_dims + big_dims
 
 #Cubes
