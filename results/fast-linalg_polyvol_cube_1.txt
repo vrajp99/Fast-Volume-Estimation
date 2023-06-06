@@ -1,25 +1,12 @@
-# started on Mon Jun  5 14:15:55 2023
+# started on Tue Jun  6 02:37:55 2023
 
 
- Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/cube_tests/cube_1' (5 runs):
+ Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/polyvest_cube_tests/cube_1 1600' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (30.11%)
-            26’186      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
-             1’600      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
-             3’201      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
-         7’736’490      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.95% )
-            11’453      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 25.10% )  (69.89%)
-     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
-     <not counted>      cache-misses                                                  (0.00%)
-     <not counted>       cache-references                                             (0.00%)
-     <not counted>      L1-dcache-load-misses                                         (0.00%)
-     <not counted>      L1-dcache-loads                                               (0.00%)
-     <not counted>      L1-dcache-stores                                              (0.00%)
-     <not counted>      L1-icache-load-misses                                         (0.00%)
-     <not counted>      LLC-loads                                                     (0.00%)
-     <not counted>      LLC-load-misses                                               (0.00%)
-     <not counted>      LLC-stores                                                    (0.00%)
-     <not counted>      LLC-store-misses                                              (0.00%)
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+                 0      fp_arith_inst_retired.scalar_double                                   
+         5’912’866      cycles                                                        ( +- 15.00% )
 
-          0.004851 +- 0.000280 seconds time elapsed  ( +-  5.77% )
+           0.00601 +- 0.00163 seconds time elapsed  ( +- 27.13% )
 

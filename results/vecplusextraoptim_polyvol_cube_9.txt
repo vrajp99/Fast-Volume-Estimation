@@ -1,15 +1,25 @@
-# started on Mon Jun  5 11:32:28 2023
+# started on Mon Jun  5 17:43:24 2023
 
 
  Performance counter stats for './executables/vecplusextraoptim_polyvol advanced_tests/cube_tests/cube_9' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.41 FLOPc                    (68.90%)
-        23’391’377      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.30% )  (70.94%)
-           722’201      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.83% )  (59.82%)
-        19’839’701      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.30% )  (60.00%)
-       321’995’925      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.07% )  (73.33%)
-         7’271’142      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.93% )  (71.28%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (69.06%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.35 FLOPc                    (15.89%)
+        21’964’087      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  1.29% )  (22.87%)
+           678’858      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  3.04% )  (24.65%)
+        19’679’325      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  3.44% )  (26.41%)
+       409’914’531      CPU_CLK_UNHALTED.THREAD                                       ( +-  5.49% )  (33.38%)
+         7’074’062      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  1.97% )  (34.85%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (34.85%)
+           217’185      cache-misses              #   33.351 % of all cache refs      ( +- 11.77% )  (33.56%)
+           659’245       cache-references                                             ( +- 32.65% )  (31.83%)
+           985’401      L1-dcache-load-misses     #    0.47% of all L1-dcache accesses  ( +- 16.19% )  (23.12%)
+       208’267’631      L1-dcache-loads                                               ( +-  0.68% )  (21.37%)
+       109’095’233      L1-dcache-stores                                              ( +-  2.10% )  (20.92%)
+           107’724      L1-icache-load-misses                                         ( +- 14.13% )  (20.91%)
+            96’632      LLC-loads                                                     ( +- 17.92% )  (20.91%)
+            11’479      LLC-load-misses           #   22.69% of all LL-cache accesses  ( +- 52.94% )  (20.91%)
+            10’338      LLC-stores                                                    ( +- 13.11% )  (10.42%)
+             2’512      LLC-store-misses                                              ( +- 17.65% )  (10.39%)
 
-           0.16189 +- 0.00558 seconds time elapsed  ( +-  3.45% )
+            0.1873 +- 0.0126 seconds time elapsed  ( +-  6.75% )
 

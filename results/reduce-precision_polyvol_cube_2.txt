@@ -1,15 +1,25 @@
-# started on Mon Jun  5 12:12:42 2023
+# started on Mon Jun  5 18:30:13 2023
 
 
  Performance counter stats for './executables/reduce-precision_polyvol advanced_tests/cube_tests/cube_2' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.05 FLOPc                    (47.77%)
-            58’199      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                   
-           188’419      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
-                 7      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
-         7’229’619      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.72% )
-                53      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 22.67% )  (52.23%)
-     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.02 FLOPc                    (32.12%)
+            62’929      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 18.86% )  (91.95%)
+           188’116      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+                 7      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        11’766’466      CPU_CLK_UNHALTED.THREAD                                       ( +- 17.73% )
+                41      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 23.61% )  (67.88%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (8.05%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.004910 +- 0.000257 seconds time elapsed  ( +-  5.23% )
+          0.006878 +- 0.000349 seconds time elapsed  ( +-  5.08% )
 

@@ -1,15 +1,25 @@
-# started on Mon Jun  5 12:15:40 2023
+# started on Mon Jun  5 18:33:22 2023
 
 
  Performance counter stats for './executables/reduce-precision_polyvol advanced_tests/cube_tests/cube_70' (5 runs):
 
-     1’929’171’481      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     2.72 FLOPc                    ( +-  0.01% )  (71.42%)
-     1’112’558’943      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.05% )  (71.43%)
-     3’490’483’793      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.01% )  (57.15%)
-            37’825      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  4.75% )  (57.15%)
-    55’769’868’828      CPU_CLK_UNHALTED.THREAD                                       ( +-  1.03% )  (71.43%)
-           927’190      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.01% )  (71.43%)
-    17’508’489’229      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  0.01% )  (71.42%)
+     1’929’155’012      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     2.77 FLOPc                    ( +-  0.02% )  (17.62%)
+     1’113’025’437      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.06% )  (23.50%)
+     3’488’074’921      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.04% )  (23.52%)
+            91’882      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.53% )  (23.53%)
+    54’343’172’925      CPU_CLK_UNHALTED.THREAD                                       ( +-  0.67% )  (29.42%)
+         2’250’109      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.00% )  (29.43%)
+    17’487’629’007      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  0.03% )  (29.43%)
+           418’861      cache-misses              #    0.021 % of all cache refs      ( +- 16.68% )  (29.43%)
+     1’147’016’501       cache-references                                             ( +- 30.30% )  (29.43%)
+     6’616’931’804      L1-dcache-load-misses     #   16.33% of all L1-dcache accesses  ( +-  0.12% )  (23.54%)
+    40’521’781’254      L1-dcache-loads                                               ( +-  0.03% )  (23.54%)
+    10’704’605’516      L1-dcache-stores                                              ( +-  0.01% )  (23.54%)
+         5’241’930      L1-icache-load-misses                                         ( +-  4.06% )  (23.54%)
+       215’445’089      LLC-loads                                                     ( +- 31.73% )  (23.54%)
+            65’486      LLC-load-misses           #    0.02% of all LL-cache accesses  ( +-  7.31% )  (23.53%)
+           361’100      LLC-stores                                                    ( +- 39.80% )  (11.75%)
+             2’009      LLC-store-misses                                              ( +-116.80% )  (11.74%)
 
-            31.283 +- 0.335 seconds time elapsed  ( +-  1.07% )
+            30.734 +- 0.203 seconds time elapsed  ( +-  0.66% )
 

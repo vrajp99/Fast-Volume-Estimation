@@ -1,0 +1,25 @@
+# started on Tue Jun  6 08:10:32 2023
+
+
+ Performance counter stats for './executables/reduce-precision_polyvol tests/cube_160' (5 runs):
+
+     1’970’872’805      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     3.06 FLOPc                    ( +- 47.12% )  (17.64%)
+     2’890’366’346      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 37.73% )  (23.53%)
+     6’105’671’512      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 46.91% )  (23.53%)
+           166’449      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 13.25% )  (23.53%)
+   224’385’414’528      CPU_CLK_UNHALTED.THREAD                                       ( +- 54.17% )  (29.41%)
+        24’091’008      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.49% )  (29.41%)
+    91’914’857’852      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 47.17% )  (29.41%)
+         1’160’090      cache-misses              #    0.001 % of all cache refs      ( +- 52.81% )  (29.41%)
+    69’319’636’584       cache-references                                             ( +- 48.76% )  (29.41%)
+    35’199’315’841      L1-dcache-load-misses     #    7.73% of all L1-dcache accesses  ( +- 47.51% )  (23.53%)
+   158’011’937’594      L1-dcache-loads                                               ( +- 47.01% )  (23.53%)
+    35’262’569’500      L1-dcache-stores                                              ( +- 47.04% )  (23.53%)
+        19’946’602      L1-icache-load-misses                                         ( +- 52.53% )  (23.53%)
+    10’202’055’602      LLC-loads                                                     ( +- 48.83% )  (23.53%)
+            62’540      LLC-load-misses           #    0.00% of all LL-cache accesses  ( +- 63.26% )  (23.53%)
+        37’600’416      LLC-stores                                                    ( +- 65.82% )  (11.77%)
+            17’366      LLC-store-misses                                              ( +- 24.64% )  (11.76%)
+
+            395.20 +- 67.82 seconds time elapsed  ( +- 17.16% )
+

@@ -1,15 +1,15 @@
-# started on Mon Jun  5 14:15:56 2023
+# started on Mon Jun  5 16:38:48 2023
 
 
  Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/cube_tests/cube_2' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.04 FLOPc                    (6.48%)
-           137’493      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 36.44% )  (72.27%)
-             8’171      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
-            40’870      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
-        10’833’450      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.25% )
-             8’762      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 40.64% )  (93.52%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (27.73%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.04 FLOPc                    (35.25%)
+           251’723      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 19.57% )
+             8’195      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+            40’990      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        10’544’752      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.73% )
+            12’692      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 27.56% )  (64.75%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
      <not counted>      cache-misses                                                  (0.00%)
      <not counted>       cache-references                                             (0.00%)
      <not counted>      L1-dcache-load-misses                                         (0.00%)
@@ -21,5 +21,5 @@
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-           0.00943 +- 0.00333 seconds time elapsed  ( +- 35.26% )
+          0.006219 +- 0.000351 seconds time elapsed  ( +-  5.65% )
 

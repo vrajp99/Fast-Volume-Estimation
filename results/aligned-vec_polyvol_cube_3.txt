@@ -1,15 +1,25 @@
-# started on Mon Jun  5 11:16:34 2023
+# started on Mon Jun  5 17:27:09 2023
 
 
  Performance counter stats for './executables/aligned-vec_polyvol advanced_tests/cube_tests/cube_3' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.22 FLOPc                    (38.53%)
-         1’011’010      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  3.68% )  (96.99%)
-            29’217      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
-           175’327      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
-        12’216’085      CPU_CLK_UNHALTED.THREAD                                       ( +-  1.60% )
-           570’508      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  6.98% )  (61.47%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (3.01%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.16 FLOPc                    (2.26%)
+             3’475      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-7814.92% )  (39.67%)
+            27’492      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 21.13% )  (74.23%)
+           176’929      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        18’806’365      CPU_CLK_UNHALTED.THREAD                                       ( +- 17.42% )
+           362’068      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 29.11% )  (97.74%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (60.33%)
+           137’849      cache-misses              #  124.358 % of all cache refs      ( +- 27.58% )  (25.77%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.007580 +- 0.000118 seconds time elapsed  ( +-  1.56% )
+          0.010512 +- 0.000726 seconds time elapsed  ( +-  6.91% )
 

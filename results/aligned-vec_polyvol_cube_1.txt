@@ -1,15 +1,25 @@
-# started on Mon Jun  5 11:16:34 2023
+# started on Mon Jun  5 17:27:08 2023
 
 
  Performance counter stats for './executables/aligned-vec_polyvol advanced_tests/cube_tests/cube_1' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.02 FLOPc                    (73.46%)
-            27’701      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                   
-             1’600      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (57.81%)
+            27’701      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
+             1’600      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
                  0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
-         5’749’901      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.88% )
-            60’317      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 22.78% )  (26.54%)
+        10’121’532      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.35% )
+            37’935      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 17.71% )  (42.19%)
      <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.004173 +- 0.000247 seconds time elapsed  ( +-  5.91% )
+           0.00968 +- 0.00230 seconds time elapsed  ( +- 23.80% )
 

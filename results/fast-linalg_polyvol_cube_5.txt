@@ -1,25 +1,25 @@
-# started on Mon Jun  5 14:15:56 2023
+# started on Mon Jun  5 16:38:48 2023
 
 
  Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/cube_tests/cube_5' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.11 FLOPc                    (2.60%)
-         2’459’645      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  9.67% )  (14.06%)
-            97’958      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 12.04% )  (25.51%)
-         1’139’524      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  6.34% )  (36.96%)
-        62’361’476      CPU_CLK_UNHALTED.THREAD                                       ( +-  4.59% )  (48.41%)
-           655’397      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 11.50% )  (57.26%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (57.26%)
-            18’064      cache-misses              #    2.994 % of all cache refs      ( +-857.92% )  (57.26%)
-            49’926       cache-references                                             ( +-1104.45% )  (57.26%)
-            61’671      L1-dcache-load-misses     #    0.42% of all L1-dcache accesses  ( +-220.29% )  (40.14%)
-        14’794’183      L1-dcache-loads                                               ( +-  1.12% )  (28.68%)
-         6’967’267      L1-dcache-stores                                              ( +-  1.85% )  (17.23%)
-           253’976      L1-icache-load-misses                                         ( +- 15.74% )  (5.78%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.11 FLOPc                    (6.46%)
+         1’848’002      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 32.36% )  (18.06%)
+            79’554      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 14.24% )  (29.68%)
+         1’008’550      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  7.08% )  (41.29%)
+        61’482’972      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.75% )  (52.91%)
+           680’918      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.81% )  (58.05%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (58.08%)
+            11’543      cache-misses              #    2.911 % of all cache refs      ( +-1120.95% )  (58.07%)
+            85’638       cache-references                                             ( +-406.07% )  (58.07%)
+            55’123      L1-dcache-load-misses     #    0.37% of all L1-dcache accesses  ( +-146.05% )  (35.49%)
+        15’143’736      L1-dcache-loads                                               ( +-  5.02% )  (23.86%)
+         7’216’782      L1-dcache-stores                                              ( +-  3.72% )  (12.25%)
+           428’879      L1-icache-load-misses                                         ( +- 16.84% )  (0.64%)
      <not counted>      LLC-loads                                                     (0.00%)
      <not counted>      LLC-load-misses                                               (0.00%)
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-           0.04224 +- 0.00169 seconds time elapsed  ( +-  4.00% )
+           0.03972 +- 0.00131 seconds time elapsed  ( +-  3.30% )
 
