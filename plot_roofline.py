@@ -15,7 +15,8 @@ import pandas as pd
 
 matplotlib.use("Agg")
 
-
+# Roofs we want to exclude
+EXCLUDE = ["Scalar", "Int64", "Int32"]
 # This style requires $DISPLAY available.
 # Use it instead of matplotlib.use('Agg') if you have GUI environment
 # matplotlib.style.use('ggplot')
@@ -58,21 +59,7 @@ def roofline(name, project, scale, precision):
     project = advisor.open_project(project)
     # Open the Advisor Project and load the data.
     data = project.load(advisor.ALL)
-    def quotes(value):
-        value = value.replace("\n", "")
-        value = value.replace("\r", "")
-        if "," in value:
-            return '"{}"'.format(value)
-        return str(value)
     # Iterate over the entries in the bottomup table and print a joined version.
-    """
-    for idx, entry in enumerate(data.bottomup):
-        # Process the header.
-        if idx == 0:
-            print(",".join([quotes(key) for key in entry]))
-        # Process the entires.
-        print(",".join([quotes(entry[key]) for key in entry]))
-    """
     # Access the entries and roof data from the survey data.
     rows = [{col: row[col] for col in row} for row in data.bottomup]
     roofs = data.get_roofs()
@@ -100,25 +87,28 @@ def roofline(name, project, scale, precision):
         math.pow(10, 9)  # as GByte/s
     max_compute_bandwidth /= scale  # scale down as requested by the user
 
-    def key2(roof): return roof.bandwidth if 'bandwidth' in roof.name.lower() else 0
+    def key2(roof): return roof.bandwidth if 'bandwidth' in  roof.name.lower() and 'single-thread' in roof.name.lower() else 0
     max_memory_roof = max(roofs, key=key2)
     max_memory_bandwidth = max_memory_roof.bandwidth / \
         math.pow(10, 9)  # as GByte/s
     max_memory_bandwidth /= scale  # scale down as requested by the user
 
     # Parameters to center the chart
-    ai_min = 2**-5
+    #ai_min = 2**-5
     ai_max = 2**5
-    gflops_min = 2**0
+    #gflops_min = 2**0
     width = ai_max
 
     # Declare the two types of rooflines dictionaries
     memory_roofs = []
     compute_roofs = []
 
+    roofs = filter_roofs(roofs, EXCLUDE)
+    
     for roof in roofs:
         # by default drawing multi-threaded roofs only
-        if 'single-thread' not in roof.name:
+        # We only use a single thread
+        if 'single-thread' in roof.name:
             # memory roofs
             if 'bandwidth' in roof.name.lower():
                 bandwidth = roof.bandwidth / math.pow(10, 9)  # as GByte/s
@@ -167,6 +157,9 @@ def format_label(label):
     label = label.replace("_ZNK8polytope4walkEPfS0_PKfS2_PKDv8_fS5_fRN10XoshiroCpp18Xoshiro128PlusPlusE", "polytope::walk")
     label = label.strip("[]")
     return label
+
+def filter_roofs(strings, exclude):
+    return [s for s in strings if not any(ex in s.name for ex in exclude)]
 
 if __name__ == '__main__':
     roofline()
