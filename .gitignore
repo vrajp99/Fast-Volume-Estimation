@@ -23,3 +23,8 @@ sudo_stay_validated.sh
 document.tex
 # volumes
 volumes_*
+
+# vtune
+r*hs/
+# pgo
+profile_data

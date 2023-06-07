@@ -18,9 +18,10 @@ matplotlib.use("Agg")
 # CONFIG
 # Roofs we want to exclude 
 EXCLUDE = ["Scalar", "Int64", "Int32"]
+LOOPS_AND_FUNCTIONS = {"polytope::estimateVol":{"identifiers": ["estimateVol"], "gflop":[], "gflops":[], "bytes": [], "time":[]}, 
+                       "polytope::walk": {"identifiers": ["_ZNK8polytope4walkEPfS0_PKfS2_PKDv8_fS5_fRN10XoshiroCpp18Xoshiro128PlusPlusE"], 
+                                          "gflop":[], "gflops":[], "bytes": [], "time":[]}}
 
-
-# 
 pd.options.display.max_rows = 20
 plt.style.use('seaborn-darkgrid')
 plt.figure(dpi=200)
@@ -53,7 +54,7 @@ if len(sys.argv) < 2:
                    'available (e.g., when running on a single '
                    'socket).')
 @click.option('--precision', type=click.Choice(['SP', 'DP', 'all']),
-              help='Arithmetic precision.', default='SP')
+              help='Arithmetic precision.', default='all')
 # Open the Advisor Project and load the data.
 def roofline(name, project, scale, precision):
     project = advisor.open_project(project)
@@ -122,18 +123,26 @@ def roofline(name, project, scale, precision):
                 x1, x2 = 0, min(width, max_compute_bandwidth / bandwidth)
                 y1, y2 = 0, x2*bandwidth
                 label = '{} {:.0f} GB/s'.format(roof.name, bandwidth)
+                print(roof.name.lower())
+
+                if "dram" in roof.name.lower():
+                    plt.axvline(x=x1, color='darkgrey', ymax=y2, linestyle=(0, (2, 2)))
+
                 ax.plot([x1, x2], [y1, y2], '-', label=label)
                 memory_roofs.append(((x1, x2), (y1, y2)))
 
             # compute roofs
-            elif precision == 'all' or precision in roof.name:
+            #elif precision == 'all' or precision in roof.name:
+            elif not "dp" in roof.name.lower():
                 bandwidth = roof.bandwidth / math.pow(10, 9)  # as GFlOPS
                 bandwidth /= scale  # scale down as requested by the user
                 x1, x2 = max(bandwidth / max_memory_bandwidth, 0), width
                 y1, y2 = bandwidth, bandwidth
                 label = '{} {:.0f} GFLOPS'.format(roof.name, bandwidth)
                 ax.plot([x1, x2], [y1, y2], '-', label=label)
-                plt.axvline(x=x1, color='darkgrey', ymax=y2, linestyle=(0, (2, 2)))
+                print(roof.name.lower())
+                if "l1" in roof.name.lower():
+                    plt.axvline(x=x1, color='darkgrey', ymax=y2, linestyle=(0, (2, 2)))
                 compute_roofs.append(((x1, x2), (y1, y2)))
                 
     # Draw points using the same axis.
@@ -142,23 +151,51 @@ def roofline(name, project, scale, precision):
     ax.set_xlabel('Operational intensity (FLOP/Byte)')
     ax.set_ylabel('Performance (GFLOPS)')
 
+    
     # Choose better colors
     colors = cm.viridis(np.linspace(0, 1, len(df.self_ai)))
     markers = [".","o","v","^","<",">","1","2","3","4","8","s","p","P","*","h","H","+","x","X","D","d",4,5,6,7,8,9,10,11]
     for i in range(len(df.self_ai)):
         if not math.isnan(df.self_ai[i]) and not math.isnan(df.self_gflops[i]):
             print(df.function_call_sites_and_loops[i], " ", df.loop_function_id[i], " ", df.self_ai[i], " ", df.self_gflops[i], " ", df.self_time[i])
-            ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
-                    color=colors[i], label=format_label(df.function_call_sites_and_loops[i])+" "+str(df.self_time[i])+"s")
+            for entry in LOOPS_AND_FUNCTIONS:
+                for indentifier in LOOPS_AND_FUNCTIONS[entry]["identifiers"]:
+                    if indentifier in df.function_call_sites_and_loops[i]:
+                        LOOPS_AND_FUNCTIONS[entry]["gflop"].append(float(df.self_gflop[i]))
+                        LOOPS_AND_FUNCTIONS[entry]["bytes"].append(float(df.self_memory_gb[i]))
+                        LOOPS_AND_FUNCTIONS[entry]["time"].append(float(df.self_time[i]))
+                        print("Found ", indentifier)
+                        break
         else: 
             print(df.function_call_sites_and_loops[i], " is nan")
+    print(LOOPS_AND_FUNCTIONS)  
+    
+    for i, entry in enumerate(LOOPS_AND_FUNCTIONS):
+        gflop_byte = sum(LOOPS_AND_FUNCTIONS[entry]["gflop"])/sum(LOOPS_AND_FUNCTIONS[entry]["bytes"])
+        gflops = sum(LOOPS_AND_FUNCTIONS[entry]["gflop"])/sum(LOOPS_AND_FUNCTIONS[entry]["time"])
+        time= sum(LOOPS_AND_FUNCTIONS[entry]["time"])
+        name_str = "Name: ".ljust(20, ' ') + str(entry)
+        time_str = "Time: ".ljust(22, ' ') + str(round(time, 2)) + " s"
+        performance_str = "Performance: ".ljust(16, ' ') + str(round(gflops, 2)) + " GFLOPs"
+
+        # Combine the strings
+        label = name_str + "\n" + time_str + "\n" + performance_str
+
+
+        ax.plot(gflop_byte, gflops, marker=markers[i],
+                color=colors[i], label=label)
+    
+    #for i in range(len(df.self_ai)):
+    #    ax.plot(df.self_ai[i], df.self_gflops[i], marker=markers[i],
+    #            color=colors[i], label=format_label(df.function_call_sites_and_loops[i])+" "+str(df.self_time[i])+"s")
+        
             
     # Set the legend of the plot.
     legend = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
                             prop={'size': 10}, title='Rooflines/Loops')
     plt.title("Roofline for "+" ".join([n.capitalize() for n in name.split("_")]))
     # Save the plot in PNG format.
-    plt.savefig('plots/roofline_plots/%s.png' %
+    plt.savefig('plots/roofline_plots/%s_combined.png' %
                 name, bbox_extra_artists=(legend,), bbox_inches='tight')
 
 
@@ -172,6 +209,7 @@ def format_label(label):
 
 def filter_roofs(strings, exclude):
     return [s for s in strings if not any(ex in s.name for ex in exclude)]
+
 
 
 if __name__ == '__main__':

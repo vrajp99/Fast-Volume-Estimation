@@ -9,11 +9,11 @@ BASELINE = "baseline"
 #BASELINE = "polyvest"
 #EXECUTABLES = ["basic-opt", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision",]
 
-BRANCHES = ["bound-remove"] 
-BRANCHES = ["bound-remove", "fast-linalg"] 
-BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim"]
-BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["polyvest", "bound-remove"] 
+#BRANCHES = ["polyvest", "bound-remove", "fast-linalg"] 
+#BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim"]
+#BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
+#BRANCHES = ["polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
 
 TEST_CASES =["cube_20", "cube_40", "cube_60", "cube_80"]
