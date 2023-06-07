@@ -1,0 +1,25 @@
+# started on Wed Jun  7 00:12:56 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cross_and_simplex/cross_5' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.95 FLOPc                    (11.26%)
+           919’229      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 22.60% )  (35.37%)
+         1’130’471      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 24.22% )  (60.87%)
+             3’727      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 18.17% )  (86.57%)
+        27’780’452      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.77% )
+                 2      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.00% )  (88.74%)
+         2’764’922      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.54% )  (64.63%)
+            77’628      cache-misses              #   32.198 % of all cache refs      ( +- 81.13% )  (39.13%)
+           406’393       cache-references                                             ( +- 39.41% )  (13.43%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01557 +- 0.00110 seconds time elapsed  ( +-  7.06% )
+

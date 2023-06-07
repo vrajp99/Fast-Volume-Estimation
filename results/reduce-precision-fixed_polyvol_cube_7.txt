@@ -1,0 +1,25 @@
+# started on Tue Jun  6 23:47:10 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cube_tests/cube_7' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.36 FLOPc                    (0.40%)
+         1’756’568      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 29.88% )  (8.70%)
+         8’340’055      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 17.98% )  (17.00%)
+               320      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.76% )  (25.31%)
+        86’006’533      CPU_CLK_UNHALTED.THREAD                                       ( +-  7.03% )  (33.61%)
+                60      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 25.58% )  (41.51%)
+         2’265’451      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  2.52% )  (41.49%)
+               788      cache-misses              #    0.247 % of all cache refs      ( +-5993.70% )  (41.50%)
+            20’821       cache-references                                             ( +-1436.91% )  (41.50%)
+             4’066      L1-dcache-load-misses     #    0.01% of all L1-dcache accesses  ( +-3215.73% )  (33.20%)
+        46’859’742      L1-dcache-loads                                               ( +-  3.00% )  (33.22%)
+        16’708’770      L1-dcache-stores                                              ( +-  2.00% )  (33.22%)
+            46’621      L1-icache-load-misses                                         ( +- 20.46% )  (33.20%)
+            24’929      LLC-loads                                                     ( +- 26.96% )  (24.89%)
+             3’617      LLC-load-misses           #   18.95% of all LL-cache accesses  ( +- 86.19% )  (16.59%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.05354 +- 0.00353 seconds time elapsed  ( +-  6.59% )
+

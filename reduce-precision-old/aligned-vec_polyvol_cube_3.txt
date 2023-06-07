@@ -1,0 +1,25 @@
+# started on Mon Jun  5 17:27:09 2023
+
+
+ Performance counter stats for './executables/aligned-vec_polyvol advanced_tests/cube_tests/cube_3' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.16 FLOPc                    (2.26%)
+             3’475      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-7814.92% )  (39.67%)
+            27’492      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 21.13% )  (74.23%)
+           176’929      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        18’806’365      CPU_CLK_UNHALTED.THREAD                                       ( +- 17.42% )
+           362’068      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 29.11% )  (97.74%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (60.33%)
+           137’849      cache-misses              #  124.358 % of all cache refs      ( +- 27.58% )  (25.77%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.010512 +- 0.000726 seconds time elapsed  ( +-  6.91% )
+

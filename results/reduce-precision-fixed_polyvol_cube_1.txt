@@ -1,0 +1,25 @@
+# started on Tue Jun  6 23:47:09 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cube_tests/cube_1' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (45.49%)
+               493      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.13% )
+            46’408      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+         8’738’327      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.59% )
+                 5      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.59% )  (54.51%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01025 +- 0.00334 seconds time elapsed  ( +- 32.57% )
+

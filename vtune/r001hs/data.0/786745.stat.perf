@@ -1,0 +1,29 @@
+# AMPLXE_PERF_STAT
+# hostname : lucy
+# os release : 5.19.0-42-generic
+# arch : x86_64
+# cpuid : GenuineIntel,6,142,12
+# cpudesc : Intel(R) Core(TM) i7-10610U CPU @ 1.80GHz
+# total memory : 16000480 kB
+# nrcpus online : 8
+# nrcpus avail : 8
+# sibling cores : 0-7
+# sibling threads : 0,4
+# sibling threads : 1,5
+# sibling threads : 2,6
+# sibling threads : 3,7
+# process id : 786745
+;;5204628337;0
+;;3116429472;1
+;;11032144566;2
+;;31780425;3
+;;28657481;4
+;;8;5
+;;2;6
+;;0;7
+;;1577881354;8
+;;0;9
+;;0;10
+;;7083175;11
+;;10849223913;12
+;;12685300749;13

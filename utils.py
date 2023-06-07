@@ -189,6 +189,70 @@ def load_data(path):
     return data
 
 
+BRANCH_COLOR_DICT = {
+    "baseline": '#EE6666', 
+    "polyvest": '#3388BB',
+    "bound-remove": '#9988DD', 
+    "fast-linalg": '#EECC55', 
+    "vecplusextraoptim": '#88BB44', 
+    "aligned-vec": '#FFBBBB',
+    "reduce-precision": '#964B00'
+}
+
+
+def extract_results(test_dir, results_dir, branches):
+    """
+    Extracts test results (perf) from the given directory.
+    
+    Arguments:
+    test_dir -- the path to the directory containing the test files
+    results_dir -- the path to the directory where the extracted results will be saved
+    branches -- a list of branches to include in the extracted results
+    
+    Returns:
+    file_names -- a list of file names corresponding to the test cases
+    data -- a dictionary containing the extracted results
+    """
+    # Utility functions
+    test_files, _ = list_files_sorted(test_dir)
+    
+    file_names = []
+    data = {}
+
+    # Loop through files in results_dir and subdirectories
+    for root, _, files in os.walk(results_dir):
+        # Sort files by number extracted from file name
+        files.sort(key=extract_number)
+        
+        # Analyze each file
+        for result in files:
+            # Only consider .txt files
+            if not result.endswith(".txt"):
+                continue
+            
+            # Extract branch and data_file from result
+            branch, data_file_with_ext = result.split("_polyvol_")
+            data_file = data_file_with_ext.strip(".txt")
+
+            # Check branch and data_file against filters
+            if branch in branches and data_file in test_files:
+                # Ensure each file name is only added once
+                if data_file not in file_names:
+                    file_names.append(data_file)
+                
+                # Initialize branch in data if not already present
+                if branch not in data:
+                    data[branch] = []
+                
+                # Read FLOPc data from file and add to branch in data
+                file_flopc = parse_file(os.path.join(root, result))
+                data[branch].append(file_flopc["FLOPc"])
+    
+    # Sort file_names by number extracted from file name
+    file_names.sort(key=extract_number)
+    return file_names, data
+
+
 def format_number(n, threshold=100000):
     """Format number as float or in scientific notation, based on a threshold."""
     return '{:.2e}'.format(n) if abs(n) >= threshold else '{:.2f}'.format(n)

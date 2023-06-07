@@ -1,0 +1,25 @@
+# started on Mon Jun  5 17:43:22 2023
+
+
+ Performance counter stats for './executables/vecplusextraoptim_polyvol advanced_tests/cube_tests/cube_3' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.21 FLOPc                    (13.08%)
+           977’531      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.72% )  (67.82%)
+            29’150      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+           174’925      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        13’053’453      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.09% )
+           402’534      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 25.82% )  (86.92%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (32.18%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.007997 +- 0.000161 seconds time elapsed  ( +-  2.01% )
+

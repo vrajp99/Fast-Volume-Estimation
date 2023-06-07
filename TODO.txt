@@ -1,0 +1,4 @@
+- Add animation to hotspot.
+- Maybe change vecplusextraoptim to cube_70 or look at vtune. 
+- Add bar plot to baseline 
+- Add polyvest to some of the bar plots, e.g. bound remove

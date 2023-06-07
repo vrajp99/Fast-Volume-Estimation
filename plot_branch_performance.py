@@ -4,12 +4,19 @@ import utils
 import os
 import seaborn as sns
 
+#BRANCHES = ["baseline", "polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
-BRANCHES = ["baseline", "polyvest", "basic-opt","bound-remove"] # Before fast-linalg
+BRANCHES = ["baseline", "polyvest"] 
+BRANCHES = ["baseline", "polyvest", "bound-remove"] 
+#BRANCHES = ["polyvest", "fast-linalg"] 
+#BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim"]
+#BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
+BRANCHES = ["polyvest","fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+ 
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 
 #BRANCHES = ["aligned-vec", "reduce-precision"] # After fast-linalg
-TEST_DIR = "advanced_tests/cube_tests"
+TEST_DIR = "advanced_tests/cube_tests_simple"
 #TEST_DIR = "tests/"
 
 RESULTS_DIR = "results"
@@ -23,8 +30,10 @@ plt.rc('xtick', direction='out', color='gray')
 plt.rc('ytick', direction='out', color='gray')
 plt.rc('patch', edgecolor='#E6E6E6')
 plt.rc('lines', linewidth=2)
-plt.rcParams["figure.figsize"] = (12,6)
-plt.rcParams.update({'font.size': 14})
+plt.rcParams["figure.figsize"] = (12,9)
+plt.rcParams.update({'font.size': 18})
+#plt.rcParams["font.weight"] = "bold"
+#plt.rcParams["axes.labelweight"] = "bold"
 
 def plot_data(data, file_names):  
     """
@@ -44,34 +53,25 @@ def plot_data(data, file_names):
     print(list(zip(*data.values())))
     for branch in data:
         data[branch] = [float(x) for x in data[branch]]
-    plt.plot(dimensions, list(zip(*data.values())), label=data.keys())
-    plt.xlabel('Dimensions', fontsize=12)
-    plt.xticks(fontsize=11)
-    plt.title("Performance [flops/cycles] for Cubes With Varying Dimensions", fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.legend(fontsize=12)
-    plt.text(0.0, 1, 'Flops/Cycles',
-            fontsize=12, color='k',
+        plt.plot(dimensions, data[branch], label=branch, linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
+    #plt.plot(dimensions, list(zip(*data.values())), label=data.keys(), linewidth=3)
+    plt.xlabel('Cube Dimensions', fontsize=18)
+    plt.xticks(fontsize=16)
+    #plt.title("Performance [flops/cycles] for Cubes With Varying Dimensions", fontsize=18, y=1.03)
+    
+    plt.yticks(fontsize=16)
+    plt.legend(fontsize=20)
+    plt.text(0.0, 1, 'Performance Flops/Cycles',
+            fontsize=18, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
-    plt.savefig(f'plots/performance_plots/performance_before_fast-linalg.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.png', bbox_inches='tight', dpi=300)
+    #plt.savefig(f'plots/performance_plots/performance_baseline_polyvest_bound-remove.png', bbox_inches='tight', dpi=300)
 
 
 def main():
     print("Branches: ", BRANCHES)
-    file_names, _ = utils.list_files_sorted(TEST_DIR)
-    print(file_names)
-    data = {}
-    for root, _, files in os.walk(RESULTS_DIR):
-        files.sort(key=utils.extract_number)
-        for result in files:
-            if result.endswith(".txt"):
-                branch = result.split("_")[0].strip()
-                if branch in BRANCHES:
-                    if branch not in data:
-                        data[branch] = []
-                    file_flopc = utils.parse_file(os.path.join(root, result))
-                    data[branch].append(file_flopc["FLOPc"])
+    file_names, data = utils.extract_results(TEST_DIR, RESULTS_DIR, BRANCHES)
     plot_data(data, file_names)
 
 if __name__ == '__main__':

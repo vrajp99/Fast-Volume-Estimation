@@ -1,0 +1,25 @@
+# started on Mon Jun  5 16:39:07 2023
+
+
+ Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/cube_tests/cube_30' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.40 FLOPc                    (17.65%)
+       572’369’619      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.08% )  (23.53%)
+        17’651’413      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.01% )  (23.53%)
+     1’076’433’647      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.04% )  (23.53%)
+    12’189’843’873      CPU_CLK_UNHALTED.THREAD                                       ( +-  0.47% )  (29.41%)
+        17’689’977      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.07% )  (29.41%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (29.41%)
+            47’924      cache-misses              #    1.660 % of all cache refs      ( +-448.39% )  (29.41%)
+         1’748’361       cache-references                                             ( +- 43.52% )  (29.41%)
+        65’686’034      L1-dcache-load-misses     #    1.39% of all L1-dcache accesses  ( +-  3.31% )  (23.53%)
+     4’721’757’877      L1-dcache-loads                                               ( +-  0.07% )  (23.53%)
+     1’767’603’212      L1-dcache-stores                                              ( +-  0.05% )  (23.53%)
+         1’013’384      L1-icache-load-misses                                         ( +-  7.01% )  (23.53%)
+           121’412      LLC-loads                                                     ( +- 62.96% )  (23.53%)
+             2’855      LLC-load-misses           #    1.07% of all LL-cache accesses  ( +-1379.46% )  (23.53%)
+            32’567      LLC-stores                                                    ( +- 26.11% )  (11.77%)
+               280      LLC-store-misses                                              ( +-1188.42% )  (11.77%)
+
+            6.8293 +- 0.0331 seconds time elapsed  ( +-  0.48% )
+

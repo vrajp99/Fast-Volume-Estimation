@@ -1,0 +1,25 @@
+# started on Tue Jun  6 23:47:10 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cube_tests/cube_6' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.30 FLOPc                    (8.92%)
+         1’944’013      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 11.76% )  (22.29%)
+         4’342’484      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 12.50% )  (35.68%)
+               134      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 25.15% )  (49.05%)
+        53’407’718      CPU_CLK_UNHALTED.THREAD                                       ( +-  6.31% )  (62.46%)
+                26      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 29.83% )  (66.93%)
+         1’572’363      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.25% )  (66.96%)
+            58’767      cache-misses              #   12.270 % of all cache refs      ( +-363.25% )  (64.32%)
+           107’997       cache-references                                             ( +-400.29% )  (50.95%)
+            67’627      L1-dcache-load-misses     #    0.27% of all L1-dcache accesses  ( +-114.27% )  (24.14%)
+        25’074’246      L1-dcache-loads                                               ( +-  5.01% )  (10.75%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.03992 +- 0.00286 seconds time elapsed  ( +-  7.16% )
+

@@ -21,7 +21,7 @@
      4’013’236’729      LLC-stores                                                    (11.77%)
         22’872’498      LLC-store-misses                                              (11.77%)
 
-    3913.956994346 seconds time elapsed
+    3913.956994346 +- 2.56 seconds time elapsed
 
     3909.732474000 seconds user
        0.227974000 seconds sys

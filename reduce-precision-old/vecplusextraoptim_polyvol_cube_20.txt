@@ -1,0 +1,25 @@
+# started on Mon Jun  5 17:43:31 2023
+
+
+ Performance counter stats for './executables/vecplusextraoptim_polyvol advanced_tests/cube_tests/cube_20' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.72 FLOPc                    (17.16%)
+       184’782’226      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.43% )  (23.13%)
+         5’914’898      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.67% )  (23.40%)
+       420’572’223      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.51% )  (23.67%)
+     2’635’216’467      CPU_CLK_UNHALTED.THREAD                                       ( +-  2.56% )  (29.63%)
+        37’116’185      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.34% )  (29.82%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (29.83%)
+           521’155      cache-misses              #   21.895 % of all cache refs      ( +- 17.08% )  (29.82%)
+         2’781’279       cache-references                                             ( +- 19.19% )  (29.83%)
+        52’863’234      L1-dcache-load-misses     #    2.47% of all L1-dcache accesses  ( +-  3.16% )  (23.86%)
+     2’129’788’748      L1-dcache-loads                                               ( +-  0.21% )  (23.86%)
+     1’062’405’658      L1-dcache-stores                                              ( +-  0.25% )  (23.86%)
+           442’124      L1-icache-load-misses                                         ( +-  8.46% )  (23.73%)
+           587’475      LLC-loads                                                     ( +- 17.53% )  (23.46%)
+            76’829      LLC-load-misses           #   21.52% of all LL-cache accesses  ( +- 23.51% )  (23.19%)
+            27’877      LLC-stores                                                    ( +- 31.43% )  (11.39%)
+            10’468      LLC-store-misses                                              ( +- 21.94% )  (11.39%)
+
+            1.5213 +- 0.0380 seconds time elapsed  ( +-  2.50% )
+

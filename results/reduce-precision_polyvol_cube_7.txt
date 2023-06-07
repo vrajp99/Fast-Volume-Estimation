@@ -1,25 +1,25 @@
-# started on Mon Jun  5 18:30:14 2023
+# started on Tue Jun  6 18:48:53 2023
 
 
  Performance counter stats for './executables/reduce-precision_polyvol advanced_tests/cube_tests/cube_7' (5 runs):
 
-         5’402’011      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.37 FLOPc                    ( +- 18.31% )  (13.50%)
-           711’353      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 68.93% )  (19.69%)
-         6’941’253      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 22.09% )  (19.69%)
-               412      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.12% )  (19.65%)
-       115’298’322      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.78% )  (25.83%)
-                80      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.68% )  (30.89%)
-         1’820’356      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  8.97% )  (30.85%)
-            16’117      cache-misses              #    5.898 % of all cache refs      ( +-474.84% )  (30.86%)
-            75’072       cache-references                                             ( +-297.23% )  (30.88%)
-            37’589      L1-dcache-load-misses     #    0.08% of all L1-dcache accesses  ( +-258.34% )  (24.73%)
-        50’625’961      L1-dcache-loads                                               ( +-  4.29% )  (24.73%)
-        19’388’767      L1-dcache-stores                                              ( +-  4.19% )  (24.73%)
-            16’928      L1-icache-load-misses                                         ( +- 11.24% )  (24.73%)
-             5’179      LLC-loads                                                     ( +- 31.58% )  (24.69%)
-             2’620      LLC-load-misses           #   53.48% of all LL-cache accesses  ( +-128.94% )  (24.73%)
-               954      LLC-stores                                                    ( +-647.59% )  (12.36%)
-             4’821      LLC-store-misses                                              ( +- 27.80% )  (12.38%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.40 FLOPc                    (4.46%)
+         2’722’293      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  9.60% )  (12.71%)
+         9’030’083      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  7.49% )  (20.95%)
+               277      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.21% )  (29.20%)
+        86’776’509      CPU_CLK_UNHALTED.THREAD                                       ( +-  1.55% )  (37.43%)
+                60      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.63% )  (41.22%)
+         2’298’873      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  4.43% )  (41.22%)
+             8’219      cache-misses              #    2.078 % of all cache refs      ( +-2169.67% )  (41.22%)
+            15’627       cache-references                                             ( +-2417.70% )  (41.22%)
+             3’420      L1-dcache-load-misses     #    0.01% of all L1-dcache accesses  ( +-2311.08% )  (32.98%)
+        47’566’766      L1-dcache-loads                                               ( +-  2.91% )  (32.98%)
+        16’992’238      L1-dcache-stores                                              ( +-  3.81% )  (32.99%)
+            54’854      L1-icache-load-misses                                         ( +- 13.24% )  (29.59%)
+            35’015      LLC-loads                                                     ( +- 17.63% )  (21.34%)
+            35’232      LLC-load-misses           #  128.35% of all LL-cache accesses  ( +- 18.01% )  (13.10%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
 
-           0.06438 +- 0.00249 seconds time elapsed  ( +-  3.87% )
+          0.050174 +- 0.000743 seconds time elapsed  ( +-  1.48% )
 

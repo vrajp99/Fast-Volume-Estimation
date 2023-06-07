@@ -1,0 +1,12 @@
+# started on Mon Jun  5 00:06:35 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol advanced_tests/polyvest_cube_tests/cube_3 1600' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+         2’738’666      fp_arith_inst_retired.scalar_double                                   
+        30’623’892      cycles                                                        ( +-  4.92% )
+
+          0.017959 +- 0.000948 seconds time elapsed  ( +-  5.28% )
+

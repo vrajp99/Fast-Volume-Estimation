@@ -1,0 +1,12 @@
+# started on Tue Jun  6 02:37:55 2023
+
+
+ Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/polyvest_cube_tests/cube_1 1600' (5 runs):
+
+                 0      fp_arith_inst_retired.128b_packed_double                                   
+                 0      fp_arith_inst_retired.256b_packed_double                                   
+                 0      fp_arith_inst_retired.scalar_double                                   
+         5’912’866      cycles                                                        ( +- 15.00% )
+
+           0.00601 +- 0.00163 seconds time elapsed  ( +- 27.13% )
+

@@ -1,0 +1,25 @@
+# started on Wed Jun  7 00:12:56 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cross_and_simplex/cross_4' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.40 FLOPc                    (21.25%)
+           156’331      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 25.03% )  (78.67%)
+           465’025      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.12% )
+               128      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        12’439’008      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.46% )
+                 2      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.00% )  (78.75%)
+           596’800      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 18.21% )  (21.33%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.007531 +- 0.000473 seconds time elapsed  ( +-  6.28% )
+

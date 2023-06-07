@@ -1,0 +1,25 @@
+# started on Wed Jun  7 00:12:56 2023
+
+
+ Performance counter stats for './executables/reduce-precision-fixed_polyvol advanced_tests/cross_and_simplex/simplex_4' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.07 FLOPc                    (1.51%)
+            57’487      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-198.37% )  (28.58%)
+           968’204      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 26.11% )  (55.67%)
+             4’675      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 17.73% )  (82.73%)
+        26’362’321      CPU_CLK_UNHALTED.THREAD                                       ( +- 17.87% )
+                10      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 22.80% )  (98.49%)
+                22      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 18.26% )  (71.42%)
+            80’015      cache-misses              #   64.582 % of all cache refs      ( +- 60.10% )  (44.33%)
+           303’916       cache-references                                             ( +- 24.97% )  (17.27%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01620 +- 0.00284 seconds time elapsed  ( +- 17.53% )
+

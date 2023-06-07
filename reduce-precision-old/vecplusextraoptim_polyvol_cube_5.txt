@@ -1,0 +1,25 @@
+# started on Mon Jun  5 17:43:22 2023
+
+
+ Performance counter stats for './executables/vecplusextraoptim_polyvol advanced_tests/cube_tests/cube_5' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.33 FLOPc                    (9.84%)
+         3’663’219      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.04% )  (27.13%)
+           110’495      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 19.59% )  (44.59%)
+         1’698’941      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.29% )  (61.72%)
+        40’568’591      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.98% )  (79.36%)
+         1’517’145      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.68% )  (86.73%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (72.87%)
+            25’110      cache-misses              #    8.384 % of all cache refs      ( +-358.70% )  (55.41%)
+           138’272       cache-references                                             ( +-110.26% )  (38.28%)
+           486’726      L1-dcache-load-misses     #   11.93% of all L1-dcache accesses  ( +- 21.00% )  (3.43%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.023325 +- 0.000377 seconds time elapsed  ( +-  1.62% )
+

@@ -1,17 +1,17 @@
-# started on Mon Jun  5 18:30:13 2023
+# started on Tue Jun  6 18:48:52 2023
 
 
  Performance counter stats for './executables/reduce-precision_polyvol advanced_tests/cube_tests/cube_5' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.30 FLOPc                    (7.29%)
-           416’111      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 43.88% )  (27.22%)
-         2’890’748      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 21.32% )  (47.08%)
-                69      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 21.74% )  (66.53%)
-        35’717’039      CPU_CLK_UNHALTED.THREAD                                       ( +- 22.27% )  (86.33%)
-                 7      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.48% )  (92.71%)
-         1’046’424      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.34% )  (72.78%)
-            81’705      cache-misses              #   23.813 % of all cache refs      ( +- 95.61% )  (52.92%)
-           169’796       cache-references                                             ( +-108.72% )  (33.47%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.39 FLOPc                    (13.99%)
+         1’219’108      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 19.20% )  (36.59%)
+         3’567’467      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 19.47% )  (59.22%)
+                56      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.28% )  (81.84%)
+        31’629’944      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.10% )
+                 8      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 18.96% )  (86.01%)
+           966’327      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 20.07% )  (63.41%)
+           103’141      cache-misses              #   26.991 % of all cache refs      ( +- 77.21% )  (40.78%)
+           313’382       cache-references                                             ( +- 30.56% )  (18.16%)
      <not counted>      L1-dcache-load-misses                                         (0.00%)
      <not counted>      L1-dcache-loads                                               (0.00%)
      <not counted>      L1-dcache-stores                                              (0.00%)
@@ -21,5 +21,5 @@
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-           0.02444 +- 0.00179 seconds time elapsed  ( +-  7.33% )
+          0.018399 +- 0.000122 seconds time elapsed  ( +-  0.66% )
 

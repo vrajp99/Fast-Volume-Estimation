@@ -1,0 +1,25 @@
+# started on Wed Jun  7 00:21:32 2023
+
+
+ Performance counter stats for './executables/polyvest_polyvol advanced_tests/polyvest_cross_and_simplex/cross_3 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.03 FLOPc                    (1.92%)
+            22’958      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-1525.24% )  (37.31%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (72.85%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+        19’361’570      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.99% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (98.08%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (62.69%)
+            93’770      cache-misses              #  131.288 % of all cache refs      ( +- 49.93% )  (27.15%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01293 +- 0.00114 seconds time elapsed  ( +-  8.81% )
+
