@@ -99,14 +99,15 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const float polytope::walk(float* x, float *Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const float polytope::walk(float* norm, float* x, float *Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % n);
 
   float r, max, min, C = 0;
 
-  C = norm_2(x, n);
+  // C = norm_2(x, n);
+  C = *norm;
   C -= x[dir] * x[dir];
 
   r = sqrt(rk - C);
@@ -170,7 +171,7 @@ const float polytope::walk(float* x, float *Ax, const float* B, const float* A_n
   for (size_t i = (m / N_VEC) * N_VEC; i < m; i++){
     Ax[i] += A_dir[i] * randval;
   }
-  
+  *norm = C + t * t;
   return (C + t * t);
 }
 
@@ -191,6 +192,7 @@ const double polytope::estimateVol() const
   bound = (float *) aligned_alloc(32, align_pad(m));
   // Move factor computation outside.
   float factor = pow(2.0, -1.0 / n);
+  float factor_sq = factor * factor;
 
   // Initialization of Ax and B
   float* B = (float *) aligned_alloc(32, align_pad(n*m));
@@ -294,11 +296,14 @@ const double polytope::estimateVol() const
   // Random Generator
   XoshiroCpp::Xoshiro128PlusPlus rng(time(0));
 
+  // float norm = norm_2(x, n);
+  float norm = 0;
+
   for (int k = l - 1; k >= 0; k--)
   {
     for (long i = count; i < step_sz; i++)
     {
-      float x_norm = walk(x, Ax, B, A_negrecp, Agt, Alt, r2[k + 1], rng);
+      float x_norm = walk(&norm, x, Ax, B, A_negrecp, Agt, Alt, r2[k + 1], rng);
       if (x_norm <= r2[0]) {
         t[0]++;
       } else if (x_norm <= r2[k]) {
@@ -339,6 +344,7 @@ const double polytope::estimateVol() const
     for (; i < n; i++){
       x[i] *= factor;
     }
+    norm *= factor_sq;
     __m256 Ax_vec, Ax_fact;
     for (i = 0; i < (m / N_VEC) * N_VEC; i += N_VEC) {
       Ax_vec = _mm256_load_ps(Ax + i);
