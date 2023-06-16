@@ -76,7 +76,7 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const float polytope::walk(float* norm, float* x, float *Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const void polytope::walk(float* norm, float* x, float *Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % n);
@@ -148,7 +148,6 @@ const float polytope::walk(float* norm, float* x, float *Ax, const float* B, con
     Ax[i] += A_dir[i] * randval;
   }
   *norm = C + t * t;
-  return (C + t * t);
 }
 
 const double polytope::estimateVol() const
@@ -278,12 +277,12 @@ const double polytope::estimateVol() const
   {
     for (long i = count; i < step_sz; i++)
     {
-      float x_norm = walk(&norm, x, Ax, B, A_negrecp, Agt, Alt, r2[k + 1], rng);
-      if (x_norm <= r2[0]) {
+      walk(&norm, x, Ax, B, A_negrecp, Agt, Alt, r2[k + 1], rng);
+      if (norm <= r2[0]) {
         t[0]++;
-      } else if (x_norm <= r2[k]) {
+      } else if (norm <= r2[k]) {
         // Change divide by 2 to multiply by 0.5
-        long m = ceill(((double)n) * 0.5 * log2(x_norm));
+        long m = ceill(((double)n) * 0.5 * log2(norm));
         t[m]++;
         assert(m <= k);
       }
