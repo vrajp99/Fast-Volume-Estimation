@@ -61,29 +61,6 @@ const float vec_hmin(const __m256& v) {
     return _mm_cvtss_f32(min); 
 }
 
-static const float norm_2(float* x, size_t n)
-{
-  // Loop Unrolling for ILP
-
-  float norm = 0;
-
-  float *x_ptr = x; 
-
-  __m256 result = _mm256_set1_ps(0);
-  size_t i = 0;
-  for (; i < (n / N_VEC) * N_VEC; i += N_VEC){
-    __m256 x_vec = _mm256_load_ps(x_ptr + i);
-    result = _mm256_fmadd_ps(x_vec, x_vec, result);
-  }
-  norm = vec_hadd(result);
-
-  // Cleanup code
-  for (; i < n; i++) {
-    norm += x[i] * x[i];
-  }
-  return norm;
-}
-
 static const double unitBallVol(size_t n)
 {
   // Added a DP-Like structure, avoid function calls.
@@ -106,7 +83,6 @@ const float polytope::walk(float* norm, float* x, float *Ax, const float* B, con
 
   float r, max, min, C = 0;
 
-  // C = norm_2(x, n);
   C = *norm;
   C -= x[dir] * x[dir];
 
@@ -296,7 +272,6 @@ const double polytope::estimateVol() const
   // Random Generator
   XoshiroCpp::Xoshiro128PlusPlus rng(time(0));
 
-  // float norm = norm_2(x, n);
   float norm = 0;
 
   for (int k = l - 1; k >= 0; k--)
