@@ -1,12 +1,25 @@
-# started on Thu Jun  1 02:28:16 2023
+# started on Thu Jun 15 01:16:14 2023
 
 
- Performance counter stats for './executables/baseline_polyvol cube_tests/cube_6' (10 runs):
+ Performance counter stats for './executables/baseline_polyvol advanced_tests/cube_tests/cube_6' (5 runs):
 
-                 0      fp_arith_inst_retired.128b_packed_double                                   
-                 0      fp_arith_inst_retired.256b_packed_double                                   
-       167’328’845      fp_arith_inst_retired.scalar_double                                     ( +-  0.08% )
-       444’952’304      cycles                                                        ( +-  4.52% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.31 FLOPc                    (17.73%)
+       110’260’956      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  1.28% )  (24.48%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (24.47%)
+         2’163’979      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  1.71% )  (24.48%)
+       370’142’263      CPU_CLK_UNHALTED.THREAD                                       ( +-  8.81% )  (24.18%)
+         3’410’864      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.68% )  (23.24%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (23.24%)
+            15’652      cache-misses              #    3.538 % of all cache refs      ( +-429.58% )  (23.23%)
+            67’651       cache-references                                             ( +-529.92% )  (23.23%)
+            22’212      L1-dcache-load-misses     #    0.01% of all L1-dcache accesses  ( +-663.51% )  (23.23%)
+       236’058’062      L1-dcache-loads                                               ( +-  0.89% )  (23.23%)
+       151’490’513      L1-dcache-stores                                              ( +-  0.45% )  (23.24%)
+           214’268      L1-icache-load-misses                                         ( +-786.12% )  (23.24%)
+             6’824      LLC-loads                                                     ( +-142.28% )  (23.24%)
+               998      LLC-load-misses           #    6.14% of all LL-cache accesses  ( +-471.94% )  (23.24%)
+             1’996      LLC-stores                                                    ( +-255.25% )  (11.62%)
+               344      LLC-store-misses                                              ( +-188.21% )  (11.62%)
 
-            0.2712 +- 0.0115 seconds time elapsed  ( +-  4.24% )
+            0.2277 +- 0.0190 seconds time elapsed  ( +-  8.36% )
 

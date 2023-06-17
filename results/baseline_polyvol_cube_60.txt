@@ -1,29 +1,25 @@
-# started on Mon Jun  5 19:43:57 2023
+# started on Thu Jun 15 04:09:47 2023
 
 
- Performance counter stats for './executables/baseline_polyvol cubes_70_80/cube_60':
+ Performance counter stats for './executables/baseline_polyvol advanced_tests/cube_tests/cube_60' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.32 FLOPc                    (17.65%)
- 2’270’655’074’884      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     (23.53%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.31 FLOPc                    (17.65%)
+ 1’465’444’800’826      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.01% )  (23.53%)
                  0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (23.53%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     (23.53%)
- 7’007’249’806’666      CPU_CLK_UNHALTED.THREAD                                       (29.41%)
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (29.41%)
-                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (29.41%)
-   141’604’029’572      cache-misses              #   51.277 % of all cache refs      (29.41%)
-   276’157’233’296       cache-references                                             (29.41%)
-   396’082’800’925      L1-dcache-load-misses     #   11.69% of all L1-dcache accesses  (23.53%)
- 3’386’960’242’586      L1-dcache-loads                                               (23.53%)
- 1’778’400’901’536      L1-dcache-stores                                              (23.53%)
-     2’906’976’406      L1-icache-load-misses                                         (23.53%)
-     4’380’964’719      LLC-loads                                                     (23.53%)
-     1’600’244’299      LLC-load-misses           #   36.53% of all LL-cache accesses  (23.53%)
-     4’013’236’729      LLC-stores                                                    (11.77%)
-        22’872’498      LLC-store-misses                                              (11.77%)
+    13’779’152’933      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.01% )  (23.53%)
+ 4’959’130’548’945      CPU_CLK_UNHALTED.THREAD                                       ( +-  0.18% )  (23.53%)
+       717’958’895      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.06% )  (23.53%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (23.53%)
+   100’831’033’453      cache-misses              #   40.689 % of all cache refs      ( +-  0.19% )  (23.53%)
+   230’904’285’438       cache-references                                             ( +-  2.30% )  (23.53%)
+   394’393’879’407      L1-dcache-load-misses     #   17.66% of all L1-dcache accesses  ( +-  0.03% )  (23.53%)
+ 2’233’186’860’193      L1-dcache-loads                                               ( +-  0.01% )  (23.53%)
+ 1’204’262’955’765      L1-dcache-stores                                              ( +-  0.01% )  (23.53%)
+     1’970’384’838      L1-icache-load-misses                                         ( +-  3.48% )  (23.53%)
+    21’763’016’572      LLC-loads                                                     ( +-  3.52% )  (23.53%)
+    13’676’073’658      LLC-load-misses           #   57.14% of all LL-cache accesses  ( +-  1.58% )  (23.53%)
+     6’192’863’072      LLC-stores                                                    ( +- 10.18% )  (11.77%)
+        15’970’190      LLC-store-misses                                              ( +- 23.09% )  (11.77%)
 
-    3913.956994346 +- 2.56 seconds time elapsed
-
-    3909.732474000 seconds user
-       0.227974000 seconds sys
-
+           2750.42 +- 4.94 seconds time elapsed  ( +-  0.18% )
 

@@ -1,12 +1,29 @@
-# started on Thu Jun  1 02:28:13 2023
+# started on Thu Jun 15 01:16:13 2023
 
 
- Performance counter stats for './executables/baseline_polyvol cube_tests/cube_1' (10 runs):
+ Performance counter stats for './executables/baseline_polyvol advanced_tests/cube_tests/cube_1' (5 runs):
 
-                 0      fp_arith_inst_retired.128b_packed_double                                   
-                 0      fp_arith_inst_retired.256b_packed_double                                   
-           157’331      fp_arith_inst_retired.scalar_double                                   
-         7’872’589      cycles                                                        ( +-  5.36% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (57.14%)
+            77’282      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+         6’964’886      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.67% )  (42.86%)
+     <not counted>      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (0.00%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.006186 +- 0.000266 seconds time elapsed  ( +-  4.31% )
+           0.00945 +- 0.00318 seconds time elapsed  ( +- 33.65% )
 
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog
