@@ -79,7 +79,7 @@ static const double unitBallVol(size_t n)
   return vol[n];
 }
 
-const void polytope::walk(float* norm, float* x, float *Ax, const float* B, const float* A_negrecp, const __m256* Agt,  const __m256* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
+const void polytope::walk(float* norm, float* x, float *Ax, const float* B, const float* A_negrecp, const float* Agt,  const float* Alt, const float rk, XoshiroCpp::Xoshiro128PlusPlus &rng) const
 {
   // Choose coordinate direction
   int dir = (rng() % N);
@@ -98,36 +98,25 @@ const void polytope::walk(float* norm, float* x, float *Ax, const float* B, cons
   const float *B_ptr = B + M * dir, *A_negrecp_dir_ptr = A_negrecp + M*dir, *A_dir_ptr = A_dir;
   float *bound_ptr = bound, *Ax_ptr = Ax;
 
+  __m256 max_all = _mm256_set1_ps(max), min_all = _mm256_set1_ps(min);
+  __m256 maxd = max_all, mind = min_all;
   for (size_t i = 0; i < (M / N_VEC) * N_VEC; i += N_VEC){
     __m256 A_negrecp_dir_vec = _mm256_loadu_ps(A_negrecp_dir_ptr + i);
     __m256 Ax_vec = _mm256_load_ps(Ax_ptr + i);
     __m256 B_vec = _mm256_loadu_ps(B_ptr + i);
-    __m256 result = _mm256_fmadd_ps(Ax_vec, A_negrecp_dir_vec, B_vec);
-    _mm256_store_ps(bound_ptr + i, result);
-  }
-  for (size_t i = (M / N_VEC) * N_VEC ; i < M; i++)
-  {
-    bound[i] = B[M * dir + i] + (Ax[i] * A_negrecp_dir_ptr[i]);
-  }
-
-  
-  __m256 max_all = _mm256_set1_ps(max), min_all = _mm256_set1_ps(min);
-  __m256 maxd = max_all, mind = min_all;
-  for (size_t i = 0; i < (M / N_VEC); i++)
-  {
-    __m256 bb = _mm256_load_ps(bound_ptr + i * N_VEC);
-    
-    __m256 bbgt = _mm256_blendv_ps(max_all, bb, Agt[(M/N_VEC)*dir + i]);
+    __m256 Agt_curr = _mm256_loadu_ps(Agt + (M+1)*dir + i);
+    __m256 Alt_curr = _mm256_loadu_ps(Alt + (M+1)*dir + i);
+    __m256 bb = _mm256_fmadd_ps(Ax_vec, A_negrecp_dir_vec, B_vec);    
+    __m256 bbgt = _mm256_blendv_ps(max_all, bb, Agt_curr);
     maxd = _mm256_min_ps(maxd, bbgt);
-
-    __m256 bblt = _mm256_blendv_ps(min_all, bb, Alt[(M/N_VEC)*dir + i]);
+    __m256 bblt = _mm256_blendv_ps(min_all, bb, Alt_curr);
     mind = _mm256_max_ps(mind, bblt);
-    
   }
   min = vec_hmax(mind), max = vec_hmin(maxd);
-  for (size_t i = (M / N_VEC) * N_VEC; i < M; i++)
+  for (size_t i = (M / N_VEC) * N_VEC ; i < M; i++)
   {
-    float aa = A_dir[i], bb = bound[i];
+    float aa = A_dir[i];
+    float bb = B[M * dir + i] + (Ax[i] * A_negrecp_dir_ptr[i]);
     if (aa > 0 && bb < max)
       max = bb;
     else if (aa < 0 && bb > min)
@@ -254,21 +243,26 @@ const double polytope::estimateVol() const
 
 
   // Precomputing vectorization mask
-  __m256* Agt = (__m256*) aligned_alloc(sizeof(__m256),(M / N_VEC)*N*sizeof(__m256));
-  __m256* Alt = (__m256*) aligned_alloc(sizeof(__m256),(M / N_VEC)*N*sizeof(__m256));
+  float* Agt = (float*) aligned_alloc(32,align_pad((M+1)*(N+1)));
+  float* Alt = (float*) aligned_alloc(32,align_pad((M+1)*(N+1)));
   const __m256 zeros = _mm256_setzero_ps();
-  float* A_ptr = A_arr;
-  for (size_t i = 0, ii = 0; i < N; i++, ii+=(M / N_VEC))
+  float* A_ptr = A_arr, *Agt_iter = Agt, *Alt_iter = Alt;
+  int offset=0;
+  for (size_t i = 0; i < N; i++)
   {
     // Column Pointer -- Need aligned allocate for A? 
-    for (size_t j = 0, jj = 0; j < M / N_VEC; j++, jj+=N_VEC)
+    for (size_t jj = 0; jj < M; jj+=N_VEC)
     {
       __m256 aa = _mm256_loadu_ps(A_ptr + jj);
       // Change to Aligned Load I guess.
-      Agt[ii + j] = _mm256_cmp_ps(aa, zeros, _CMP_GT_OQ);
-      Alt[ii + j] = _mm256_cmp_ps(aa, zeros, _CMP_LT_OQ);
+      __m256 Agt_val = _mm256_cmp_ps(aa, zeros, _CMP_GT_OQ);
+      __m256 Alt_val = _mm256_cmp_ps(aa, zeros, _CMP_LT_OQ);
+      _mm256_storeu_ps(Agt_iter+jj, Agt_val);
+      _mm256_storeu_ps(Alt_iter+jj, Alt_val);
     }
     A_ptr += M;
+    Agt_iter += M+1;
+    Alt_iter += M+1;
   }
 
   // Random Generator
