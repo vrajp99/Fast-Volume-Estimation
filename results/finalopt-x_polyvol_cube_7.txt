@@ -1,0 +1,29 @@
+# started on Wed Jun 21 00:18:06 2023
+
+
+ Performance counter stats for './executables/finalopt-7_polyvol advanced_tests/cube_tests/cube_7' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.37 FLOPc                    (4.37%)
+         1’237’784      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 12.66% )  (14.21%)
+         6’225’809      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 14.61% )  (24.02%)
+               262      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.54% )  (33.87%)
+        72’534’103      CPU_CLK_UNHALTED.THREAD                                       ( +-  2.20% )  (39.34%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (39.33%)
+         2’466’001      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.60% )  (39.32%)
+            13’051      cache-misses              #    1.963 % of all cache refs      ( +-2539.31% )  (39.31%)
+            51’431       cache-references                                             ( +-1228.47% )  (39.30%)
+            22’476      L1-dcache-load-misses     #    0.13% of all L1-dcache accesses  ( +-555.60% )  (39.30%)
+        17’287’636      L1-dcache-loads                                               ( +-  2.01% )  (36.66%)
+         2’772’946      L1-dcache-stores                                              ( +- 15.65% )  (26.82%)
+            78’089      L1-icache-load-misses                                         ( +- 23.22% )  (16.99%)
+           101’490      LLC-loads                                                     ( +- 23.53% )  (7.15%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.042173 +- 0.000928 seconds time elapsed  ( +-  2.20% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

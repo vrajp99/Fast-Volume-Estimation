@@ -1,0 +1,29 @@
+# started on Wed Jun 21 00:18:05 2023
+
+
+ Performance counter stats for './executables/finalopt-3_polyvol advanced_tests/cube_tests/cube_3' (5 runs):
+
+             8’738      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.08 FLOPc                    ( +- 20.00% )  (51.43%)
+           204’380      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 22.90% )
+           840’704      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+                11      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        13’210’846      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.18% )  (48.57%)
+     <not counted>      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (0.00%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01040 +- 0.00155 seconds time elapsed  ( +- 14.90% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog
