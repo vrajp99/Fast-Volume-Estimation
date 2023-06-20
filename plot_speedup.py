@@ -1,20 +1,21 @@
 import re
 import matplotlib.pyplot as plt
-import matplotlib.ticker
 import numpy as np
 import seaborn as sns
 import utils 
 
 # global variables
+NAME = "Baseline"
 BASELINE = "baseline"
-#BASELINE = "polyvest"
-#EXECUTABLES = ["basic-opt", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision",]
+
+#NAME = "PolyVest"]
+#BASELINE = "polyvest-o3-native-fastmath"
 
 #BRANCHES = ["polyvest", "bound-remove"] 
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg"] 
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim"]
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 #BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
 
@@ -79,13 +80,13 @@ def create_plot(data, errors):
     ax.set_xlabel(r'Test Cases', fontsize=14)
     #ax.set_ylabel(r'Speedup Ratio', fontsize=16)
     
-    ax.set_title(r'\textbf{' + 'Speedup Ratio over "{}" ({})'.format(BASELINE, COMPARE)+'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
+    ax.set_title(r'\textbf{' + 'Speedup Ratio over {} ({})'.format(NAME, COMPARE)+'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
     ax.legend(shadow=True, fontsize=14)
     # Increase font sizes for better readability
     plt.rcParams.update({'font.size': 16})
 
     # Save the figure in higher resolution
-    plt.savefig(f'plots/speedup_plots/better_speedup_of_'+'_'.join(BRANCHES)+'_over_'+BASELINE+'_'+COMPARE+'.svg', bbox_inches='tight', dpi=300)
+    plt.savefig(f'plots/speedup_plots/speedup_of_'+'_'.join(BRANCHES)+'_over_'+BASELINE+'_'+COMPARE+'.svg', bbox_inches='tight', dpi=300)
 
    
 def main():

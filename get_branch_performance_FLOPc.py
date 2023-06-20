@@ -5,12 +5,13 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
-BRANCHES = ["polyvest"]
+BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["reduce-precision-fixed"]
 #BRANCHES = ["baseline"]
-TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
+#TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
+#TEST_DIR = "advanced_tests/cube_tests"
 #TEST_DIR = "cubes_70_80"
-#TEST_DIR = "tests"
+TEST_DIR = "advanced_tests/polyvest_cube_tests"
 RESULTS_DIR = "results"
 
 

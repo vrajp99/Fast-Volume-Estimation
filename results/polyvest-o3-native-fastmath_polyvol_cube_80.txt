@@ -1,0 +1,25 @@
+# started on Mon Jun 19 21:34:24 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cube_tests/cube_80 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     1.07 FLOPc                    (17.65%)
+ 5’280’983’195’201      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.01% )  (23.53%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (23.53%)
+    16’485’554’859      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.01% )  (23.53%)
+ 5’433’460’747’456      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.40% )  (23.53%)
+       415’454’285      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.17% )  (23.53%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (23.53%)
+   182’204’900’800      cache-misses              #   30.352 % of all cache refs      ( +- 11.19% )  (23.53%)
+   597’624’586’256       cache-references                                             ( +-  0.21% )  (23.53%)
+   362’910’183’284      L1-dcache-load-misses     #   10.35% of all L1-dcache accesses  ( +-  0.07% )  (23.53%)
+ 3’508’206’858’239      L1-dcache-loads                                               ( +-  0.01% )  (23.53%)
+   765’212’747’896      L1-dcache-stores                                              ( +-  0.02% )  (23.53%)
+     3’534’992’300      L1-icache-load-misses                                         ( +- 15.02% )  (23.53%)
+    30’723’107’832      LLC-loads                                                     ( +-  0.40% )  (23.53%)
+     7’620’203’531      LLC-load-misses           #   25.15% of all LL-cache accesses  ( +- 13.46% )  (23.53%)
+       912’259’229      LLC-stores                                                    ( +-  7.33% )  (11.77%)
+        36’465’437      LLC-store-misses                                              ( +- 12.49% )  (11.77%)
+
+           3049.44 +- 239.07 seconds time elapsed  ( +-  7.84% )
+

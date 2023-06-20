@@ -1,0 +1,25 @@
+# started on Mon Jun 19 17:57:13 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cube_tests/cube_8 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.55 FLOPc                    (16.54%)
+       145’430’146      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  1.33% )  (23.65%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (26.03%)
+         4’151’220      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  1.44% )  (28.40%)
+       302’385’945      CPU_CLK_UNHALTED.THREAD                                       ( +-  0.27% )  (28.46%)
+         1’110’783      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  0.09% )  (28.46%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (28.46%)
+            13’940      cache-misses              #    2.849 % of all cache refs      ( +-288.98% )  (28.46%)
+           309’182       cache-references                                             ( +- 63.57% )  (26.55%)
+           221’669      L1-dcache-load-misses     #    0.10% of all L1-dcache accesses  ( +- 35.11% )  (24.18%)
+       213’175’030      L1-dcache-loads                                               ( +-  0.74% )  (21.81%)
+        91’144’801      L1-dcache-stores                                              ( +-  0.29% )  (19.43%)
+            41’439      L1-icache-load-misses                                         ( +-  7.90% )  (18.96%)
+             5’103      LLC-loads                                                     ( +- 14.16% )  (18.97%)
+             1’244      LLC-load-misses           #   21.94% of all LL-cache accesses  ( +- 16.10% )  (18.97%)
+             1’865      LLC-stores                                                    ( +- 54.06% )  (9.49%)
+                94      LLC-store-misses                                              ( +-997.13% )  (9.48%)
+
+          0.170275 +- 0.000483 seconds time elapsed  ( +-  0.28% )
+

@@ -1,0 +1,29 @@
+# started on Mon Jun 19 17:57:10 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cube_tests/cube_2 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.03 FLOPc                    (8.21%)
+           115’590      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-102.56% )  (51.60%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (96.86%)
+            12’321      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+        15’542’661      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.71% )  (91.79%)
+            46’273      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 18.68% )  (48.40%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (3.14%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.009603 +- 0.000149 seconds time elapsed  ( +-  1.55% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

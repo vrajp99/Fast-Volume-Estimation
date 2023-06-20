@@ -11,7 +11,7 @@ BRANCHES = ["baseline", "polyvest", "bound-remove"]
 #BRANCHES = ["polyvest", "fast-linalg"] 
 #BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim"]
 #BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["polyvest","fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
  
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 
@@ -30,10 +30,13 @@ plt.rc('xtick', direction='out', color='gray')
 plt.rc('ytick', direction='out', color='gray')
 plt.rc('patch', edgecolor='#E6E6E6')
 plt.rc('lines', linewidth=2)
-plt.rcParams["figure.figsize"] = (12,9)
+#plt.rcParams["figure.figsize"] = (12,9)
 plt.rcParams.update({'font.size': 18})
 #plt.rcParams["font.weight"] = "bold"
 #plt.rcParams["axes.labelweight"] = "bold"
+plt.rcParams['text.usetex'] = True
+plt.rc('text.latex', preamble=r'\usepackage{cmbright}')
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 def plot_data(data, file_names):  
     """
@@ -54,18 +57,15 @@ def plot_data(data, file_names):
     for branch in data:
         data[branch] = [float(x) for x in data[branch]]
         plt.plot(dimensions, data[branch], label=branch, linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
-    #plt.plot(dimensions, list(zip(*data.values())), label=data.keys(), linewidth=3)
     plt.xlabel('Cube Dimensions', fontsize=18)
     plt.xticks(fontsize=16)
-    #plt.title("Performance [flops/cycles] for Cubes With Varying Dimensions", fontsize=18, y=1.03)
-    
     plt.yticks(fontsize=16)
     plt.legend(fontsize=20)
     plt.text(0.0, 1, 'Performance Flops/Cycles',
             fontsize=18, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
-    plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
     #plt.savefig(f'plots/performance_plots/performance_baseline_polyvest_bound-remove.png', bbox_inches='tight', dpi=300)
 
 
