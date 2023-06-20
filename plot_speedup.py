@@ -8,14 +8,14 @@ import utils
 NAME = "Baseline"
 BASELINE = "baseline"
 
-#NAME = "PolyVest"]
-#BASELINE = "polyvest-o3-native-fastmath"
+NAME = "PolyVest"
+BASELINE = "polyvest-o3-native-fastmath"
 
 #BRANCHES = ["polyvest", "bound-remove"] 
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg"] 
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim"]
 #BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision", "finalopt", "finalopt-x"]
 #BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
 

@@ -5,13 +5,14 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
-BRANCHES = ["polyvest-o3-native-fastmath"]
+#BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["reduce-precision-fixed"]
 #BRANCHES = ["baseline"]
+BRANCHES = ["finalopt-x"]
 #TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
-#TEST_DIR = "advanced_tests/cube_tests"
+TEST_DIR = "advanced_tests/cube_tests"
 #TEST_DIR = "cubes_70_80"
-TEST_DIR = "advanced_tests/polyvest_cube_tests"
+#TEST_DIR = "advanced_tests/polyvest_cube_tests"
 RESULTS_DIR = "results"
 
 
@@ -29,9 +30,15 @@ def call_executable(executable ,n, file_name):
     """
     print("Measuring performance on ", file_name)
     # Define command to call C program with n as parameter
-    command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
+    if executable.split("/")[-1] == "finalopt-x":
+        command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
-               "-r", "5", "./"+executable, str(n), "1600"]
+               "-r", "5", "./"+executable[:-1]+n.split("_")[-1]+"_polyvol", str(n)]
+    else: 
+        command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
+               "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
+               "-r", "5", "./"+executable, str(n)]
+    print(command)
     # Execute command and capture output
     output = subprocess.check_output(command)
     output_str = output.decode('utf-8').strip()
@@ -86,6 +93,13 @@ def main():
                 executable_path = os.path.join(root, executable)
                 print("Measuring performance of ", executable_path)
                 measure_performance(executable_path, test_paths)
+            elif BRANCHES[0] == "finalopt-x":
+                utils.toggle_turbo_boost("disable")
+                executable_path = os.path.join(root, "finalopt-x")
+                print("Measuring performance of ", executable_path)
+                measure_performance(executable_path, test_paths)
+                break
+                
     print("Enabling Turbo Boost")
     utils.toggle_turbo_boost("enable")
 

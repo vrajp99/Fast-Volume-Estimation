@@ -65,6 +65,7 @@ def plot_data(data, file_names):
             fontsize=18, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
+    plt.title(r'\textbf{' + 'Performance on cubes with different sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
     plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
     #plt.savefig(f'plots/performance_plots/performance_baseline_polyvest_bound-remove.png', bbox_inches='tight', dpi=300)
 

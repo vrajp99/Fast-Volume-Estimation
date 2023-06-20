@@ -192,11 +192,14 @@ def load_data(path):
 BRANCH_COLOR_DICT = {
     "baseline": '#EE6666', 
     "polyvest": '#3388BB',
+    "polyvest-o3-native-fastmath": '#3388BB',
     "bound-remove": '#9988DD', 
     "fast-linalg": '#EECC55', 
     "vecplusextraoptim": '#88BB44', 
     "aligned-vec": '#FFBBBB',
-    "reduce-precision": '#964B00'
+    "reduce-precision": '#964B00',
+    "finalopt": '#ff9966',
+    "finalopt-x": '#97d2d4'
 }
 
 
