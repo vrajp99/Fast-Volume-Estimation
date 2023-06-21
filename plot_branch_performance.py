@@ -7,11 +7,11 @@ import seaborn as sns
 #BRANCHES = ["baseline", "polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
 BRANCHES = ["polyvest-o3-native-fastmath", "baseline"] 
-BRANCHES = ["polyvest-o3-native-fastmath", "baseline", "bound-remove"] 
-BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg"] 
-BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim"]
-BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
-BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
+#BRANCHES = ["polyvest-o3-native-fastmath", "baseline", "bound-remove"] 
+#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg"] 
+#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim"]
+#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
+#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
  
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 
@@ -60,7 +60,7 @@ def plot_data(data, file_names):
     plt.xlabel('Cube Dimensions', fontsize=14)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=14, shadow=True)
     ax = plt.gca()
     ax.xaxis.get_major_formatter()._usetex = False
     ax.yaxis.get_major_formatter()._usetex = False

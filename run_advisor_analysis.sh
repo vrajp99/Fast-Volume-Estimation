@@ -10,7 +10,7 @@
 
 ADVISOR_OUTPUT_PATH="advisor_output"
 
-EXECUTABLE=${1:-"executables/finalopt-80_polyvol"}
+EXECUTABLE=${1:-"executables/finalopt-80-debug_polyvol"}
 EXECUTABLE_NAME=(${EXECUTABLE//// })
 TEST=${2:-"advanced_tests/cube_tests/cube_80"}
 TEST_NAME=(${TEST//// }) 
