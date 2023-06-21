@@ -1,0 +1,25 @@
+# started on Wed Jun 21 02:30:11 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cross_simplex/cuboid_13 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.68 FLOPc                    (16.61%)
+       596’897’626      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  1.29% )  (22.94%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (23.82%)
+        10’509’478      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  0.58% )  (24.61%)
+       906’219’667      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.46% )  (25.31%)
+         2’413’735      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  1.01% )  (25.31%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (25.32%)
+            56’044      cache-misses              #    2.544 % of all cache refs      ( +-146.68% )  (25.32%)
+           670’536       cache-references                                             ( +-117.34% )  (24.85%)
+        23’923’199      L1-dcache-load-misses     #    3.32% of all L1-dcache accesses  ( +-  1.05% )  (24.05%)
+       714’873’743      L1-dcache-loads                                               ( +-  0.35% )  (23.26%)
+       286’065’506      L1-dcache-stores                                              ( +-  0.31% )  (22.47%)
+           109’987      L1-icache-load-misses                                         ( +-622.70% )  (22.16%)
+            19’412      LLC-loads                                                     ( +-220.20% )  (22.16%)
+             1’927      LLC-load-misses           #    1.49% of all LL-cache accesses  ( +-289.32% )  (22.16%)
+             3’078      LLC-stores                                                    ( +-234.02% )  (10.98%)
+               218      LLC-store-misses                                              ( +-160.59% )  (10.98%)
+
+            0.5306 +- 0.0177 seconds time elapsed  ( +-  3.33% )
+

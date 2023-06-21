@@ -1,0 +1,29 @@
+# started on Wed Jun 21 02:21:33 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cross_simplex/cuboid_5 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.05 FLOPc                    (13.42%)
+         3’780’582      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 18.24% )  (27.21%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (41.12%)
+           207’026      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 21.61% )  (55.00%)
+        50’159’021      CPU_CLK_UNHALTED.THREAD                                       ( +- 23.90% )  (55.76%)
+           268’875      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 19.42% )  (56.15%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (56.41%)
+           103’680      cache-misses              #   28.053 % of all cache refs      ( +-110.39% )  (45.00%)
+           250’303       cache-references                                             ( +-106.35% )  (30.82%)
+           126’423      L1-dcache-load-misses     #    0.64% of all L1-dcache accesses  ( +- 23.74% )  (16.64%)
+        16’908’453      L1-dcache-loads                                               ( +-  4.69% )  (2.47%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.03209 +- 0.00262 seconds time elapsed  ( +-  8.15% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

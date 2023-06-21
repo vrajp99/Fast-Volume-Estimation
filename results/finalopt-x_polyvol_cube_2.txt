@@ -1,13 +1,13 @@
-# started on Wed Jun 21 00:18:05 2023
+# started on Wed Jun 21 01:52:54 2023
 
 
  Performance counter stats for './executables/finalopt-2_polyvol advanced_tests/cube_tests/cube_2' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (19.79%)
-             1’239      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
-            40’871      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (76.07%)
+             1’239      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 21.20% )
+            40’882      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
                  7      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
-         7’921’365      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.92% )  (80.21%)
+         6’817’387      CPU_CLK_UNHALTED.THREAD                                       ( +- 28.77% )  (23.93%)
      <not counted>      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (0.00%)
      <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
      <not counted>      cache-misses                                                  (0.00%)
@@ -21,7 +21,7 @@
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.005287 +- 0.000175 seconds time elapsed  ( +-  3.32% )
+          0.004853 +- 0.000307 seconds time elapsed  ( +-  6.33% )
 
 Some events weren't counted. Try disabling the NMI watchdog:
 	echo 0 > /proc/sys/kernel/nmi_watchdog

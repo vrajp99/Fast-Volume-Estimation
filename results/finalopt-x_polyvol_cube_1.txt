@@ -1,13 +1,13 @@
-# started on Wed Jun 21 00:18:05 2023
+# started on Wed Jun 21 01:52:54 2023
 
 
  Performance counter stats for './executables/finalopt-1_polyvol advanced_tests/cube_tests/cube_1' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (65.17%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (62.11%)
                435      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
             41’602      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
                  0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
-         5’885’721      CPU_CLK_UNHALTED.THREAD                                       ( +- 25.88% )  (34.83%)
+         8’683’345      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.70% )  (37.89%)
      <not counted>      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (0.00%)
      <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
      <not counted>      cache-misses                                                  (0.00%)
@@ -21,7 +21,7 @@
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.005007 +- 0.000286 seconds time elapsed  ( +-  5.70% )
+          0.005362 +- 0.000169 seconds time elapsed  ( +-  3.16% )
 
 Some events weren't counted. Try disabling the NMI watchdog:
 	echo 0 > /proc/sys/kernel/nmi_watchdog

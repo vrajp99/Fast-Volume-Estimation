@@ -1,0 +1,29 @@
+# started on Wed Jun 21 02:15:51 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cross_simplex_rh/rh_1_3 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (11.48%)
+             1’165      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-3043.93% )  (67.87%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                   
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                   
+        11’452’492      CPU_CLK_UNHALTED.THREAD                                       ( +- 20.39% )  (88.52%)
+            14’940      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.29% )  (32.13%)
+     <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
+     <not counted>      cache-misses                                                  (0.00%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+          0.009364 +- 0.000629 seconds time elapsed  ( +-  6.71% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

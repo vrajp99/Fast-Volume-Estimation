@@ -1,27 +1,27 @@
-# started on Wed Jun 21 00:18:06 2023
+# started on Wed Jun 21 01:52:55 2023
 
 
  Performance counter stats for './executables/finalopt-7_polyvol advanced_tests/cube_tests/cube_7' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.37 FLOPc                    (4.37%)
-         1’237’784      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 12.66% )  (14.21%)
-         6’225’809      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 14.61% )  (24.02%)
-               262      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.54% )  (33.87%)
-        72’534’103      CPU_CLK_UNHALTED.THREAD                                       ( +-  2.20% )  (39.34%)
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (39.33%)
-         2’466’001      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.60% )  (39.32%)
-            13’051      cache-misses              #    1.963 % of all cache refs      ( +-2539.31% )  (39.31%)
-            51’431       cache-references                                             ( +-1228.47% )  (39.30%)
-            22’476      L1-dcache-load-misses     #    0.13% of all L1-dcache accesses  ( +-555.60% )  (39.30%)
-        17’287’636      L1-dcache-loads                                               ( +-  2.01% )  (36.66%)
-         2’772’946      L1-dcache-stores                                              ( +- 15.65% )  (26.82%)
-            78’089      L1-icache-load-misses                                         ( +- 23.22% )  (16.99%)
-           101’490      LLC-loads                                                     ( +- 23.53% )  (7.15%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.38 FLOPc                    (0.08%)
+           140’854      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-313.85% )  (10.11%)
+         5’589’956      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 16.44% )  (20.15%)
+               291      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 17.30% )  (30.19%)
+        71’324’957      CPU_CLK_UNHALTED.THREAD                                       ( +-  1.43% )  (40.02%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (40.02%)
+         2’213’016      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 21.47% )  (40.02%)
+             5’579      cache-misses              #    0.887 % of all cache refs      ( +-4055.23% )  (40.02%)
+            33’170       cache-references                                             ( +-1787.88% )  (40.14%)
+            18’070      L1-dcache-load-misses     #    0.10% of all L1-dcache accesses  ( +-655.08% )  (40.14%)
+        18’771’645      L1-dcache-loads                                               ( +-  2.79% )  (39.83%)
+         3’123’685      L1-dcache-stores                                              ( +- 13.49% )  (29.79%)
+            76’043      L1-icache-load-misses                                         ( +- 42.02% )  (19.76%)
+            70’544      LLC-loads                                                     ( +- 39.39% )  (9.72%)
      <not counted>      LLC-load-misses                                               (0.00%)
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-          0.042173 +- 0.000928 seconds time elapsed  ( +-  2.20% )
+          0.041717 +- 0.000617 seconds time elapsed  ( +-  1.48% )
 
 Some events weren't counted. Try disabling the NMI watchdog:
 	echo 0 > /proc/sys/kernel/nmi_watchdog

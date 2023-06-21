@@ -6,12 +6,12 @@ import seaborn as sns
 
 #BRANCHES = ["baseline", "polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
-BRANCHES = ["baseline", "polyvest"] 
-BRANCHES = ["baseline", "polyvest", "bound-remove"] 
-#BRANCHES = ["polyvest", "fast-linalg"] 
-#BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim"]
-#BRANCHES = ["polyvest", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["polyvest-o3-native-fastmath", "baseline"] 
+BRANCHES = ["polyvest-o3-native-fastmath", "baseline", "bound-remove"] 
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg"] 
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim"]
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
  
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 
@@ -54,18 +54,21 @@ def plot_data(data, file_names):
     dimensions = [file_name.split("_")[1] for file_name in file_names]
     print(data)
     print(list(zip(*data.values())))
-    for branch in data:
+    for branch in BRANCHES:
         data[branch] = [float(x) for x in data[branch]]
-        plt.plot(dimensions, data[branch], label=branch, linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
-    plt.xlabel('Cube Dimensions', fontsize=18)
-    plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
-    plt.legend(fontsize=20)
+        plt.plot(dimensions, data[branch], label=utils.BRANCH_NAME_DICT[branch], linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
+    plt.xlabel('Cube Dimensions', fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.legend(fontsize=14)
+    ax = plt.gca()
+    ax.xaxis.get_major_formatter()._usetex = False
+    ax.yaxis.get_major_formatter()._usetex = False
     plt.text(0.0, 1, 'Performance Flops/Cycles',
-            fontsize=18, color='k',
+            fontsize=14, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
-    plt.title(r'\textbf{' + 'Performance on cubes with different sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
+    plt.title(r'\textbf{' + 'Performance on Cubes With Different Sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
     plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
     #plt.savefig(f'plots/performance_plots/performance_baseline_polyvest_bound-remove.png', bbox_inches='tight', dpi=300)
 

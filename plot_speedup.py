@@ -8,15 +8,14 @@ import utils
 NAME = "Baseline"
 BASELINE = "baseline"
 
-NAME = "PolyVest"
-BASELINE = "polyvest-o3-native-fastmath"
+#NAME = "PolyVest"
+#BASELINE = "polyvest-o3-native-fastmath"
 
-#BRANCHES = ["polyvest", "bound-remove"] 
-#BRANCHES = ["polyvest", "bound-remove", "fast-linalg"] 
-#BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim"]
-#BRANCHES = ["polyvest", "bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec"]
-BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision", "finalopt", "finalopt-x"]
-#BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
+BRANCHES = ["bound-remove"] 
+BRANCHES = ["bound-remove", "fast-linalg"] 
+BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim"]
+BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
+BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
 
 
 TEST_CASES =["cube_20", "cube_40", "cube_60", "cube_80"]
@@ -61,7 +60,7 @@ def create_plot(data, errors):
         if exe != BASELINE:
             print(exe, values)
             ax.bar(np.arange(n_groups) * (n_bars * bar_width + gap_width) + i * bar_width, values, 
-                   width=bar_width, label=exe, color=utils.BRANCH_COLOR_DICT[exe], yerr=errors[exe], 
+                   width=bar_width, label=utils.BRANCH_NAME_DICT[exe], color=utils.BRANCH_COLOR_DICT[exe], yerr=errors[exe], 
                    capsize=5, error_kw={'elinewidth':1, 'capthick':1})
 
     
@@ -110,7 +109,6 @@ def main():
             if stat is not None:
                 speedup = baseline_stat / stat
                 speedup_error = speedup * (stat_error / stat)
-
                 data[exe].append(speedup)
                 errors[exe].append(speedup_error)
     print(data)

@@ -1,16 +1,16 @@
 import subprocess
-import json
 import os
 import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
-#BRANCHES = ["polyvest-o3-native-fastmath"]
+BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["reduce-precision-fixed"]
 #BRANCHES = ["baseline"]
-BRANCHES = ["finalopt-x"]
+#BRANCHES = ["finalopt"]
 #TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
-TEST_DIR = "advanced_tests/cube_tests"
+#TEST_DIR = "advanced_tests/cube_tests"
+TEST_DIR = "advanced_tests/polyvest_cross_simplex"
 #TEST_DIR = "cubes_70_80"
 #TEST_DIR = "advanced_tests/polyvest_cube_tests"
 RESULTS_DIR = "results"
@@ -30,14 +30,15 @@ def call_executable(executable ,n, file_name):
     """
     print("Measuring performance on ", file_name)
     # Define command to call C program with n as parameter
+    # Edge case for finalopt-x, where we Define M and N for each test case
     if executable.split("/")[-1] == "finalopt-x":
-        command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
+        command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_polyvol_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
                "-r", "5", "./"+executable[:-1]+n.split("_")[-1]+"_polyvol", str(n)]
     else: 
         command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
-               "-r", "5", "./"+executable, str(n)]
+               "-r", "5", "./"+executable, str(n), str(1600)]
     print(command)
     # Execute command and capture output
     output = subprocess.check_output(command)
@@ -58,21 +59,10 @@ def measure_performance(executable, file_paths):
     - measurements(List[Tuple[str, float]]): A list of tuples containing the filename and 
         the time taken to execute the executable for each file.
     """
-    measurements = []
     for path in file_paths:
         # Call C program and retrieve number of cycles
         file_name = path.split("/")[-1]
-        executable_name = executable.split("/")[-1]
         call_executable(executable, path, file_name)
-        measurement = utils.parse_file("results/"+executable_name+"_"+file_name+".txt")
-        print(measurement)
-        # Calculate performance
-        measurements.append(measurement["FLOPc"])
-    print("Saving measurements for ", executable_name)
-    with open("results/"+executable_name+"_"+".json", 'w') as fp:
-        json.dump(measurements, fp)
-    return measurements
-    
     
 def main():
     print("Disabling Turbo Boost")

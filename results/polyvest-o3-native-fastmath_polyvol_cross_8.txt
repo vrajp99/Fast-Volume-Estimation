@@ -1,0 +1,25 @@
+# started on Wed Jun 21 02:21:40 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_cross_simplex/cross_8 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.88 FLOPc                    (17.44%)
+     1’023’655’423      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  0.87% )  (23.68%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (24.25%)
+        15’128’570      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  2.37% )  (24.81%)
+     1’258’124’971      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.54% )  (24.98%)
+           444’826      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  2.59% )  (25.00%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (24.70%)
+         1’541’524      cache-misses              #    5.931 % of all cache refs      ( +- 17.01% )  (24.12%)
+        32’309’031       cache-references                                             ( +- 13.39% )  (23.54%)
+        77’926’957      L1-dcache-load-misses     #    8.46% of all L1-dcache accesses  ( +-  1.22% )  (22.98%)
+       944’323’581      L1-dcache-loads                                               ( +-  0.75% )  (22.71%)
+       259’393’452      L1-dcache-stores                                              ( +-  0.63% )  (22.72%)
+         1’090’762      L1-icache-load-misses                                         ( +- 79.76% )  (22.73%)
+         2’112’064      LLC-loads                                                     ( +- 11.25% )  (22.73%)
+            72’715      LLC-load-misses           #    4.69% of all LL-cache accesses  ( +-  9.34% )  (22.66%)
+           103’989      LLC-stores                                                    ( +- 50.04% )  (11.29%)
+            24’808      LLC-store-misses                                              ( +- 17.90% )  (11.36%)
+
+            0.7045 +- 0.0308 seconds time elapsed  ( +-  4.37% )
+

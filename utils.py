@@ -18,7 +18,7 @@ def extract_number(filename):
     Raises:
         AttributeError: If the filename is None or does not contain any digits.
     """
-    match = re.search(r'(\d+)', filename)
+    match = re.search(r'(\d+).txt', filename)
     if match:
         return int(match.group(1))
     return 0
@@ -198,9 +198,25 @@ BRANCH_COLOR_DICT = {
     "vecplusextraoptim": '#88BB44', 
     "aligned-vec": '#FFBBBB',
     "reduce-precision": '#964B00',
+    "reduce-precision-fixed": '#964B00',
     "finalopt": '#ff9966',
     "finalopt-x": '#97d2d4'
 }
+
+BRANCH_NAME_DICT = {
+    "baseline": 'Baseline', 
+    "polyvest": 'PolyVest',
+    "polyvest-o3-native-fastmath": 'PolyVest',
+    "bound-remove": 'Opt-I', 
+    "fast-linalg": 'Opt-II', 
+    "vecplusextraoptim": 'Opt-III', 
+    "aligned-vec": 'Opt-IV',
+    "reduce-precision": 'Opt-IV',
+    "reduce-precision-fixed": 'Opt-IV',
+    "finalopt": 'Opt-V',
+    "finalopt-x": 'Opt-V'
+}
+
 
 
 def extract_results(test_dir, results_dir, branches):
@@ -249,6 +265,9 @@ def extract_results(test_dir, results_dir, branches):
                 
                 # Read FLOPc data from file and add to branch in data
                 file_flopc = parse_file(os.path.join(root, result))
+                if branch == "polyvest-o3-native-fastmath":
+                    print(result)
+                    print(file_flopc)
                 data[branch].append(file_flopc["FLOPc"])
     
     # Sort file_names by number extracted from file name
