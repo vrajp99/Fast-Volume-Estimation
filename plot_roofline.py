@@ -20,6 +20,7 @@ EXCLUDE = ["Scalar", "Int64", "Int32"]
 LOOPS_AND_FUNCTIONS = {"polytope::estimateVol": {"identifiers": ["estimateVol"], "gflop": [], "gflops": [], "bytes": [], "time": []},
                        "polytope::walk": {"identifiers": ["_ZNK8polytope4walkEPfS0"],
                                           "gflop": [], "gflops": [], "bytes": [], "time": []}}
+#LOOPS_AND_FUNCTIONS = {"polytope::estimateVol": {"identifiers": ["estimateVol"], "gflop": [], "gflops": [], "bytes": [], "time": []}}
 
 pd.options.display.max_rows = 20
 # Set the default font size

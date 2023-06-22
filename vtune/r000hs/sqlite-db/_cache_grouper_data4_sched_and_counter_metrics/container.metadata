@@ -4,15 +4,12 @@
  <entry path="grouper" unsignedLong:size="0">
   <indexFields>
    <field path="dd_thread"/>
-   <field path="counter_data_scale"/>
-   <emptyField path="counter_data_attr" int:defaultValue="-1"/>
+   <field path="cpu_usage_data_attr_utilization"/>
+   <field path="cpu_usage_data_scale"/>
    <emptyField path="counter_data_attr" null:defaultValue=""/>
    <emptyField path="counter_data_scale" int:defaultValue="1"/>
   </indexFields>
   <int64Fields>
-   <field path="counter_data_duration"/>
-   <field path="counter_data_count"/>
-   <field path="counter_data_inst_count"/>
    <emptyField path="counter_data_duration" int:defaultValue="0"/>
    <emptyField path="counter_data_count" int:defaultValue="0"/>
    <emptyField path="counter_data_inst_count" int:defaultValue="0"/>

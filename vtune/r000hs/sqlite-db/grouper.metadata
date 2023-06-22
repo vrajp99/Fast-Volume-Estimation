@@ -14,6 +14,11 @@
     </standardMetrics>
     <customMetrics/>
    </entry>
+   <entry instanceTable="cpu_usage_data" correlationType="global">
+    <groupings>
+     <grouping path="attr.utilization"/>
+    </groupings>
+   </entry>
    <entry instanceTable="marker_global_data" correlationType="global">
     <groupings>
      <grouping path="attr"/>
@@ -26,6 +31,21 @@
      <grouping path="attr.event_type"/>
      <grouping path="attr.mem_access"/>
      <grouping path="attr.tsx_info"/>
+    </groupings>
+    <standardMetrics>
+     <metric>time</metric>
+     <metric>count</metric>
+     <metric>instanceCount</metric>
+    </standardMetrics>
+    <customMetrics/>
+   </entry>
+  </entries>
+ </grouper>
+ <grouper name="global_data_grouper" recommendedStorage="container">
+  <entries>
+   <entry instanceTable="cpu_usage_data" correlationType="global">
+    <groupings>
+     <grouping path="attr"/>
     </groupings>
     <standardMetrics>
      <metric>time</metric>
@@ -77,6 +97,11 @@
      <metric>instanceCount</metric>
     </standardMetrics>
     <customMetrics/>
+   </entry>
+   <entry instanceTable="cpu_usage_data" correlationType="global">
+    <groupings>
+     <grouping path="attr.utilization"/>
+    </groupings>
    </entry>
   </entries>
  </grouper>
