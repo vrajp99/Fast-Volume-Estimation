@@ -30,7 +30,8 @@ def measure_performance(executable, file_paths):
                 out = subprocess.run([executable, str(path), "1600"], capture_output = True, check=True).stdout.decode('utf-8')
                 out = out.split("\n")[-2]
             else: 
-                out = float(subprocess.run([executable[:-1]+"-".join(path.split("/")[-1].split("_"))+"_polyvol", str(path)], capture_output = True, check=True).stdout.decode('utf-8'))
+                #out = float(subprocess.run([executable[:-1]+"-".join(path.split("/")[-1].split("_"))+"_polyvol", str(path)], capture_output = True, check=True).stdout.decode('utf-8'))
+                out = float(subprocess.run([executable[:-1]+path.split("_")[-1]+"_polyvol", str(path)], capture_output = True, check=True).stdout.decode('utf-8'))
             time.sleep(0.5)
             # Clearing cache like this does not reliably give different results
             #os.system('sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"')
