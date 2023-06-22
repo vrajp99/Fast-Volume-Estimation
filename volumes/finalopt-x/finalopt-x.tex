@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\renewcommand\theadfont{\scriptsize}
+\begin{document}
+\title{CI for finalopt-x}
+\maketitle
+\begin{table}[ht]
+\centering\scriptsize
+\begin{tabular}{\textwidth}{llllll}
+\toprule
+\thead[l]{Test} & \thead[l]{Avg. vol \\ $\hat{v}$} &\thead[l]{Std Dev \\ $\sigma$} & \thead[l]{95\% CI \\ $\mathcal{I}=[p,q]$} & \thead[l]{Freq on \\ $\mathcal{I}$} & \thead[l]{Error \\ $\epsilon = \frac{q-p}{\hat{v}}$} \\
+\midrule
+cube\_10 & 1026.06 &             42.74 & [1013.79, 1038.32] &                 0.24 & 0.02 \\
+cube\_20 & 1.06e+06 &             44081.35 & [1.05e+06, 1.07e+06] &                 0.22 & 0.02 \\
+rh\_20\_100 & 5.83e+05 &             21500.36 & [5.79e+05, 5.88e+05] &                 0.16 & 0.01 \\
+cuboid\_20 & 5.23e+07 &             2.07e+06 & [5.18e+07, 5.27e+07] &                 0.18 & 0.02 \\
+cube\_30 & 1.08e+09 &             4.74e+07 & [1.06e+09, 1.09e+09] &                 0.18 & 0.03 \\
+rh\_30\_60 & nan &             nan & [nan, nan] &                 nan & nan \\
+cube\_40 & 1.09e+12 &             5.54e+10 & [1.08e+12, 1.11e+12] &                 0.26 & 0.03 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{document}

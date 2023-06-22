@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\renewcommand\theadfont{\scriptsize}
+\begin{document}
+\title{CI for polyvest}
+\maketitle
+\begin{table}[ht]
+\centering\scriptsize
+\begin{tabularx}{\textwidth}{Xlllll}
+\toprule
+\thead[l]{Test} & \thead[l]{Avg. vol \\ $\hat{v}$} &\thead[l]{Std Dev \\ $\sigma$} & \thead[l]{95\% CI \\ $\mathcal{I}=[p,q]$} & \thead[l]{Freq on \\ $\mathcal{I}$} & \thead[l]{Error \\ $\epsilon = \frac{q-p}{\hat{v}}$} \\
+\midrule
+cube\_30 & 1.07e+09 &             5.17e+07 & [1.06e+09, 1.09e+09] &                 0.18 & 0.03 \\
+cube\_10 & 1018.88 &             45.32 & [1005.87, 1031.89] &                 0.26 & 0.03 \\
+cube\_20 & 1.06e+06 &             57507.07 & [1.05e+06, 1.08e+06] &                 0.18 & 0.03 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\end{document}

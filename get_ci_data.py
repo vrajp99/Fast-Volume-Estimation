@@ -4,13 +4,16 @@ import utils
 import time 
 
 # Change these variables
-BRANCHES = ["reduce-precision"]
+BRANCHES = ["finalopt-x"]
+#BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["polyvest"]
-TEST_DIR = "advanced_tests/small_cubes"
+TEST_DIR = "advanced_tests/polyvest_paper_cubes"
+TEST_DIR = "advanced_tests/other_paper_correctness"
+TEST_DIR = "advanced_tests/paper_cubes"
 #TEST_DIR = "advanced_tests/polyvest_small_cubes"
 
 RESULTS_DIR = "volumes"
-REPEATS = 50
+REPEATS = 100
 
 def measure_performance(executable, file_paths):
     for path in file_paths:
@@ -27,9 +30,8 @@ def measure_performance(executable, file_paths):
                 out = subprocess.run([executable, str(path), "1600"], capture_output = True, check=True).stdout.decode('utf-8')
                 out = out.split("\n")[-2]
             else: 
-                out = float(subprocess.run([executable, str(path)], capture_output = True, check=True).stdout.decode('utf-8'))
-            # Sleeping for one second is necessary to avoid caching, 0.5s is too short
-            time.sleep(1)
+                out = float(subprocess.run([executable[:-1]+"-".join(path.split("/")[-1].split("_"))+"_polyvol", str(path)], capture_output = True, check=True).stdout.decode('utf-8'))
+            time.sleep(0.5)
             # Clearing cache like this does not reliably give different results
             #os.system('sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"')
             outfile.write("%s\n" % out)
@@ -53,6 +55,12 @@ def main():
                 executable_path = os.path.join(root, executable)
                 print("Measuring performance of ", executable_path)
                 measure_performance(executable_path, test_paths)
+            elif BRANCHES[0] == "finalopt-x":
+                utils.toggle_turbo_boost("disable")
+                executable_path = os.path.join(root, "finalopt-x")
+                print("Measuring performance of ", executable_path)
+                measure_performance(executable_path, test_paths)
+                break
     print("Enabling Turbo Boost")
     utils.toggle_turbo_boost("enable")
 

@@ -20,8 +20,12 @@ dir_path = "results"
 data_dict = {tc: {} for tc in test_cases}
 
 # Regular expression patterns to find the relevant lines in the file
-flops_pattern = re.compile(r".*FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE\s+#\s+(\d+\.\d+)\s+FLOPc")
-time_pattern = re.compile(r".*(\d+\.\d+)\s+\+\-\s+\d+\.\d+\s+seconds time elapsed")
+flops_pattern =  re.compile(r".*FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE.*(\d+\.\d+)\s+FLOPc")
+time_pattern = re.compile(r'(\d+.\d+)\s+\+-\s*(\d+.\d+)\s+seconds')
+
+# Regular expression patterns to find the relevant lines in the file
+flops_pattern = re.compile(r".*FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE.*(\d+\.\d+)\s+FLOPc")
+time_pattern = re.compile(r".*seconds time elapsed")
 
 # Loop over executables and test cases
 for executable in executables:
@@ -39,19 +43,28 @@ for executable in executables:
         with open(full_path, 'r') as f:
             lines = f.readlines()
 
-        # Find the lines with the measurements
-        flops_line = next((line for line in lines if flops_pattern.match(line)), None)
-        time_line = next((line for line in lines if time_pattern.match(line)), None)
+        # Initialize FLOPc and Time
+        flops = None
+        time = None
 
-        # Extract the measurements
-        if flops_line and time_line:
-            flops = float(flops_pattern.match(flops_line).group(1))
-            time = float(time_pattern.match(time_line).group(1))
+        # Iterate through each line
+        for line in lines:
+            # Find the line with the FLOPc measurement
+            if flops_pattern.match(line):
+                flops = float(flops_pattern.match(line).group(1))
 
-            # Save the data
+            # Find the line with the Time measurement
+            if time_pattern.match(line):
+                time = float(line.split()[0])
+
+            # If both measurements have been found, no need to continue
+            if flops is not None and time is not None:
+                break
+
+        # Save the data
+        if flops is not None and time is not None:
             data_dict[test_case][(utils.BRANCH_NAME_DICT[executable], "FLOPc")] = flops
             data_dict[test_case][(utils.BRANCH_NAME_DICT[executable], "Time")] = round(time, 2)
-
 # Convert the dictionary to a pandas DataFrame and reorganize columns
 df = pd.DataFrame(data_dict).T
 df.columns = pd.MultiIndex.from_tuples(df.columns)

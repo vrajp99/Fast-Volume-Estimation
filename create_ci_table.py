@@ -7,11 +7,12 @@ import utils
 
 
 # Set the directory containing your log files
-DIRECTORY = "volumes/polyvest_polyvol"
+DIRECTORY = "volumes/polyvest-o3-native-fastmath"
+DIRECTORY = "volumes/finalopt-x"
 #DIRECTORY = "volumes/reduce-precision_polyvol"
 #EXECUTABLE = "reduced\\_precision"
 #EXECUTABLE = "\\_aligned\\-vec"
-EXECUTABLE = "polyvest"
+EXECUTABLE = "finalopt-x"
 
 
 # Get a list of all log files in that directory
@@ -29,6 +30,7 @@ def confidence_interval(data, confidence=0.95):
     
     m, se = np.mean(a), stats.sem(a)
     print("m, se ", m, se)
+    print("DATA ", data)
     h = se * stats.t.ppf((1 + confidence) / 2., n-1)
     print(stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) )
     print(m-h, m+h)
@@ -51,7 +53,7 @@ latex_doc += "\\maketitle\n"
 # Start the LaTeX table
 latex_doc += "\\begin{table}[ht]\n"
 latex_doc += "\\centering\scriptsize\n"
-latex_doc += "\\begin{tabularx}{\\textwidth}{Xlllll}\n"
+latex_doc += "\\begin{tabular}{\\textwidth}{llllll}\n"
 latex_doc += "\\toprule\n"
 latex_doc += "\\thead[l]{Test} & \\thead[l]{Avg. vol \\\\ $\\hat{v}$} &"
 latex_doc +=  "\\thead[l]{Std Dev \\\\ $\\sigma$} & \\thead[l]{95\\% CI \\\\ $\\mathcal{I}=[p,q]$} & "
@@ -79,7 +81,7 @@ for log_file in log_files:
 
 # End the LaTeX table
 latex_doc += "\\bottomrule\n"
-latex_doc += "\\end{tabularx}\n"
+latex_doc += "\\end{tabular}\n"
 latex_doc += "\\end{table}\n"
 # End the LaTeX document
 latex_doc += "\\end{document}\n"
