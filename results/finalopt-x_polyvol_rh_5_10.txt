@@ -1,0 +1,29 @@
+# started on Thu Jun 22 11:19:51 2023
+
+
+ Performance counter stats for './executables/finalopt-rh-5-10_polyvol advanced_tests/other_polytopes/rh_5_10' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.53 FLOPc                    (20.15%)
+         1’233’528      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.98% )  (45.83%)
+         3’161’774      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.64% )  (71.52%)
+               204      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.64% )  (97.18%)
+        27’712’147      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.03% )  (79.85%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (54.17%)
+         1’162’579      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.30% )  (28.48%)
+           655’381      cache-misses              #  691.193 % of all cache refs      ( +- 20.35% )  (2.82%)
+     <not counted>       cache-references                                             (0.00%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.01729 +- 0.00203 seconds time elapsed  ( +- 11.73% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

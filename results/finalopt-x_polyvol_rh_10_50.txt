@@ -1,0 +1,29 @@
+# started on Thu Jun 22 11:17:00 2023
+
+
+ Performance counter stats for './executables/finalopt-rh-10-50_polyvol advanced_tests/other_polytopes/rh_10_50' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     1.87 FLOPc                    (2.39%)
+        14’289’277      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 18.77% )  (9.63%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (16.88%)
+            73’835      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.24% )  (24.12%)
+        98’898’219      CPU_CLK_UNHALTED.THREAD                                       ( +-  4.76% )  (28.98%)
+           167’615      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 20.14% )  (28.98%)
+        20’763’724      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  6.64% )  (28.98%)
+               431      cache-misses              #    0.114 % of all cache refs      ( +-16469.85% )  (28.99%)
+            17’257       cache-references                                             ( +-2108.73% )  (28.99%)
+             6’575      L1-dcache-load-misses     #    0.02% of all L1-dcache accesses  ( +-6390.59% )  (28.99%)
+        38’461’705      L1-dcache-loads                                               ( +-  3.11% )  (28.99%)
+         6’141’667      L1-dcache-stores                                              ( +- 24.34% )  (28.99%)
+            10’349      L1-icache-load-misses                                         ( +-1120.18% )  (28.99%)
+               489      LLC-loads                                                     ( +-2448.35% )  (28.99%)
+               540      LLC-load-misses           #    4.13% of all LL-cache accesses  ( +-464.34% )  (25.15%)
+            24’341      LLC-stores                                                    ( +- 33.93% )  (3.41%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.06073 +- 0.00467 seconds time elapsed  ( +-  7.69% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

@@ -6,7 +6,7 @@
         64’362’353      fp_arith_inst_retired.128b_packed_double                                     ( +-  0.01% )
      3’282’490’690      fp_arith_inst_retired.256b_packed_double                                     ( +-  0.01% )
    645’824’900’190      fp_arith_inst_retired.scalar_double                                     ( +-  0.01% )
-   549’832’506’283      cycles                                                        ( +-  0.83% )
+   549’832’506’283      CPU_CLK_UNHALTED.THREAD                                                        ( +-  0.83% )
 
             299.02 +- 2.56 seconds time elapsed  ( +-  0.86% )
 

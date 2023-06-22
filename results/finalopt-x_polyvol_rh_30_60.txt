@@ -1,0 +1,25 @@
+# started on Thu Jun 22 11:15:17 2023
+
+
+ Performance counter stats for './executables/finalopt-rh-30-60_polyvol advanced_tests/other_polytopes/rh_30_60' (5 runs):
+
+       112’940’101      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     1.71 FLOPc                    ( +-  0.35% )  (17.40%)
+       156’157’780      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  2.99% )  (23.31%)
+       458’095’921      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +-  0.17% )  (23.48%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     (23.65%)
+     4’239’797’763      CPU_CLK_UNHALTED.THREAD                                       ( +-  0.44% )  (23.65%)
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (23.65%)
+       773’717’257      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +-  0.41% )  (23.65%)
+           476’145      cache-misses              #   12.350 % of all cache refs      ( +- 17.73% )  (23.65%)
+         4’630’672       cache-references                                             ( +-  9.23% )  (23.65%)
+        56’669’444      L1-dcache-load-misses     #    3.77% of all L1-dcache accesses  ( +-  2.92% )  (23.65%)
+     1’501’913’846      L1-dcache-loads                                               ( +-  0.60% )  (23.65%)
+       239’360’594      L1-dcache-stores                                              ( +-  0.84% )  (23.65%)
+           610’238      L1-icache-load-misses                                         ( +- 26.89% )  (23.65%)
+           306’550      LLC-loads                                                     ( +- 13.10% )  (23.64%)
+           106’258      LLC-load-misses           #   30.93% of all LL-cache accesses  ( +- 18.52% )  (23.47%)
+            27’377      LLC-stores                                                    ( +- 85.81% )  (11.49%)
+             4’630      LLC-store-misses                                              ( +- 24.60% )  (11.49%)
+
+            2.3982 +- 0.0103 seconds time elapsed  ( +-  0.43% )
+

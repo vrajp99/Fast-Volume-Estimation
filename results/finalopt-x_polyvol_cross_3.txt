@@ -1,13 +1,13 @@
-# started on Thu Jun 22 12:05:05 2023
+# started on Thu Jun 22 11:16:51 2023
 
 
- Performance counter stats for './executables/fast-linalg_polyvol advanced_tests/cube_1/cube_1' (5 runs):
+ Performance counter stats for './executables/finalopt-cross-3_polyvol advanced_tests/other_polytopes/cross_3' (5 runs):
 
-                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.01 FLOPc                    (52.12%)
-            26’186      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
-             1’600      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
-             3’201      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
-         5’924’172      CPU_CLK_UNHALTED.THREAD                                       ( +- 27.03% )  (47.88%)
+            17’681      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.06 FLOPc                    ( +- 62.59% )  (72.51%)
+            74’127      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 20.00% )
+           250’237      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 20.00% )
+                 8      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 20.00% )
+         6’591’089      CPU_CLK_UNHALTED.THREAD                                       ( +- 19.76% )  (27.49%)
      <not counted>      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     (0.00%)
      <not counted>      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (0.00%)
      <not counted>      cache-misses                                                  (0.00%)
@@ -21,7 +21,7 @@
      <not counted>      LLC-stores                                                    (0.00%)
      <not counted>      LLC-store-misses                                              (0.00%)
 
-           0.00733 +- 0.00242 seconds time elapsed  ( +- 33.04% )
+          0.004443 +- 0.000238 seconds time elapsed  ( +-  5.35% )
 
 Some events weren't counted. Try disabling the NMI watchdog:
 	echo 0 > /proc/sys/kernel/nmi_watchdog

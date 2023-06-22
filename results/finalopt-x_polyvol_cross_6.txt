@@ -1,0 +1,29 @@
+# started on Thu Jun 22 11:15:14 2023
+
+
+ Performance counter stats for './executables/finalopt-cross-6_polyvol advanced_tests/other_polytopes/cross_6' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     2.27 FLOPc                    (6.21%)
+           868’216      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +- 71.83% )  (26.49%)
+           522’931      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     ( +- 48.21% )  (46.77%)
+            12’007      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +- 19.60% )  (67.04%)
+        35’245’266      CPU_CLK_UNHALTED.THREAD                                       ( +- 18.91% )  (80.67%)
+               881      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +- 21.23% )  (73.51%)
+         9’299’620      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     ( +- 19.58% )  (53.23%)
+           117’012      cache-misses              #   27.765 % of all cache refs      ( +- 52.08% )  (32.96%)
+           453’028       cache-references                                             ( +- 52.65% )  (13.12%)
+     <not counted>      L1-dcache-load-misses                                         (0.00%)
+     <not counted>      L1-dcache-loads                                               (0.00%)
+     <not counted>      L1-dcache-stores                                              (0.00%)
+     <not counted>      L1-icache-load-misses                                         (0.00%)
+     <not counted>      LLC-loads                                                     (0.00%)
+     <not counted>      LLC-load-misses                                               (0.00%)
+     <not counted>      LLC-stores                                                    (0.00%)
+     <not counted>      LLC-store-misses                                              (0.00%)
+
+           0.02150 +- 0.00241 seconds time elapsed  ( +- 11.21% )
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog
