@@ -3,6 +3,7 @@ import os
 import traceback
 import subprocess
 import json
+from math import sqrt
 
 
 def extract_number(filename):
@@ -50,7 +51,52 @@ def list_files_sorted(directory):
     return file_names, file_paths
 
 
-def parse_file(file_name):
+def extract_perf(file_name):
+    measurements = {}
+    # Dictionary to hold the standard deviations
+    stds = {}
+    # Read the file
+    with open(file_name, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            # Match lines of interest
+            match = re.search(r'(\d+[’\d]*|<not counted>)\s+(FP_ARITH_INST_RETIRED\.128B_PACKED_DOUBLE|FP_ARITH_INST_RETIRED\.SCALAR_DOUBLE|FP_ARITH_INST_RETIRED\.256B_PACKED_DOUBLE|CPU_CLK_UNHALTED\.THREAD)', line)
+            if match:
+                # Check if the measurement is '0' or '<not counted>'
+                if match.group(1) == '0' or match.group(1) == '<not counted>':
+                    measurement = 0
+                else:
+                    # Remove apostrophe from number and convert to int
+                    measurement = int(match.group(1).replace("’", ""))
+                # Get the measurement type
+                measurement_type = match.group(2)
+                # Store the measurements
+                measurements[measurement_type] = measurement
+            # Match lines for standard deviations
+            match = re.search(r'\( \+-\s+(\d+\.\d+)%', line)
+            if match:
+                # Get the standard deviation and convert to float
+                std = float(match.group(1))
+
+                # Store the standard deviations
+                stds[measurement_type] = std
+    # Compute the performance
+    flops = measurements['FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE'] * 2 + \
+            measurements['FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE'] * 4 + \
+            measurements['FP_ARITH_INST_RETIRED.SCALAR_DOUBLE']
+    performance = flops / measurements['CPU_CLK_UNHALTED.THREAD']
+
+    # Compute the total standard deviation
+    std_components = []
+    for measurement_type in ['FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE', 'FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE', 'FP_ARITH_INST_RETIRED.SCALAR_DOUBLE', 'CPU_CLK_UNHALTED.THREAD']:
+        if measurements.get(measurement_type, 0) != 0:
+            std_components.append((stds.get(measurement_type, 0) / measurements[measurement_type])**2)
+
+    std_performance = performance * sqrt(sum(std_components))
+    print(performance, std_performance)
+    return performance, std_performance
+
+def parse_file(file_name, get_std=False):
     """
     Parses a text file and returns a dictionary of keys with list values.
     
@@ -70,6 +116,12 @@ def parse_file(file_name):
         read_file = file.read()
     with open(file_name, 'r') as file:
         lines = file.readlines()
+    if get_std:
+        perf, std = extract_perf(file_name)
+        print(file_name)
+        print(measurement)
+        result["FLOPc"] = perf
+        result["FLOPc_std"] = std
     match = re.search(r'FP_ARITH_INST_RETIRED\.128B_PACKED_SINGLE\s*#\s*([0-9.]+)', read_file)
     if match:
         result["FLOPc"] = match.group(1)
@@ -219,7 +271,7 @@ BRANCH_NAME_DICT = {
 
 
 
-def extract_results(test_dir, results_dir, branches):
+def extract_results(test_dir, results_dir, branches, get_std=False):
     """
     Extracts test results (perf) from the given directory.
     
@@ -261,14 +313,16 @@ def extract_results(test_dir, results_dir, branches):
                 
                 # Initialize branch in data if not already present
                 if branch not in data:
-                    data[branch] = []
+                    data[branch] = {"FLOPc": [], "FLOPc_std": []}
                 
                 # Read FLOPc data from file and add to branch in data
-                file_flopc = parse_file(os.path.join(root, result))
+                file_flopc = parse_file(os.path.join(root, result), get_std)
                 if branch == "polyvest-o3-native-fastmath":
                     print(result)
                     print(file_flopc)
-                data[branch].append(file_flopc["FLOPc"])
+                #data[branch].append(file_flopc["FLOPc"])
+                data[branch]["FLOPc_std"].append(file_flopc["FLOPc_std"])
+                data[branch]["FLOPc"].append(file_flopc["FLOPc"])
     
     # Sort file_names by number extracted from file name
     file_names.sort(key=extract_number)

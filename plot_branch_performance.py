@@ -55,8 +55,11 @@ def plot_data(data, file_names):
     print(data)
     print(list(zip(*data.values())))
     for branch in BRANCHES:
-        data[branch] = [float(x) for x in data[branch]]
-        plt.plot(dimensions, data[branch], label=utils.BRANCH_NAME_DICT[branch], linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
+        # Assuming data[branch] is a dict with keys 'FLOPc' and 'FLOPc_std'
+        mean_vals = [float(x) for x in data[branch]['FLOPc']]
+        std_devs = [float(x) for x in data[branch]['FLOPc_std']]  # your standard deviations
+        plt.plot(dimensions, mean_vals, marker='o', label=utils.BRANCH_NAME_DICT[branch], linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
+        plt.fill_between(dimensions, [mean - std for mean, std in zip(mean_vals, std_devs)], [mean + std for mean, std in zip(mean_vals, std_devs)], color=utils.BRANCH_COLOR_DICT[branch], alpha=0.2)
     plt.xlabel('Cube Dimensions', fontsize=14)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
@@ -70,12 +73,11 @@ def plot_data(data, file_names):
             transform=plt.gca().transAxes)
     plt.title(r'\textbf{' + 'Performance on Cubes With Different Sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
     plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
-    #plt.savefig(f'plots/performance_plots/performance_baseline_polyvest_bound-remove.png', bbox_inches='tight', dpi=300)
-
-
+    
 def main():
     print("Branches: ", BRANCHES)
-    file_names, data = utils.extract_results(TEST_DIR, RESULTS_DIR, BRANCHES)
+    file_names, data = utils.extract_results(TEST_DIR, RESULTS_DIR, BRANCHES, get_std=True)
+    print("DATa: ", data)
     plot_data(data, file_names)
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
 import numpy as np
+np.random.seed(2)
 
 def gen_poly(A, b, fname, is_m = False):
     m, n = A.shape
