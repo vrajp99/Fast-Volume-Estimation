@@ -7,11 +7,12 @@ import utils
 #BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["reduce-precision-fixed"]
 #BRANCHES = ["baseline"]
-BRANCHES = ["finalopt-x"]
+#BRANCHES = ["finalopt-x"]
+BRANCHES = ["reduce-precision-fixed"]
 #TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
 #TEST_DIR = "advanced_tests/cube_tests"
 #TEST_DIR = "advanced_tests/polyvest_cross_simplex"
-TEST_DIR = "advanced_tests/large_cubes"
+TEST_DIR = "advanced_tests/cube_1"
 #TEST_DIR = "cubes_70_80"
 #TEST_DIR = "advanced_tests/polyvest_cube_tests"
 RESULTS_DIR = "results"
@@ -33,9 +34,14 @@ def call_executable(executable ,n, file_name):
     # Define command to call C program with n as parameter
     # Edge case for finalopt-x, where we Define M and N for each test case
     if executable.split("/")[-1] == "finalopt-x":
-        command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_polyvol_"+file_name+".txt",  "-M", "FLOPc", "-e",
+        if "cube_" not in file_name:
+            command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_polyvol_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
-               "-r", "5", "./"+executable[:-1]+n.split("_")[-1]+"_polyvol", str(n)]
+               "-r", "5", "./"+executable[:-1]+"-".join(n.split("/")[-1].split("_"))+"_polyvol", str(n)]
+        else:
+            command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_polyvol_"+file_name+".txt",  "-M", "FLOPc", "-e",
+                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
+                "-r", "5", "./"+executable[:-1]+n.split("_")[-1]+"_polyvol", str(n)]
     else: 
         command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 

@@ -7,18 +7,24 @@ import seaborn as sns
 #BRANCHES = ["baseline", "polyvest","bound-remove", "fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"]
 
 BRANCHES = ["polyvest-o3-native-fastmath", "baseline"] 
-#BRANCHES = ["polyvest-o3-native-fastmath", "baseline", "bound-remove"] 
-#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg"] 
-#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim"]
-#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
-#BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
+BRANCHES = ["polyvest-o3-native-fastmath", "baseline", "bound-remove"] 
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg"] 
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim"]
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
+BRANCHES = ["polyvest-o3-native-fastmath", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
+BRANCHES = ["polyvest-o3-native-fastmath", "finalopt-x"]
  
 #BRANCHES = ["fast-linalg", "vecplusextraoptim", "aligned-vec", "reduce-precision"] # After fast-linalg
 
 #BRANCHES = ["aligned-vec", "reduce-precision"] # After fast-linalg
-TEST_DIR = "advanced_tests/cube_tests_simple"
+#TEST_DIR = "advanced_tests/cube_tests_simple"
+TEST_DIR = "advanced_tests/simplex"
+TEST_DIR = "advanced_tests/polyvest_rh"
 #TEST_DIR = "tests/"
-
+#POLYTOPE_TYPE = "Cross Polytopes"
+#POLYTOPE_TYPE = "Cubes"
+POLYTOPE_TYPE = "Simplices"
+POLYTOPE_TYPE = "Random Hyperplanes"
 RESULTS_DIR = "results"
 
 colors = cycler('color',['#EE6666', '#3388BB', '#9988DD','#EECC55', '#88BB44', '#FFBBBB'])
@@ -58,21 +64,24 @@ def plot_data(data, file_names):
         # Assuming data[branch] is a dict with keys 'FLOPc' and 'FLOPc_std'
         mean_vals = [float(x) for x in data[branch]['FLOPc']]
         std_devs = [float(x) for x in data[branch]['FLOPc_std']]  # your standard deviations
-        plt.plot(dimensions, mean_vals, marker='o', label=utils.BRANCH_NAME_DICT[branch], linewidth=3, color=utils.BRANCH_COLOR_DICT[branch])
+        plt.plot(dimensions, mean_vals, marker=utils.BRANCH_MARKER_DICT[branch], label=utils.BRANCH_NAME_DICT[branch], linewidth=1, color=utils.BRANCH_COLOR_DICT[branch])
         plt.fill_between(dimensions, [mean - std for mean, std in zip(mean_vals, std_devs)], [mean + std for mean, std in zip(mean_vals, std_devs)], color=utils.BRANCH_COLOR_DICT[branch], alpha=0.2)
-    plt.xlabel('Cube Dimensions', fontsize=14)
+    plt.xlabel(POLYTOPE_TYPE+' Dimensions', fontsize=14)
     plt.xticks(fontsize=14)
+    
     plt.yticks(fontsize=14)
     plt.legend(fontsize=14, shadow=True)
     ax = plt.gca()
     ax.xaxis.get_major_formatter()._usetex = False
     ax.yaxis.get_major_formatter()._usetex = False
+    #for label in ax.xaxis.get_ticklabels()[::2]:
+    #    label.set_visible(False)
     plt.text(0.0, 1, 'Performance Flops/Cycles',
             fontsize=14, color='k',
             ha='left', va='bottom',
             transform=plt.gca().transAxes)
-    plt.title(r'\textbf{' + 'Performance on Cubes With Different Sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
-    plt.savefig(f'plots/performance_plots/performance_' +"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
+    plt.title(r'\textbf{' + 'Performance on ' + POLYTOPE_TYPE +' With Different Sizes' +'}', fontsize=14, y=1.04, loc='left', fontweight="bold")
+    plt.savefig(f'plots/performance_plots/performance_' +"_".join(POLYTOPE_TYPE.split())+"_"+"_".join(BRANCHES)+'.svg', bbox_inches='tight', dpi=300)
     
 def main():
     print("Branches: ", BRANCHES)

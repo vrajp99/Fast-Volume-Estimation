@@ -4,6 +4,7 @@ import traceback
 import subprocess
 import json
 from math import sqrt
+import numpy as np
 
 
 def extract_number(filename):
@@ -55,12 +56,21 @@ def extract_perf(file_name):
     measurements = {}
     # Dictionary to hold the standard deviations
     stds = {}
+    print(file_name)
     # Read the file
     with open(file_name, 'r') as f:
         lines = f.readlines()
+        #print(lines)
         for line in lines:
             # Match lines of interest
-            match = re.search(r'(\d+[’\d]*|<not counted>)\s+(FP_ARITH_INST_RETIRED\.128B_PACKED_DOUBLE|FP_ARITH_INST_RETIRED\.SCALAR_DOUBLE|FP_ARITH_INST_RETIRED\.256B_PACKED_DOUBLE|CPU_CLK_UNHALTED\.THREAD)', line)
+            metrics = ["FP_ARITH_INST_RETIRED\.128B_PACKED_DOUBLE",
+                       "FP_ARITH_INST_RETIRED\.128B_PACKED_SINGLE",
+                       "FP_ARITH_INST_RETIRED\.SCALAR_DOUBLE",
+                       "FP_ARITH_INST_RETIRED\.SCALAR_SINGLE",
+                       "FP_ARITH_INST_RETIRED\.256B_PACKED_DOUBLE",
+                       "FP_ARITH_INST_RETIRED\.256B_PACKED_SINGLE",
+                       "CPU_CLK_UNHALTED\.THREAD"]
+            match = re.search(r'(?i)(\d+[’\d]*|<not counted>)\s+('+"|".join(metrics)+')', line)
             if match:
                 # Check if the measurement is '0' or '<not counted>'
                 if match.group(1) == '0' or match.group(1) == '<not counted>':
@@ -69,7 +79,7 @@ def extract_perf(file_name):
                     # Remove apostrophe from number and convert to int
                     measurement = int(match.group(1).replace("’", ""))
                 # Get the measurement type
-                measurement_type = match.group(2)
+                measurement_type = match.group(2).upper()
                 # Store the measurements
                 measurements[measurement_type] = measurement
             # Match lines for standard deviations
@@ -77,24 +87,29 @@ def extract_perf(file_name):
             if match:
                 # Get the standard deviation and convert to float
                 std = float(match.group(1))
-
                 # Store the standard deviations
                 stds[measurement_type] = std
     # Compute the performance
     flops = measurements['FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE'] * 2 + \
+            measurements['FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE'] * 4 + \
             measurements['FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE'] * 4 + \
-            measurements['FP_ARITH_INST_RETIRED.SCALAR_DOUBLE']
+            measurements['FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE'] * 8 + \
+            measurements['FP_ARITH_INST_RETIRED.SCALAR_DOUBLE'] + \
+            measurements['FP_ARITH_INST_RETIRED.SCALAR_SINGLE'] 
     performance = flops / measurements['CPU_CLK_UNHALTED.THREAD']
-
-    # Compute the total standard deviation
-    std_components = []
-    for measurement_type in ['FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE', 'FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE', 'FP_ARITH_INST_RETIRED.SCALAR_DOUBLE', 'CPU_CLK_UNHALTED.THREAD']:
-        if measurements.get(measurement_type, 0) != 0:
-            std_components.append((stds.get(measurement_type, 0) / measurements[measurement_type])**2)
-
-    std_performance = performance * sqrt(sum(std_components))
-    print(performance, std_performance)
-    return performance, std_performance
+    # Compute standard deviations
+    std_128_pd = (stds.get('FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE'])
+    std_128_ps = (stds.get('FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE'])
+    std_256_pd = (stds.get('FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE'])
+    std_256_ps = (stds.get('FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE'])
+    std_scalar_d = (stds.get('FP_ARITH_INST_RETIRED.SCALAR_DOUBLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.SCALAR_DOUBLE'])
+    std_scalar_s = (stds.get('FP_ARITH_INST_RETIRED.SCALAR_SINGLE', 0)/100 * measurements['FP_ARITH_INST_RETIRED.SCALAR_SINGLE'])
+    std_cycles = (stds.get('CPU_CLK_UNHALTED.THREAD', 0)/100 * measurements['CPU_CLK_UNHALTED.THREAD'])
+    
+    flops_std_dev = np.sqrt((2 * std_128_pd)**2 + (4 * std_128_ps)**2 + (4 * std_256_pd)**2 +  (8 * std_256_ps)**2 + std_scalar_d**2 + std_scalar_s**2)
+    
+    performance_relative_std_dev = np.sqrt((flops_std_dev / flops)**2 + (std_cycles / measurements['CPU_CLK_UNHALTED.THREAD'])**2)
+    return performance, performance_relative_std_dev
 
 def parse_file(file_name, get_std=False):
     """
@@ -118,8 +133,6 @@ def parse_file(file_name, get_std=False):
         lines = file.readlines()
     if get_std:
         perf, std = extract_perf(file_name)
-        print(file_name)
-        print(measurement)
         result["FLOPc"] = perf
         result["FLOPc_std"] = std
     match = re.search(r'FP_ARITH_INST_RETIRED\.128B_PACKED_SINGLE\s*#\s*([0-9.]+)', read_file)
@@ -127,18 +140,15 @@ def parse_file(file_name, get_std=False):
         result["FLOPc"] = match.group(1)
     else:
         for line in lines:
-            print(line)
-            if "fp_arith_inst_retired" in line or "cycles" in line:
+            if "fp_arith_inst_retired" in line or "CPU_CLK_UNHALTED.THREAD" in line:
                 parts = line.strip().split()
                 key = parts[1]
                 value = int(parts[0].replace("’", ""))
                 measurement[key] = value
-        print(measurement)
-        print(file_name)
         flops = measurement['fp_arith_inst_retired.128b_packed_double']*2 + \
             measurement['fp_arith_inst_retired.256b_packed_double'] * \
             4 + measurement['fp_arith_inst_retired.scalar_double']
-        performance = flops/measurement['cycles']
+        performance = flops/measurement['CPU_CLK_UNHALTED.THREAD']
         result["FLOPc"] = performance
     return result
 
@@ -267,6 +277,20 @@ BRANCH_NAME_DICT = {
     "reduce-precision-fixed": 'Opt-IV',
     "finalopt": 'Opt-V',
     "finalopt-x": 'Opt-V'
+}
+
+BRANCH_MARKER_DICT = {
+    "baseline": 'o',  # Circle
+    "polyvest": 's',  # Square
+    "polyvest-o3-native-fastmath": 's',  # Upwards Triangle
+    "bound-remove": 'v',  # Downwards Triangle
+    "fast-linalg": '<',  # Leftwards Triangle
+    "vecplusextraoptim": '>',  # Rightwards Triangle
+    "aligned-vec": 'p',  # Pentagon
+    "reduce-precision": '*',  # Star
+    "reduce-precision-fixed": '*',  # Hexagon1
+    "finalopt": 'H',  # Hexagon2
+    "finalopt-x": 'H'  # Diamond
 }
 
 

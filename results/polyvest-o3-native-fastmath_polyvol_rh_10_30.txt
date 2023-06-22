@@ -1,0 +1,25 @@
+# started on Thu Jun 22 14:57:22 2023
+
+
+ Performance counter stats for './executables/polyvest-o3-native-fastmath_polyvol advanced_tests/polyvest_rh/rh_10_30 1600' (5 runs):
+
+                 0      FP_ARITH_INST_RETIRED.128B_PACKED_SINGLE #     0.52 FLOPc                    (16.93%)
+       340’058’269      FP_ARITH_INST_RETIRED.SCALAR_DOUBLE                                     ( +-  1.89% )  (23.47%)
+                 0      FP_ARITH_INST_RETIRED.SCALAR_SINGLE                                     (25.23%)
+         5’407’930      FP_ARITH_INST_RETIRED.256B_PACKED_DOUBLE                                     ( +-  2.84% )  (26.17%)
+       760’708’289      CPU_CLK_UNHALTED.THREAD                                       ( +-  3.90% )  (26.91%)
+         2’611’628      FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE                                     ( +-  2.19% )  (26.00%)
+                 0      FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE                                     (24.23%)
+           507’513      cache-misses              #   23.223 % of all cache refs      ( +- 18.89% )  (23.17%)
+         2’391’630       cache-references                                             ( +- 17.99% )  (22.38%)
+        12’586’265      L1-dcache-load-misses     #    2.59% of all L1-dcache accesses  ( +-  6.61% )  (22.39%)
+       489’175’202      L1-dcache-loads                                               ( +-  0.93% )  (22.39%)
+       206’388’028      L1-dcache-stores                                              ( +-  1.09% )  (22.51%)
+           245’789      L1-icache-load-misses                                         ( +- 24.92% )  (22.51%)
+           135’224      LLC-loads                                                     ( +- 19.68% )  (22.51%)
+            41’511      LLC-load-misses           #   32.40% of all LL-cache accesses  ( +- 13.90% )  (22.51%)
+            18’755      LLC-stores                                                    ( +- 11.02% )  (11.27%)
+             2’549      LLC-store-misses                                              ( +- 39.94% )  (11.26%)
+
+            0.3990 +- 0.0168 seconds time elapsed  ( +-  4.22% )
+

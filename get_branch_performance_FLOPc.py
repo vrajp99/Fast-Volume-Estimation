@@ -4,14 +4,14 @@ import utils
 
 # Change these variables
 #BRANCHES = ["xoshiro-rng", "basic-opt", "clang-added", "bound-remove", "fast-linalg", "vecplusextraoptim", "onefile", "reduce-precision", "aligned-vec"]
-#BRANCHES = ["polyvest-o3-native-fastmath"]
+BRANCHES = ["polyvest-o3-native-fastmath"]
 #BRANCHES = ["reduce-precision-fixed"]
 #BRANCHES = ["baseline"]
-BRANCHES = ["finalopt-x"]
+#BRANCHES = ["finalopt-x"]
 #TEST_DIR = "advanced_tests/polyvest_cross_and_simplex"
 #TEST_DIR = "advanced_tests/cube_tests"
 #TEST_DIR = "advanced_tests/polyvest_cross_simplex"
-TEST_DIR = "advanced_tests/large_cubes"
+TEST_DIR = "advanced_tests/polyvest_rh"
 #TEST_DIR = "cubes_70_80"
 #TEST_DIR = "advanced_tests/polyvest_cube_tests"
 RESULTS_DIR = "results"
@@ -39,7 +39,7 @@ def call_executable(executable ,n, file_name):
     else: 
         command = ["sudo", "perf", "stat", "-o", "results/"+executable.split("/")[-1]+"_"+file_name+".txt",  "-M", "FLOPc", "-e",
                "cache-misses, cache-references, L1-dcache-load-misses, L1-dcache-loads, L1-dcache-stores, L1-icache-load-misses, LLC-loads, LLC-load-misses, LLC-stores, LLC-store-misses", 
-               "-r", "5", "./"+executable, str(n)]
+               "-r", "5", "./"+executable, str(n), str(1600)]
     print(command)
     # Execute command and capture output
     output = subprocess.check_output(command)

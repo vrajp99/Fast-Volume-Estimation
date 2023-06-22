@@ -8,8 +8,8 @@ import utils
 NAME = "Baseline"
 BASELINE = "baseline"
 
-#NAME = "PolyVest"
-#BASELINE = "polyvest-o3-native-fastmath"
+NAME = "PolyVest"
+BASELINE = "polyvest-o3-native-fastmath"
 
 BRANCHES = ["bound-remove"] 
 BRANCHES = ["bound-remove", "fast-linalg"] 
@@ -17,9 +17,19 @@ BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim"]
 BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed"]
 BRANCHES = ["bound-remove", "fast-linalg", "vecplusextraoptim", "reduce-precision-fixed", "finalopt-x"]
 
+BRANCHES = ["finalopt-x"]
+
 
 TEST_CASES =["cube_20", "cube_40", "cube_60", "cube_80"]
+TEST_CASES =["simplex_20", "simplex_40", "simplex_60", "simplex_80"]
+TEST_CASES =["cross_5", "cross_8", "cross_10", "cross_13"]
+TEST_CASES = ["rh_2_5", "rh_4_10", "rh_5_12", "rh_10_30", "rh_15_50", "rh_20_100", "rh_30_100", "rh_40_100"]
+
 COMPARE = "time"  # or "cycles"
+POLYTOPE_TYPE = "Cross Polytopes"
+#POLYTOPE_TYPE = "Cubes"
+#POLYTOPE_TYPE = "Simplices"
+POLYTOPE_TYPE = "Random Hyperplanes"
 
 # Set up LaTeX and font family
 plt.rcParams['text.usetex'] = True
@@ -66,7 +76,7 @@ def create_plot(data, errors):
     
     ax.set_xticks(np.arange(n_groups) * (n_bars * bar_width + gap_width) + bar_width * (n_bars - 1) / 2, font='serif')
     ax.set_xticklabels(TEST_CASES)
-    ax.tick_params(axis='x', labelsize=14)
+    ax.tick_params(axis='x', labelsize=10)
     ax.tick_params(axis='y', labelsize=14)
     ax.xaxis.get_major_formatter()._usetex = False
     ax.yaxis.get_major_formatter()._usetex = False
@@ -85,7 +95,7 @@ def create_plot(data, errors):
     plt.rcParams.update({'font.size': 16})
 
     # Save the figure in higher resolution
-    plt.savefig(f'plots/speedup_plots/speedup_of_'+'_'.join(BRANCHES)+'_over_'+BASELINE+'_'+COMPARE+'.svg', bbox_inches='tight', dpi=300)
+    plt.savefig(f'plots/speedup_plots/speedup_on_' +"_".join(POLYTOPE_TYPE.split())+ '_of_'+'_'.join(BRANCHES)+'_over_'+BASELINE+'_'+COMPARE+'.svg', bbox_inches='tight', dpi=300)
 
    
 def main():
