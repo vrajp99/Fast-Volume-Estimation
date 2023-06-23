@@ -14,6 +14,9 @@ Here we highlight where the code corresponding to the various stages in the opti
 - **Optimization-IV**: Refer to git branch `reduce_precision`
 - **Optimization-V**: Refer to git branch `main`
 
+All of our benchmarking, profiling, hotspot analysis and roofline analysis was performed on a separate branch:
+- **Benchmarks**: Refer to git branch `benchmarking`
+
 ## Project Dependencies:
 In terms of external dependencies, we require the presence of the following libraries and tools at minimum to be able to build and run the code:
 - GCC 11
