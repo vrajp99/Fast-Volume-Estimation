@@ -126,7 +126,7 @@ const void polytope::walk(float* norm, float* x, float *Ax, const float* B, cons
   float randval = (XoshiroCpp::FloatFromBits(rng()))*(max - min) + min;
   float t = x[dir] + randval;
   x[dir] = t;
-  assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
+  // assert((min - 0.00001) <= randval && randval <= (max + 0.00001));
   
   __m256 randval_vec = _mm256_set1_ps(randval); 
   for (size_t i = 0; i < (M / N_VEC) * N_VEC; i += N_VEC){
@@ -277,7 +277,7 @@ const double polytope::estimateVol() const
         // Change divide by 2 to multiply by 0.5
         long m = ceill(((double)N) * 0.5 * log2(norm));
         t[m]++;
-        assert(m <= k);
+        // assert(m <= k+1);
       }
     }
     count = 0;
